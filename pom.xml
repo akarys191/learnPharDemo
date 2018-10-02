@@ -4,7 +4,7 @@
 
 	<groupId>com.epam.spring</groupId>
 	<artifactId>learnPharDemo</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>learnPharDemData</module>
 		<module>learnPharDemoWeb</module>
@@ -93,7 +93,7 @@
 		<developerConnection>
 			scm:git:https://github.com/akarys191/learnPharDemo.git
 		</developerConnection>
-	  <tag>learnPharDemo-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 
