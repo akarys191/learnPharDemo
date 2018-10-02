@@ -19,8 +19,8 @@ public class HomeController {
    @RequestMapping(method=GET)
     public String home(Map<String, Object> model) {
        /* System.out.println("Message::::::::::::::::::::::"+message);
-        model.put("message", this.message);
-       System.out.println(model.get("message"));*/
+        com.epam.spring.demo.model.put("message", this.message);
+       System.out.println(com.epam.spring.demo.model.get("message"));*/
 
        return "home";
     }

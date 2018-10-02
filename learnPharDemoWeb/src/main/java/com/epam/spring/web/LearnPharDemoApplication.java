@@ -1,9 +1,8 @@
-/*
 
-package com.epam.spring.spittrMvc;
+package com.epam.spring.web;
 
 //import com.epam.spring.spittrMvc.config.RootConfig;
-import com.epam.spring.spittrMvc.config.WebConfig;
+import com.epam.spring.web.config.WebConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,19 +16,18 @@ import org.springframework.context.annotation.Import;
 @EnableAutoConfiguration
 public class  LearnPharDemoApplication extends SpringBootServletInitializer {
 
-	private static Class applicationClass = LearnPharDemoApplication.class;
+    private static Class applicationClass = LearnPharDemoApplication.class;
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-			return application.sources(applicationClass);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(applicationClass);
+    }
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(LearnPharDemoApplication.class, args);
-	}
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(LearnPharDemoApplication.class, args);
+    }
 
 
 
 }
 
-*/

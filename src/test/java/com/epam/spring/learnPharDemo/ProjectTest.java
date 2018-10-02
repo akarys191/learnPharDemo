@@ -1,3 +1,4 @@
+/*
 package com.epam.spring.learnPharDemo;
 
 import com.epam.spring.spittrMvc.config.WebConfig;
@@ -14,8 +15,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.view.InternalResourceView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,15 +34,19 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 public class ProjectTest {
 
 
-  @Autowired
-    private WebApplicationContext wac;
+ */
+/* @Autowired
+    private WebApplicationContext wac;*//*
+
     private MockMvc mockMvc;
 
-    @Before
+   */
+/* @Before
     public void setup() {
         DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
         this.mockMvc = builder.build();
-    }
+    }*//*
+
 
    // @Test
     public void testHomePage() throws Exception {
@@ -66,7 +69,8 @@ public class ProjectTest {
                 .andExpect(model().attribute("spittle", expectedSpittle));
     }
 
-    @Test
+    */
+/*@Test
     public void shouldShowRecentSpittles() throws Exception {
         List<Spittle> expectedSpittles = createSpittleList(20);
         SpittleRepository mockRepository =
@@ -86,7 +90,8 @@ public class ProjectTest {
                 .andExpect(model().attributeExists("spittleList"))
                 .andExpect(model().attribute("spittleList",
                         hasItems(expectedSpittles.toArray())));
-    }
+    }*//*
+
 
     private List<Spittle> createSpittleList(int count) {
         List<Spittle> spittles = new ArrayList<Spittle>();
@@ -99,3 +104,4 @@ public class ProjectTest {
 
 }
 
+*/
