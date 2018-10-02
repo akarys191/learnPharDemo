@@ -4,7 +4,7 @@
 
 	<groupId>com.epam.spring</groupId>
 	<artifactId>learnPharDemo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<modules>
 		<module>learnPharDemData</module>
 		<module>learnPharDemoWeb</module>
