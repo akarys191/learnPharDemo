@@ -1,5 +1,5 @@
 
-package com.epam.spring.web;
+package com.epam.spring;
 
 //import com.epam.spring.spittrMvc.config.RootConfig;
 import com.epam.spring.web.config.WebConfig;
@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-//@Import({RootConfig.class,WebConfig.class})
 @Import({WebConfig.class})
+@ComponentScan
 @EnableAutoConfiguration
+
 public class  LearnPharDemoApplication extends SpringBootServletInitializer {
 
     private static Class applicationClass = LearnPharDemoApplication.class;
