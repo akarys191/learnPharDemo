@@ -1,0 +1,34 @@
+/*
+package com.epam.spring.learnPharDemo;
+
+
+import com.epam.spring.spittrMvc.config.RootConfig;
+import com.epam.spring.spittrMvc.config.WebConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Import;
+
+@SpringBootApplication
+//@Import({RootConfig.class,WebConfig.class})
+//@EnableAutoConfiguration
+public class LearnPharDemoApplication extends SpringBootServletInitializer {
+
+	private static Class applicationClass = LearnPharDemoApplication.class;
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+			return application.sources(applicationClass);
+	}
+
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(LearnPharDemoApplication.class, args);
+	}
+
+
+
+}
+
+*/
