@@ -1,16 +1,26 @@
 package com.epam.spring.demo.model;
 
+import lombok.Builder;
+
 public class Medicine extends BaseEntity{
 
-    private CategoryMed categoryMed;
 
-
-    public CategoryMed getCategoryMed() {
-        return categoryMed;
+    @Builder
+    public Medicine(Long id, String name,String category) {
+        super.setId(id);
+        super.setName(name);
+        this.category = category;
     }
 
-    public void setCategoryMed(CategoryMed categoryMed) {
-        this.categoryMed = categoryMed;
+    private String category;
+
+
+    public String getCategory() {
+        return category;
     }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
 }

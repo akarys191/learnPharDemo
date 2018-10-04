@@ -13,7 +13,7 @@ public class SuppliersController {
     public SuppliersController(SupplierService supplierService) {
         this.supplierService = supplierService;
     }
-    @RequestMapping({"suppliers/"})
+    @RequestMapping({"suppliers","suppliers/","suppliers.html"})
     public String listSuppliers(Model model){
         model.addAttribute("suppliers", supplierService.findAll() );
         return "suppliers/suppliers";

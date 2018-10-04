@@ -1,14 +1,14 @@
 package com.epam.spring.demo.model;
 
 public class Pharmacist extends Person {
-    private Schedule schedule;
+    private String schedule;
 
 
-    public Schedule getSchedule() {
+    public String getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(Schedule schedule) {
+    public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
 }

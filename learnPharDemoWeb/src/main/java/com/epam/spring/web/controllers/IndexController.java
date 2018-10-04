@@ -11,4 +11,9 @@ public class IndexController {
        // MedicineServiceMap medicineServiceMap = new MedicineServiceMap();
         return "index";
     }
+
+    @RequestMapping("/oups")
+    public String oupsHandler(){
+        return "notimplemented";
+    }
 }

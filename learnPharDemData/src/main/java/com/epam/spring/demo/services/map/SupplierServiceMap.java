@@ -18,7 +18,7 @@ public class SupplierServiceMap extends  AbstractMapService<Supplier,Long> imple
 
     @Override
     public Supplier save(Supplier supplier) {
-        return  super.save(supplier.getId(),supplier);
+        return  super.save(supplier);
     }
 
     @Override

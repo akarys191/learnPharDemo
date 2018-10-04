@@ -5,7 +5,9 @@ import com.epam.spring.demo.services.CrudService;
 import com.epam.spring.demo.services.PharmacistService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Set;
+
 
 @Service
 public class PharmacistServiceMap extends  AbstractMapService<Pharmacist,Long> implements PharmacistService {
@@ -17,7 +19,7 @@ public class PharmacistServiceMap extends  AbstractMapService<Pharmacist,Long> i
 
     @Override
     public Pharmacist save(Pharmacist pharmacist) {
-        return  super.save(pharmacist.getId(),pharmacist);
+        return  super.save(pharmacist);
     }
 
     @Override
@@ -34,4 +36,6 @@ public class PharmacistServiceMap extends  AbstractMapService<Pharmacist,Long> i
     public void delete(Pharmacist object) {
         super.delete(object);
     }
+
+
 }

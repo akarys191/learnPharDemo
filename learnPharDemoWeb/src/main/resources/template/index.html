@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
 <head>
-    <meta charset="UTF-8">
-    <title>Learn Pharm Demo</title>
+    <meta charset="UTF-8"/>
+    <title>Drug store Index</title>
 </head>
-<!--<body>
-    <h1 th:text="Index Page"> </h1>
-</body>-->
 <body>
-    <p>
-        <span th:text="'Today is: ' + ${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}+' Learn Pharm'"></span>
-    </p>
+    <h2 th:text="#{welcome}">Welcome</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <img class="img-responsive" src="../static/resources/images/lekarstva.jpg" th:src="@{/resources/images/lekarstva.jpg}"/>
+        </div>
+    </div>
+
 </body>
 </html>

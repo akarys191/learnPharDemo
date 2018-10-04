@@ -12,10 +12,12 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 @PropertySource("classpath:application.properties")
 @EnableWebMvc
-@ComponentScan("com.epam.spring.web")
+@ComponentScan("com.epam.spring")
 public class WebConfig   //extends  WebMvcConfigurerAdapter {
         implements WebMvcConfigurer {
-
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/",
+            "classpath:/static/", "classpath:/public/" };
     @Bean
     public ClassLoaderTemplateResolver templateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -51,14 +53,17 @@ public class WebConfig   //extends  WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        if (!registry.hasMappingForPattern("/webjars/**")) {
+            registry.addResourceHandler("/webjars/**").addResourceLocations(
+                    "classpath:/META-INF/resources/webjars/");
+        }
+        if (!registry.hasMappingForPattern("/**")) {
+            registry.addResourceHandler("/**").addResourceLocations(
+                    CLASSPATH_RESOURCE_LOCATIONS);
+        }
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-       registry.addResourceHandler("/resources/static/**").addResourceLocations("/resources/");
-    }
 
  @Override
     public void configureDefaultServletHandling(

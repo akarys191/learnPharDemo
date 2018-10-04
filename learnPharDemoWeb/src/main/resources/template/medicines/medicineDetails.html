@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+  <body>
+  
+  
+    <h2>Medicine Information</h2>
+  
+  
+    <table class="table table-striped" th:object="${medicine}">
+     <!-- <tr>
+        <th>Name</th>
+        <td><b th:text="*{name}"></b></td>
+      </tr>-->
+      <tr>
+        <th>Name</th>
+        <td th:text="*{name}" /></td>
+      </tr>
+      <tr>
+        <th>Category</th>
+        <td th:text="*{category}" /></td>
+      </tr>
+    </table>
+  
+    <a th:href="@{{id}/edit(id=${medicine.id})}" class="btn btn-default">Edit
+      Medicine</a>
+  
+    <br />
+    <br />
+    <br />
+  
+  </body>
+
+</html>

@@ -5,6 +5,7 @@ import com.epam.spring.demo.services.CrudService;
 import com.epam.spring.demo.services.MedicineService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Set;
 
 @Service
@@ -17,7 +18,7 @@ public class MedicineServiceMap extends  AbstractMapService<Medicine,Long> imple
 
     @Override
     public Medicine save(Medicine medicine) {
-        return  super.save(medicine.getId(),medicine);
+        return  super.save(medicine);
     }
 
     @Override
@@ -34,4 +35,6 @@ public class MedicineServiceMap extends  AbstractMapService<Medicine,Long> imple
     public void delete(Medicine object) {
         super.delete(object);
     }
+
+
 }
