@@ -24,7 +24,7 @@ public class MedicinesController {
         this.medicineService = medicineService;
     }
 
-    @RequestMapping({"/medicines/","medicines","medicines.html","medicines/"})
+    @RequestMapping({"/medicines/","/medicines","medicines","medicines.html","medicines/"})
     public String listMedcines(Model model){
         model.addAttribute("medicines", medicineService.findAll() );
 
@@ -40,6 +40,8 @@ public class MedicinesController {
 
     @GetMapping("/{medicineId}")
     public ModelAndView showMedicine(@PathVariable Long medicineId) {
+        System.out.println("Get /medicineId is called! "+medicineId);
+
         ModelAndView mav = new ModelAndView("medicines/medicineDetails");
         mav.addObject(medicineService.findById(medicineId));
         return mav;
@@ -54,6 +56,8 @@ public class MedicinesController {
 
     @PostMapping("/new")
     public String processCreationForm(@Valid Medicine medicine, BindingResult result) {
+        System.out.println("Post new is called! ");
+
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
@@ -70,6 +74,8 @@ public class MedicinesController {
 
     @PostMapping("/{medicineId}/edit")
     public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable Long medicineId) {
+        System.out.println("Post {medicineId}/edit is called! ");
+
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {

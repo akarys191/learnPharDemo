@@ -15,7 +15,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${medicine['new']} ? 'Add medicine' : 'Update medicine'"
+                    th:with="text=${medicine==null} ? 'Add medicine' : 'Update medicine'"
                     class="btn btn-default" type="submit" th:text="${text}">Add
                 Medicine</button>
         </div>
