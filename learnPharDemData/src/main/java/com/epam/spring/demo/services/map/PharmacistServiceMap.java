@@ -3,6 +3,7 @@ package com.epam.spring.demo.services.map;
 import com.epam.spring.demo.model.Pharmacist;
 import com.epam.spring.demo.services.CrudService;
 import com.epam.spring.demo.services.PharmacistService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 
 @Service
+@Profile({"default","map"})
 public class PharmacistServiceMap extends  AbstractMapService<Pharmacist,Long> implements PharmacistService {
 
     @Override
@@ -24,6 +26,8 @@ public class PharmacistServiceMap extends  AbstractMapService<Pharmacist,Long> i
 
     @Override
     public Set<Pharmacist> findAll() {
+        System.out.println("ALL pharmacists  in MAP found@@@@@@@@ ");
+
         return super.findAll();
     }
 

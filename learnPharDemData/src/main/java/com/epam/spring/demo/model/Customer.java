@@ -1,4 +1,9 @@
 package com.epam.spring.demo.model;
 
-public class Customer extends Person {
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "customers")
+public class  Customer extends Person {
 }

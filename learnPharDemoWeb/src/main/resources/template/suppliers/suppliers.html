@@ -7,25 +7,29 @@
 <!--<body>
     <h1 th:text="Index Page"> </h1>
 </body>-->
-
 <body>
-
 <h2 th:text="'List of Suppliers'">Suppliers List</h2>
-
 <table class="table table-striped">
     <thead>
     <tr>
         <th style="width: 150px;">Id</th>
         <th style="width: 150px;"> Name</th>
+        <th style="width: 150px;"> Contact Number</th>
+        <th style="width: 150px;"> Address </th>
     </tr>
     </thead>
     <tbody>
-        <tr th:each="supplier : ${suppliers}">
+    <tr th:each="supplier : ${suppliers}">
         <td th:text="${supplier.id}">1</td>
-        <td th:text="${supplier.name}">Joe</td>
-        </tr>
+        <td>
+            <a th:href="@{/suppliers/__${supplier.id}__}" th:text="${supplier.name}"/></a>
+        </td>
+        <td th:text="${supplier.contactNumber}">Contact Number</td>
+        <td th:text="${supplier.address}">Address</td>
+
+    </tr>
     </tbody>
-</tr>
+    </tr>
 </table>
 </body>
 </html>

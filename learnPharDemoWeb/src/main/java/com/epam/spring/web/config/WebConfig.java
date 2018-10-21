@@ -1,5 +1,7 @@
 package com.epam.spring.web.config;
 
+//import org.h2.server.web.WebServlet;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -63,6 +65,13 @@ public class WebConfig   //extends  WebMvcConfigurerAdapter {
                     CLASSPATH_RESOURCE_LOCATIONS);
         }
     }
+
+   /* @Bean
+    public ServletRegistrationBean h2servletRegistration() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
+        registration.addUrlMappings("/console/*");
+        return registration;
+    }*/
 
 
  @Override
