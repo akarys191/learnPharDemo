@@ -1,20 +1,17 @@
 package com.epam.spring.demo.model;
 
-import lombok.Builder;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "medicines")
 public class Medicine extends BaseEntity{
-
-
-    @Builder
-    public Medicine(Long id, String name,String category) {
-        super.setId(id);
-        super.setName(name);
-        this.category = category;
-    }
 
     private String category;
 
-
+    @Column(name = "category")
     public String getCategory() {
         return category;
     }

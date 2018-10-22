@@ -4,11 +4,13 @@ import com.epam.spring.demo.model.Pharmacist;
 import com.epam.spring.demo.model.Supplier;
 import com.epam.spring.demo.services.CrudService;
 import com.epam.spring.demo.services.SupplierService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@Profile({"default","map"})
 public class SupplierServiceMap extends  AbstractMapService<Supplier,Long> implements SupplierService {
 
     @Override
@@ -23,6 +25,8 @@ public class SupplierServiceMap extends  AbstractMapService<Supplier,Long> imple
 
     @Override
     public Set<Supplier> findAll() {
+        System.out.println("ALL suppliers  in MAP found@@@@@@@@ ");
+
         return super.findAll();
     }
 

@@ -60,19 +60,19 @@ public class DataLoader implements CommandLineRunner {
 
         supplierService.save(supplier4);
 
-        Medicine medicine = Medicine.builder().build();
+        Medicine medicine = new Medicine();
 
         medicine.setCategory("Cardio");
         medicine.setName("Paracetomol");
 
         medicineService.save(medicine);
-        Medicine medicine2 = Medicine.builder().build();
+        Medicine medicine2 =  new Medicine();
         CategoryMed categoryMed2 = new CategoryMed();
         medicine2.setCategory("Brain");
         medicine2.setName("Paracetomol2");
         medicineService.save(medicine2);
 
-        Medicine medicine3 =Medicine.builder().build();
+        Medicine medicine3 = new Medicine();
         medicine3.setCategory("Cardio");
         medicine3.setName("Paracetomol3");
         medicineService.save(medicine3);
