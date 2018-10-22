@@ -18,13 +18,14 @@ class TestDataGroovy extends Specification {
 
     def "Should verify notify was called"() {
         given:
-        def medicine = Mock(Medicine)
+        def medicineService = Mock(MedicineService)
 
         when:
-        medicine.getName()
+        medicineService.findById(0)
 
         then:
-        1 * medicine.getName()
+        1 * medicineService.findById(0)
+
     }
 
     def "two plus two should equal four"() {
