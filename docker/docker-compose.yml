@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  postgres-pharm:
+    image: postgres:9.6.5-alpine
+    ports:
+          - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mus@19911004
+      POSTGRES_DB: pharmDemoDb
+    volumes:
+          - data-volume:/var/lib/db/pharmDemoDbData
+    container_name: pharmDemoDbContainer
+
+volumes:
+  data-volume:
