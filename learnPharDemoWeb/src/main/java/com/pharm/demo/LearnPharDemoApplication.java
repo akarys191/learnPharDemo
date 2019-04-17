@@ -28,7 +28,5 @@ public class  LearnPharDemoApplication extends SpringBootServletInitializer {
         SpringApplication.run(LearnPharDemoApplication.class, args);
     }
 
-
-
 }
 
