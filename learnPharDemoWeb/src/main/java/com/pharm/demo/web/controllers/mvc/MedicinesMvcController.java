@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/mvc/medicines")
+@RequestMapping("/medicines")
 public class MedicinesMvcController {
     private final MedicineService medicineService;
 
@@ -27,19 +27,19 @@ public class MedicinesMvcController {
     public String listMedcines(Model model){
         model.addAttribute("medicines", medicineService.findAll() );
 
-        return "mvc/medicines/medicines";
+        return "medicines/medicines";
     }
 
     @RequestMapping({"/find"})
     public String findMedicine(Model model){
         model.addAttribute("medicines", medicineService.findAll() );
 
-        return "mvc/medicines/medicines";
+        return "medicines/medicines";
     }
 
-    @GetMapping("/{medicineId}")
-    public ModelAndView showMedicine(@PathVariable Long medicineId) {
-        System.out.println("Get /medicineId is called! "+medicineId);
+    @GetMapping("/{id}")
+    public ModelAndView showMedicine(@PathVariable("id") Long medicineId) {
+        System.out.println("Get /id is called! "+medicineId);
 
         ModelAndView mav = new ModelAndView("medicines/medicineDetails");
         mav.addObject(medicineService.findById(medicineId));
@@ -61,26 +61,26 @@ public class MedicinesMvcController {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
             Medicine saveMedicine =  medicineService.save(medicine);
-            return "redirect:/mvc/medicines/" + saveMedicine.getMedicineId();
+            return "redirect:/medicines/" + saveMedicine.getId();
         }
     }
 
-    @GetMapping("/{medicineId}/edit")
-    public String initUpdateMedicineForm(@PathVariable Long medicineId, Model model) {
+    @GetMapping("/{id}/edit")
+    public String initUpdateMedicineForm(@PathVariable("id") Long medicineId, Model model) {
         model.addAttribute("medicine",medicineService.findById(medicineId));
         return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/mvc/{medicineId}/edit")
-    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable Long medicineId) {
-        System.out.println("Post {medicineId}/edit is called! ");
+    @PostMapping("/{id}/edit")
+    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable("id") Long medicineId) {
+        System.out.println("Post {id}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
-            //medicine.set(medicineId);
+            //medicine.set(id);
             Medicine savedMedicine = medicineService.save(medicine);
-            return "redirect:/mvc/medicines/" + medicine.getMedicineId();
+            return "redirect:/medicines/" + medicine.getId();
         }
     }
 }

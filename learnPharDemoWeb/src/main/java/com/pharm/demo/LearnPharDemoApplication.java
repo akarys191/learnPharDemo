@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Import;
 @Import({WebConfig.class})
 @ComponentScan
 @EnableAutoConfiguration
-
 public class  LearnPharDemoApplication extends SpringBootServletInitializer {
 
     private static Class applicationClass = LearnPharDemoApplication.class;
@@ -27,6 +26,5 @@ public class  LearnPharDemoApplication extends SpringBootServletInitializer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(LearnPharDemoApplication.class, args);
     }
-
 }
 

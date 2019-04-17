@@ -37,9 +37,9 @@ public class SuppliersMvcController {
         return "suppliers/suppliers";
     }
 
-    @GetMapping("/{supplierId}")
-    public ModelAndView showSupplier(@PathVariable Long supplierId) {
-        System.out.println("Get /supplierId is called! "+supplierId);
+    @GetMapping("/{id}")
+    public ModelAndView showSupplier(@PathVariable("id") Long supplierId) {
+        System.out.println("Get /id is called! "+supplierId);
 
         ModelAndView mav = new ModelAndView("suppliers/supplierDetails");
         mav.addObject(supplierService.findById(supplierId));
@@ -61,26 +61,26 @@ public class SuppliersMvcController {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
             Supplier savedSupplier =  supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
+            return "redirect:/suppliers/" + savedSupplier.getId();
         }
     }
 
-    @GetMapping("/{supplierId}/edit")
-    public String initUpdateSupplierForm(@PathVariable Long supplierId, Model model) {
+    @GetMapping("/{id}/edit")
+    public String initUpdateSupplierForm(@PathVariable("id") Long supplierId, Model model) {
         model.addAttribute("supplier",supplierService.findById(supplierId));
         return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/{supplierId}/edit")
-    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable Long supplierId) {
-        System.out.println("Post {supplierId}/edit is called! ");
+    @PostMapping("/{id}/edit")
+    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("id") Long supplierId) {
+        System.out.println("Post {id}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
-            supplier.setSupplierId(supplierId);
+            supplier.setId(supplierId);
             Supplier savedSupplier  = supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
+            return "redirect:/suppliers/" + savedSupplier.getId();
         }
     }
 }

@@ -1,25 +1,22 @@
 package com.pharm.demo.web.config;
 
-//import org.h2.server.web.WebServlet;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-//@SpringBootApplication
 @Configuration
 @PropertySource("classpath:application.properties")
-@EnableWebMvc
-@ComponentScan("com.epam.spring")
-public class WebConfig   //extends  WebMvcConfigurerAdapter {
-        implements WebMvcConfigurer {
+@ComponentScan("com.pharm.demo")
+public class WebConfig   implements WebMvcConfigurer {
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",
-            "classpath:/static/", "classpath:/public/" };
+            "classpath:/static/", "classpath:/public/"};
+
     @Bean
     public ClassLoaderTemplateResolver templateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -32,6 +29,7 @@ public class WebConfig   //extends  WebMvcConfigurerAdapter {
 
         return templateResolver;
     }
+
     @Bean
     @Description("Thymeleaf template engine with Spring integration")
     public SpringTemplateEngine templateEngine() {
@@ -74,7 +72,7 @@ public class WebConfig   //extends  WebMvcConfigurerAdapter {
     }*/
 
 
- @Override
+    @Override
     public void configureDefaultServletHandling(
             DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

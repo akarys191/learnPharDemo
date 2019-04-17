@@ -11,7 +11,7 @@ import java.util.Set;
 
 
 @Service
-@Profile("impl")
+@Profile("springdatajpa")
 public class PharmacistJpaService implements PharmacistService {
 
     private final PharmacistRepository pharmacistRepository;
