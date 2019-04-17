@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <start-class>com.epam.spring.LearnPharDemoApplication</start-class>
+        <start-class>com.pharm.demo.LearnPharDemoApplication</start-class>
         <!-- Web dependencies -->
         <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
         <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>

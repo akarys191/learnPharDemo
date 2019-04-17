@@ -1,6 +1,6 @@
 /*
 
-import com.epam.spring.web.config.WebConfig;
+import WebConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

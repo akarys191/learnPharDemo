@@ -1,5 +1,5 @@
-import com.epam.spring.demo.model.Medicine
-import com.epam.spring.demo.services.MedicineService
+import com.pharm.demo.model.Medicine
+import com.pharm.demo.services.MedicineService
 import spock.lang.Specification
 
 class TestDataGroovy extends Specification {
