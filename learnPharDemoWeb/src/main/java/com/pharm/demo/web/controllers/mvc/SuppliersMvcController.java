@@ -61,7 +61,7 @@ public class SuppliersMvcController {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
             Supplier savedSupplier =  supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getId();
+            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
         }
     }
 
@@ -78,9 +78,9 @@ public class SuppliersMvcController {
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
-            supplier.setId(supplierId);
+            supplier.setSupplierId(supplierId);
             Supplier savedSupplier  = supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getId();
+            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
         }
     }
 }

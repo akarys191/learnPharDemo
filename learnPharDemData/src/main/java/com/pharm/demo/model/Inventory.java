@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Inventory   {
-
+public class Inventory extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
     @SequenceGenerator(name="inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize=50)
