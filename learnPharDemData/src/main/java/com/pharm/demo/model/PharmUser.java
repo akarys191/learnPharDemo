@@ -19,6 +19,7 @@ public class PharmUser extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_id_seq", allocationSize=50)
     private Long userId;
+    private String userName;
     private String    email;
     private String    password;
     private String    roles;

@@ -24,6 +24,10 @@ public class PharmUserJpaService implements PharmUserService {
         return pharmUserRepository.findById(id).orElse(null);
     }
 
+    public PharmUser findByUserName(String userName) {
+        return pharmUserRepository.findByUserName(userName).orElse(null);
+    }
+
     @Override
     public PharmUser save(PharmUser pharmUser) {
         return pharmUserRepository.save(pharmUser);
@@ -32,7 +36,6 @@ public class PharmUserJpaService implements PharmUserService {
     @Override
     public Set<PharmUser> findAll() {
         System.out.println("ALL PharmUsers  in JPA found@@@@@@@@ ");
-
         Set<PharmUser> PharmUserSet = new HashSet<>();
         pharmUserRepository.findAll().forEach(PharmUserSet::add);
         return PharmUserSet;
