@@ -4,6 +4,8 @@ import com.pharm.demo.model.Medicine;
 import com.pharm.demo.repositories.MedicineRepository;
 import com.pharm.demo.services.MedicineService;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -46,5 +48,10 @@ public class MedicineJpaService implements MedicineService {
     @Override
     public void deleteById(Long aLong) {
         medicineJpaRepository.deleteById(aLong);
+    }
+
+    @Override
+    public Page<Medicine> findPaginated(Pageable pageable) {
+        return medicineJpaRepository.findAll(pageable);
     }
 }

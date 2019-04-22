@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Learn Pharm Demo</title>
 </head>
-<!--<body>
-    <h1 th:text="Index Page"> </h1>
-</body>-->
 <body>
 <h2 th:text="'List of Medicines'">Medicines List</h2>
 <table class="table table-striped">
@@ -14,18 +11,27 @@
     <tr>
         <th style="width: 150px;">Id</th>
         <th style="width: 150px;"> Name</th>
+        <th style="width: 150px;">Category</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="medicine : ${medicines}">
+       <tr th:each="medicine, iStat  : ${medicinePage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td th:text="${medicine.medicineId}">1</td>
         <td>
             <a th:href="@{/medicines/__${medicine.medicineId}__}" th:text="${medicine.name}"/></a>
         </td>
-      <!--  <td th:text="${medicine.name}">Joe</td>-->
+        <td th:text="${medicine.category.name}">Category</td>
     </tr>
     </tbody>
     </tr>
 </table>
+<div th:if="${medicinePage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/medicines/listMedicines(size=${medicinePage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==medicinePage.number + 1} ? active"></a>
+</div>
 </body>
 </html>
