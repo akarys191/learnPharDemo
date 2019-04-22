@@ -18,9 +18,9 @@
     </thead>
     <tbody>
     <tr th:each="medicine : ${medicines}">
-        <td th:text="${medicine.id}">1</td>
+        <td th:text="${medicine.medicineId}">1</td>
         <td>
-            <a th:href="@{/medicines/__${medicine.id}__}" th:text="${medicine.name}"/></a>
+            <a th:href="@{/medicines/__${medicine.medicineId}__}" th:text="${medicine.name}"/></a>
         </td>
       <!--  <td th:text="${medicine.name}">Joe</td>-->
     </tr>

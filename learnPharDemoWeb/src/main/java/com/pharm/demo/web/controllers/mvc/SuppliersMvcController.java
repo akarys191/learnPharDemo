@@ -37,9 +37,9 @@ public class SuppliersMvcController {
         return "suppliers/suppliers";
     }
 
-    @GetMapping("/{id}")
-    public ModelAndView showSupplier(@PathVariable("id") Long supplierId) {
-        System.out.println("Get /id is called! "+supplierId);
+    @GetMapping("/{userId}")
+    public ModelAndView showSupplier(@PathVariable("userId") Long supplierId) {
+        System.out.println("Get /userId is called! "+supplierId);
 
         ModelAndView mav = new ModelAndView("suppliers/supplierDetails");
         mav.addObject(supplierService.findById(supplierId));
@@ -61,26 +61,26 @@ public class SuppliersMvcController {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
             Supplier savedSupplier =  supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getId();
+            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
         }
     }
 
-    @GetMapping("/{id}/edit")
-    public String initUpdateSupplierForm(@PathVariable("id") Long supplierId, Model model) {
+    @GetMapping("/{userId}/edit")
+    public String initUpdateSupplierForm(@PathVariable("userId") Long supplierId, Model model) {
         model.addAttribute("supplier",supplierService.findById(supplierId));
         return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/{id}/edit")
-    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("id") Long supplierId) {
-        System.out.println("Post {id}/edit is called! ");
+    @PostMapping("/{userId}/edit")
+    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("userId") Long supplierId) {
+        System.out.println("Post {userId}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
-            supplier.setId(supplierId);
+            supplier.setSupplierId(supplierId);
             Supplier savedSupplier  = supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getId();
+            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
         }
     }
 }

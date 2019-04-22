@@ -37,9 +37,9 @@ public class MedicinesMvcController {
         return "medicines/medicines";
     }
 
-    @GetMapping("/{id}")
-    public ModelAndView showMedicine(@PathVariable("id") Long medicineId) {
-        System.out.println("Get /id is called! "+medicineId);
+    @GetMapping("/{userId}")
+    public ModelAndView showMedicine(@PathVariable("userId") Long medicineId) {
+        System.out.println("Get /userId is called! "+medicineId);
 
         ModelAndView mav = new ModelAndView("medicines/medicineDetails");
         mav.addObject(medicineService.findById(medicineId));
@@ -61,26 +61,26 @@ public class MedicinesMvcController {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
             Medicine saveMedicine =  medicineService.save(medicine);
-            return "redirect:/medicines/" + saveMedicine.getId();
+            return "redirect:/medicines/" + saveMedicine.getMedicineId();
         }
     }
 
-    @GetMapping("/{id}/edit")
-    public String initUpdateMedicineForm(@PathVariable("id") Long medicineId, Model model) {
+    @GetMapping("/{userId}/edit")
+    public String initUpdateMedicineForm(@PathVariable("userId") Long medicineId, Model model) {
         model.addAttribute("medicine",medicineService.findById(medicineId));
         return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/{id}/edit")
-    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable("id") Long medicineId) {
-        System.out.println("Post {id}/edit is called! ");
+    @PostMapping("/{userId}/edit")
+    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable("userId") Long medicineId) {
+        System.out.println("Post {userId}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
-            //medicine.set(id);
+            //medicine.set(userId);
             Medicine savedMedicine = medicineService.save(medicine);
-            return "redirect:/medicines/" + medicine.getId();
+            return "redirect:/medicines/" + medicine.getMedicineId();
         }
     }
 }

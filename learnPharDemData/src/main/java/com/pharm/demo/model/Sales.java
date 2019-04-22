@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Sales  {
+public class Sales extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_id_generator")
     @SequenceGenerator(name="sales_id_generator", sequenceName = "sales_id_seq", allocationSize=50)
