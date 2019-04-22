@@ -31,11 +31,14 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Supplier supplier = new Supplier();
-        supplier.setName("Astana");
-        supplier.setContactNumber("8777555221");
-        supplier.setEmail("astana@gmail.com");
-        supplierService.save(supplier);
+        for (int i=0;i<1;i++) {
+            Supplier supplier = new Supplier();
+            supplier.setName("Astana"+i);
+            supplier.setContactNumber("8777555221"+i);
+            supplier.setEmail("astana@gmail.com"+i);
+            supplierService.save(supplier);
+        }
+
 
         Supplier supplier2 = new Supplier();
         supplier2.setName("Astana2");

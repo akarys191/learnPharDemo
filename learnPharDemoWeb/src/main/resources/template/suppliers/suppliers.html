@@ -19,17 +19,24 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="supplier : ${suppliers}">
+    <tr th:each="supplier, iStat  : ${supplierPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td th:text="${supplier.supplierId}">1</td>
         <td>
             <a th:href="@{/suppliers/__${supplier.supplierId}__}" th:text="${supplier.name}"/></a>
         </td>
         <td th:text="${supplier.contactNumber}">Contact Number</td>
         <td th:text="${supplier.address}">Address</td>
-
     </tr>
     </tbody>
     </tr>
 </table>
+<div th:if="${supplierPage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/suppliers/listSuppliers(size=${supplierPage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==supplierPage.number + 1} ? active"></a>
+</div>
 </body>
 </html>
