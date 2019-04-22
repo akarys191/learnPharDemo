@@ -20,9 +20,9 @@
     </thead>
     <tbody>
     <tr th:each="supplier : ${suppliers}">
-        <td th:text="${supplier.id}">1</td>
+        <td th:text="${supplier.supplierId}">1</td>
         <td>
-            <a th:href="@{/suppliers/__${supplier.id}__}" th:text="${supplier.name}"/></a>
+            <a th:href="@{/suppliers/__${supplier.supplierId}__}" th:text="${supplier.name}"/></a>
         </td>
         <td th:text="${supplier.contactNumber}">Contact Number</td>
         <td th:text="${supplier.address}">Address</td>

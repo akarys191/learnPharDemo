@@ -91,12 +91,17 @@ public class DataLoader implements CommandLineRunner {
 
         PharmUser user = new PharmUser();
         user.setUserName("admin");
-        user.setPassword("MAJ19911004");
-        user.setRoles("ADMINISTRATOR");
+        user.setPassword("admin");
+        user.setRoles("ADMIN");
         user.setFirstName("admin");
         user.setLastName("admin");
-        pharmUserService.save(user);
+        if (pharmUserService.findByUserName(user.getUserName()) == null) {
+            pharmUserService.save(user);
+        } else {
+            System.out.println("Such user: " + user.getUserName() + " exists already!!!!");
+        }
 
+        System.out.println(" Siz of users: " + pharmUserService.findAll().size());
         System.out.println(" Siz of medicines: "+medicineService.findAll().size());
         System.out.println(" Siz of suppliers: "+supplierService.findAll().size());
         System.out.println(" Siz of pharmacists: "+pharmacistService.findAll().size());

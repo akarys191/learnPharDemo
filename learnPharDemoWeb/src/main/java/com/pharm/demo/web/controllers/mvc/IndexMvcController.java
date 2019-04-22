@@ -9,7 +9,6 @@ public class IndexMvcController {
 
     @RequestMapping({"","/","index","index.html"})
     public String index(){
-       // MedicineServiceMap medicineServiceMap = new MedicineServiceMap();
         return "index";
     }
 
@@ -30,6 +29,6 @@ public class IndexMvcController {
 
     @GetMapping("/access-denied")
     public String accessDenied() {
-        return "/error/access-denied";
+        return "access-denied";
     }
 }

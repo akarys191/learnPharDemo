@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Error View</title>
+</head>
+<body>
+<div id="content">
+    <tr>
+        <th>Error</th>
+        <td th:text="*{errMsg}"/>
+        ${errMsg}</td>
+    </tr>
+    <form action="/home" method="get">
+        <input type="submit" value="Back"/>
+    </form>
+    <br/>
+</div>
+</body>

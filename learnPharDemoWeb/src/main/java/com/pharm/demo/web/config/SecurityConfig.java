@@ -5,7 +5,6 @@ import com.pharm.demo.web.security.SecurityAppUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,15 +36,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(
                             "/js/**",
                             "/resources/**",
+                            "/access-denied",
                             "/css/**",
                             "/img/**",
                             "/webjars/**").permitAll()
                     .antMatchers("/user/**").hasRole("USER")
-                    .anyRequest().authenticated()
+                .anyRequest().authenticated()
+                .antMatchers("/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .successForwardUrl("/home")
+                .successForwardUrl("/")
                     .permitAll()
                 .and()
                 .logout()
