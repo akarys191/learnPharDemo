@@ -9,9 +9,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
@@ -40,7 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/css/**",
                             "/img/**",
                             "/webjars/**").permitAll()
-                    .antMatchers("/user/**").hasRole("USER")
+                   /* .antMatchers("/medicines/{pathVar}/edit/**")
+                    .access("@webSecurity.checkPathVar(authentication,#pathVar)")
+                    .antMatchers("/suppliers/{pathVar}/edit/**")
+                    .access("@webSecurity.checkPathVar(authentication,#pathVar)")
+               */ .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .antMatchers("/**").hasRole("ADMIN")
                 .and()
@@ -56,8 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/login?logout")
                     .permitAll()
                 .and()
+                .csrf().disable()
                 .exceptionHandling()
                     .accessDeniedHandler(accessDeniedHandler);
+
     }
 
     @Override
