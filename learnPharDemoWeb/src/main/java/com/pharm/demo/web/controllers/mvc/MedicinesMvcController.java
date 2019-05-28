@@ -1,6 +1,8 @@
 package com.pharm.demo.web.controllers.mvc;
 
+import com.pharm.demo.model.CategoryMed;
 import com.pharm.demo.model.Medicine;
+import com.pharm.demo.services.CategoryMedService;
 import com.pharm.demo.services.MedicineService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,10 +23,13 @@ import java.util.stream.IntStream;
 @RequestMapping("/medicines")
 public class MedicinesMvcController {
     private final MedicineService medicineService;
+    private final CategoryMedService categoryMedService;
 
     private static final String VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM = "medicines/createOrUpdateMedicine";
-    public MedicinesMvcController(MedicineService medicineService) {
+
+    public MedicinesMvcController(MedicineService medicineService, CategoryMedService categoryMedService) {
         this.medicineService = medicineService;
+        this.categoryMedService = categoryMedService;
     }
 
     @RequestMapping({"/medicines/","/medicines","medicines","medicines.html","medicines/"})
@@ -95,6 +101,12 @@ public class MedicinesMvcController {
     public String initUpdateMedicineForm(@PathVariable("userId") Long medicineId, Model model) {
         model.addAttribute("medicine",medicineService.findById(medicineId));
         return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
+    }
+
+    @ModelAttribute("categories")
+    public Set<CategoryMed> getCategories() {
+        Set<CategoryMed> categoryMedSet = categoryMedService.findAll();
+        return categoryMedSet;
     }
 
     @PostMapping("/{userId}/edit")
