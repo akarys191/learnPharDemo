@@ -8,11 +8,11 @@
     <div class="form-group has-feedback">
         <input
                 th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
-        <select id="category" th:field="*{category}">
-            <option th:each="categorySelect : ${categories}"
-                    th:value="${categorySelect}"
-                    th:text="${categorySelect.name}"></option>
-        </select>
+
+        <select th:replace="~{fragments/selectField :: select ('Category', 'category',  ${categories})}"/>
+            <!--<option th:each="categorySelect : ${categories}"
+                    th:value="${categorySelect.id}"
+                    th:text="${categorySelect.name}"></option>-->
 
     </div>
     <div class="form-group">
