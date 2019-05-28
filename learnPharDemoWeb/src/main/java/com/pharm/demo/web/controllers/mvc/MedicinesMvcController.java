@@ -81,7 +81,7 @@ public class MedicinesMvcController {
     @GetMapping({"/new"})
     public String getNewMedicine(Model model){
         model.addAttribute("medicines", medicineService.findAll() );
-
+        model.addAttribute("medicine", new Medicine());
         return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM ;
     }
 
@@ -116,7 +116,6 @@ public class MedicinesMvcController {
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
-            //medicine.set(userId);
             Medicine savedMedicine = medicineService.save(medicine);
             return "redirect:/medicines/" + medicine.getMedicineId();
         }
