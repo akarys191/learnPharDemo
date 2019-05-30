@@ -7,6 +7,8 @@
   <form th:object="${supplier}" class="form-horizontal" id="add-medicine-form" method="post">
     <div class="form-group has-feedback">
         <input
+                type="hidden" name="supplierId" th:field="*{supplierId}" th:value="${supplierId}"/>
+        <input
                 th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
         <input
                 th:replace="~{fragments/inputField :: input ('Contact Number', 'contactNumber', 'text')}" />
@@ -17,7 +19,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${supplier==null} ? 'Add supplier' : 'Update supplier'"
+                    th:with="text=${supplier.supplierId==null} ? 'Add supplier' : 'Update supplier'"
                     class="btn btn-default" type="submit" th:text="${text}">Add
                 Supplier</button>
         </div>

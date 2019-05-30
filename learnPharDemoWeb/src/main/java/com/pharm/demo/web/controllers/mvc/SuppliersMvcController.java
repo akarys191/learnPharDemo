@@ -75,7 +75,7 @@ public class SuppliersMvcController {
     @GetMapping({"/new"})
     public String getNewSupplier(Model model){
         model.addAttribute("suppliers", supplierService.findAll() );
-
+        model.addAttribute("supplier", new Supplier());
         return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM ;
     }
 
