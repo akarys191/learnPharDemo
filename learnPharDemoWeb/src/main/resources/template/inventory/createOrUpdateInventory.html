@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
+
+<body>
+
+<h2>Inventory</h2>
+<form th:object="${inventory}" class="form-horizontal" id="add-inventory-form" method="post">
+    <div class="form-group has-feedback">
+        <input
+                type="hidden" name="inventoryId" th:field="*{inventoryId}" th:value="${inventoryId}"/>
+        <select
+                th:replace="~{fragments/selectField :: select ('Medicine', 'medicine',  ${medicines})}"/>
+        <select
+                th:replace="~{fragments/selectField :: select ('Suppliers', 'supplier',  ${suppliers})}"/>
+        <select
+                th:replace="~{fragments/selectField :: select ('Accepting pharmacists', 'acceptingPharmacist',  ${acceptingPharmacists})}"/>
+
+        <input
+                th:replace="~{fragments/inputField :: input ('Invoice', 'invoice.invoiceId', 'text')}"/>
+        <input
+                th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
+        <input
+                th:replace="~{fragments/inputField :: input ('Quantity', 'quantity', 'text')}"/>
+        <input
+                th:replace="~{fragments/inputField :: input ('Supplied Cost', 'suppliedCost', 'text')}"/>
+        <input
+                th:replace="~{fragments/inputField :: input ('Supplied Date', 'suppliedDate', 'date')}"/>
+
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button
+                    th:with="text=${inventory.inventoryId==null} ? 'Add inventory' : 'Update inventory'"
+                    class="btn btn-default" type="submit" th:text="${text}">Add
+                Inventory
+            </button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

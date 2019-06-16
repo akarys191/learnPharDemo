@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+<body>
+<b>
+    <a th:href="@{/inventory/new}"/>create new inventory</a>
+</b>
+<br/>
+<h2 th:text="'Inventory'">Suppliers List</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;">Id</th>
+        <th style="width: 150px;"> medicine</th>
+        <th style="width: 150px;"> invoice</th>
+        <th style="width: 150px;"> supplier</th>
+        <th style="width: 150px;"> price</th>
+        <th style="width: 150px;"> suppliedCost</th>
+        <th style="width: 150px;"> suppliedDate</th>
+        <th style="width: 150px;"> Quantity</th>
+        <th style="width: 150px;"> acceptingPharmacist</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="inventory, iStat  : ${inventoryPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td>
+            <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
+        </td>
+
+        <td th:text="${inventory.medicine.id}">medicine</td>
+        <td th:text="${inventory.invoice.invoiceId}">invoice</td>
+        <td th:text="${inventory.supplier.name}">supplier</td>
+        <td th:text="${inventory.price}">price</td>
+        <td th:text="${inventory.suppliedCost}">suppliedCost</td>
+        <td th:text="${inventory.suppliedDate}">suppliedDate</td>
+        <td th:text="${inventory.quantity}">Quantity</td>
+        <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+    </tr>
+    </tbody>
+    </tr>
+</table>
+<div th:if="${inventoryPage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/suppliers/listSuppliers(size=${inventoryPage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==inventoryPage.number + 1} ? active"></a>
+</div>
+</body>
+</html>

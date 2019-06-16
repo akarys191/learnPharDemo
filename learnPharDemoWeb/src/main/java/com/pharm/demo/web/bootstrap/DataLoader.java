@@ -2,16 +2,17 @@ package com.pharm.demo.web.bootstrap;
 
 import com.pharm.demo.model.*;
 import com.pharm.demo.repositories.CategoryMedRepository;
-import com.pharm.demo.services.MedicineService;
-import com.pharm.demo.services.PharmUserService;
-import com.pharm.demo.services.PharmacistService;
-import com.pharm.demo.services.SupplierService;
+import com.pharm.demo.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
+    private final InvoiceInventoryService invoiceInventoryService;
+    private final InventoryService inventoryService;
     private  final SupplierService supplierService;
     private  final MedicineService medicineService;
     private  final PharmacistService pharmacistService;
@@ -21,7 +22,10 @@ public class DataLoader implements CommandLineRunner {
 
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
-                      CategoryMedRepository categoryMedRepository) {
+                      CategoryMedRepository categoryMedRepository, InventoryService inventoryService,
+                      InvoiceInventoryService invoiceInventoryService) {
+        this.inventoryService = inventoryService;
+        this.invoiceInventoryService = invoiceInventoryService;
         this.supplierService = supplierService;
         this.medicineService = medicineService;
         this.pharmacistService = pharmacistService;
@@ -85,6 +89,7 @@ public class DataLoader implements CommandLineRunner {
         Pharmacist pharmacist = new Pharmacist();
         pharmacist.setFirstName("Aidana");
         pharmacist.setLastName("Kassimova");
+        pharmacist.setUserName("aidana");
         pharmacistService.save(pharmacist);
 
         Pharmacist pharmacist2 = new Pharmacist();
@@ -98,6 +103,26 @@ public class DataLoader implements CommandLineRunner {
         user.setRoles("ADMIN");
         user.setFirstName("admin");
         user.setLastName("admin");
+
+        InvoiceInventory invoice = new InvoiceInventory(null, 100, 10000);
+        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000);
+        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300);
+
+        invoiceInventoryService.save(invoice);
+        invoiceInventoryService.save(invoice2);
+        invoiceInventoryService.save(invoice3);
+
+        Inventory inventory = new Inventory(null, medicine, invoice,
+                supplier2, 100, 120.0, 100.0, LocalDate.now(), pharmacist);
+        Inventory inventory2 = new Inventory(null, medicine, invoice2,
+                supplier3, 10, 220.0, 200.0, LocalDate.now(), pharmacist);
+        Inventory inventory3 = new Inventory(null, medicine, invoice3,
+                supplier3, 1, 320.0, 300.0, LocalDate.now(), pharmacist);
+
+        inventoryService.save(inventory);
+        inventoryService.save(inventory2);
+        inventoryService.save(inventory3);
+
         if (pharmUserService.findByUserName(user.getUserName()) == null) {
             pharmUserService.save(user);
         } else {
@@ -105,6 +130,9 @@ public class DataLoader implements CommandLineRunner {
         }
 
         System.out.println(" Siz of users: " + pharmUserService.findAll().size());
+        System.out.println(" Siz of inventory: " + inventoryService.findAll().size());
+        System.out.println(" Inventory first: " + inventory);
+        System.out.println(" Siz of invoices: " + invoiceInventoryService.findAll().size());
         System.out.println(" Siz of medicines: "+medicineService.findAll().size());
         System.out.println(" Siz of suppliers: "+supplierService.findAll().size());
         System.out.println(" Siz of pharmacists: "+pharmacistService.findAll().size());

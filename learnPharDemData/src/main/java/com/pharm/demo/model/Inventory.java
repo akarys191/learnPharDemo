@@ -1,14 +1,17 @@
 package com.pharm.demo.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Inventory extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
@@ -20,9 +23,12 @@ public class Inventory extends AbstractEntity {
     private InvoiceInventory invoice;
     @ManyToOne
     private Supplier supplier;
+    private Integer quantity;
     private Double price;
     private Double suppliedCost;
-    private LocalDateTime suppliedDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate suppliedDate;
     @ManyToOne
     private Pharmacist acceptingPharmacist;
 }
