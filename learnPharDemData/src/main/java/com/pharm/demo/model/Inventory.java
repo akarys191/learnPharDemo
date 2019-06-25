@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,8 +27,8 @@ public class Inventory extends AbstractEntity {
     private Double price;
     private Double suppliedCost;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate suppliedDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private LocalDateTime suppliedDate;
     @ManyToOne
     private Pharmacist acceptingPharmacist;
 }

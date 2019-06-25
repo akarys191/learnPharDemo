@@ -89,7 +89,8 @@ public class InventoryMvcController {
 
     @GetMapping({"/new"})
     public String getNewInventory(Model model) {
-        model.addAttribute("inventory", inventoryService.findAll());
+        model.addAttribute("inventories", inventoryService.findAll());
+        model.addAttribute("inventory", new Inventory());
         return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
 

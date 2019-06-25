@@ -6,7 +6,7 @@ import com.pharm.demo.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -113,11 +113,11 @@ public class DataLoader implements CommandLineRunner {
         invoiceInventoryService.save(invoice3);
 
         Inventory inventory = new Inventory(null, medicine, invoice,
-                supplier2, 100, 120.0, 100.0, LocalDate.now(), pharmacist);
+                supplier2, 100, 120.0, 100.0, LocalDateTime.now(), pharmacist);
         Inventory inventory2 = new Inventory(null, medicine, invoice2,
-                supplier3, 10, 220.0, 200.0, LocalDate.now(), pharmacist);
+                supplier3, 10, 220.0, 200.0, LocalDateTime.now(), pharmacist);
         Inventory inventory3 = new Inventory(null, medicine, invoice3,
-                supplier3, 1, 320.0, 300.0, LocalDate.now(), pharmacist);
+                supplier3, 1, 320.0, 300.0, LocalDateTime.now(), pharmacist);
 
         inventoryService.save(inventory);
         inventoryService.save(inventory2);
