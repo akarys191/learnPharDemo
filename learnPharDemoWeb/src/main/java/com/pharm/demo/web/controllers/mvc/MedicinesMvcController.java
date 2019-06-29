@@ -6,6 +6,7 @@ import com.pharm.demo.services.CategoryMedService;
 import com.pharm.demo.services.MedicineService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,6 +68,12 @@ public class MedicinesMvcController {
         model.addAttribute("medicines", medicineService.findAll() );
 
         return "medicines/medicines";
+    }
+
+    @RequestMapping({"/findByName"})
+    public @ResponseBody
+    List<Medicine> findMedicineByName(@Param("term") String term) {
+        return medicineService.findByNameTerm(term);
     }
 
     @GetMapping("/{id}")

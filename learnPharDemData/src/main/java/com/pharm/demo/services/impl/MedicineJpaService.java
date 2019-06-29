@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,6 +26,12 @@ public class MedicineJpaService implements MedicineService {
     public Medicine findById(Long aLong) {
         return this.medicineJpaRepository.findById(aLong).orElse(null);
     }
+
+    @Override
+    public List<Medicine> findByNameTerm(String term) {
+        return this.medicineJpaRepository.searchTermFromName(term);
+    }
+
 
     @Override
     public Medicine save(Medicine medicine) {
