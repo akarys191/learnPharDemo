@@ -26,7 +26,7 @@ public class SuppliersMvcController {
         this.supplierService = supplierService;
     }
 
-    @RequestMapping({"/suppliers/","/suppliers","suppliers","suppliers.html","suppliers/"})
+    @RequestMapping({"/suppliers/", "/suppliers", "suppliers", "inventory.html", "suppliers/"})
     public String listSuppliers(Model model){
         model.addAttribute("suppliers", supplierService.findAll() );
 
@@ -63,12 +63,12 @@ public class SuppliersMvcController {
         return "suppliers/suppliers";
     }
 
-    @GetMapping("/{userId}")
-    public ModelAndView showSupplier(@PathVariable("userId") Long supplierId) {
-        System.out.println("Get /userId is called! "+supplierId);
+    @GetMapping("/{id}")
+    public ModelAndView showSupplier(@PathVariable("id") Long id) {
+        System.out.println("Get /id is called! " + id);
 
         ModelAndView mav = new ModelAndView("suppliers/supplierDetails");
-        mav.addObject(supplierService.findById(supplierId));
+        mav.addObject(supplierService.findById(id));
         return mav;
     }
 
@@ -87,26 +87,26 @@ public class SuppliersMvcController {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
             Supplier savedSupplier =  supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
+            return "redirect:/suppliers/" + savedSupplier.getId();
         }
     }
 
-    @GetMapping("/{userId}/edit")
-    public String initUpdateSupplierForm(@PathVariable("userId") Long supplierId, Model model) {
-        model.addAttribute("supplier",supplierService.findById(supplierId));
+    @GetMapping("/{id}/edit")
+    public String initUpdateSupplierForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("supplier", supplierService.findById(id));
         return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/{userId}/edit")
-    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("userId") Long supplierId) {
-        System.out.println("Post {userId}/edit is called! ");
+    @PostMapping("/{id}/edit")
+    public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("id") Long id) {
+        System.out.println("Post {id}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
         } else {
-            supplier.setSupplierId(supplierId);
+            supplier.setId(id);
             Supplier savedSupplier  = supplierService.save(supplier);
-            return "redirect:/suppliers/" + savedSupplier.getSupplierId();
+            return "redirect:/suppliers/" + savedSupplier.getId();
         }
     }
 }

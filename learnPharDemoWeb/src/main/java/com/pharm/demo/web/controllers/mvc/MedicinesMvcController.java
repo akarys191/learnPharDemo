@@ -69,12 +69,12 @@ public class MedicinesMvcController {
         return "medicines/medicines";
     }
 
-    @GetMapping("/{userId}")
-    public ModelAndView showMedicine(@PathVariable("userId") Long medicineId) {
-        System.out.println("Get /userId is called! "+medicineId);
+    @GetMapping("/{id}")
+    public ModelAndView showMedicine(@PathVariable("id") Long id) {
+        System.out.println("Get /id is called! " + id);
 
         ModelAndView mav = new ModelAndView("medicines/medicineDetails");
-        mav.addObject(medicineService.findById(medicineId));
+        mav.addObject(medicineService.findById(id));
         return mav;
     }
 
@@ -93,13 +93,13 @@ public class MedicinesMvcController {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
             Medicine saveMedicine =  medicineService.save(medicine);
-            return "redirect:/medicines/" + saveMedicine.getMedicineId();
+            return "redirect:/medicines/" + saveMedicine.getId();
         }
     }
 
-    @GetMapping("/{userId}/edit")
-    public String initUpdateMedicineForm(@PathVariable("userId") Long medicineId, Model model) {
-        model.addAttribute("medicine",medicineService.findById(medicineId));
+    @GetMapping("/{id}/edit")
+    public String initUpdateMedicineForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("medicine", medicineService.findById(id));
         return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -109,15 +109,14 @@ public class MedicinesMvcController {
         return categoryMedSet;
     }
 
-    @PostMapping("/{userId}/edit")
-    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable("userId") Long medicineId) {
-        System.out.println("Post {userId}/edit is called! ");
-
+    @PostMapping("/{id}/edit")
+    public String processUpdateMedicineForm(@Valid Medicine medicine, BindingResult result, @PathVariable("id") Long id) {
+        System.out.println("Post {id}/edit is called! ");
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
             Medicine savedMedicine = medicineService.save(medicine);
-            return "redirect:/medicines/" + medicine.getMedicineId();
+            return "redirect:/medicines/" + medicine.getId();
         }
     }
 }

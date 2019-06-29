@@ -18,13 +18,19 @@ public class PharmUser extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
     @SequenceGenerator(name="user_id_generator", sequenceName = "user_id_seq", allocationSize=50)
-    private Long userId;
+    @Column(name = "USER_ID")
+    private Long id;
     private String userName;
-    private String    email;
-    private String    password;
-    private String    roles;
+    private String email;
+    private String password;
+    private String roles;
     private LocalDate birthday;
     private String firstName;
     private String lastName;
     private String address;
+
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 }
