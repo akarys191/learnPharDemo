@@ -231,18 +231,23 @@ table td.action-column {
 }
 .ui-autocomplete{
    max-height: 140px !important;
-   max-width: 220px !important;
+   max-width: 1001px !important;
    background-color: #ffffff !important;
 }
+
+ul.ui-autocomplete{
+    height: 200px;
+    width: 76% !important;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
 span.ui-helper-hidden-accessible{
     display: none;
 }
-ul.ui-autocomplete{
-    height:200px;
-    width:25%;
-    overflow:hidden;
-    overflow-y:scroll;
-}
+
+
+
 hr {
   border-top: 1px dotted @spring-brown;
 }
