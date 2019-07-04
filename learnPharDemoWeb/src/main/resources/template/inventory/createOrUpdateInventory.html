@@ -14,12 +14,10 @@
     <div class="form-group has-feedback">
         <input
                 type="hidden" name="inventoryId" th:field="*{inventoryId}" th:value="${inventoryId}"/>
-
-        <input
-                name="medicineId" th:field="*{medicine}"/>
+        <!-- <input
+                 name="medicineId"  th:value="*{medicine != null} ? *{medicine.name} : ''"/>-->
         <input
                 id="medicineIdInput" type="hidden" name="medicine" th:field="*{medicine}" value=""/>
-
         <select
                 th:replace="~{fragments/selectField :: select ('Suppliers', 'supplier',  ${suppliers})}"/>
         <select
@@ -28,7 +26,7 @@
             <div class="form-group">
                 <label id="tagQueryLabel" class="col-sm-2 control-label" for="tagQuery">Medicine</label>
                 <div class="col-sm-10">
-                    <input id="tagQuery" class="form-control" th:value="${medicine != null} ? ${medicine.name} : ''"
+                    <input id="tagQuery" class="form-control" th:value="*{medicine != null} ? *{medicine.name} : ''"
                            type="text" name="tagQuery" onFocus="inputFocus(this)" onBlur="inputBlur(this)">
                 </div>
             </div>
