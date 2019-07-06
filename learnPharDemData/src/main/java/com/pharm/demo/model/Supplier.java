@@ -13,5 +13,5 @@ public class Supplier extends Company{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "supplier_id_generator")
     @SequenceGenerator(name="supplier_id_generator", sequenceName = "supplier_id_seq", allocationSize=50)
-    private Long supplierId;
+    private Long id;
 }

@@ -7,17 +7,17 @@
   <form th:object="${medicine}" class="form-horizontal" id="add-medicine-form" method="post">
     <div class="form-group has-feedback">
         <input
-                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+                type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Category', 'category', 'text')}" />
-
+                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+        <select
+                th:replace="~{fragments/selectField :: select ('Category', 'category',  ${categories})}"/>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${medicine==null} ? 'Add medicine' : 'Update medicine'"
-                    class="btn btn-default" type="submit" th:text="${text}">Add
-                Medicine</button>
+                    th:with="text=${medicine.id==null} ? 'Add medicine' : 'Update medicine'"
+                    class="btn btn-default" type="submit" th:text="${text}">Add Medicine</button>
         </div>
     </div>
   </form>

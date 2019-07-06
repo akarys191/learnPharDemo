@@ -8,6 +8,10 @@
     <h1 th:text="Index Page"> </h1>
 </body>-->
 <body>
+<b>
+    <a th:href="@{/suppliers/new}"/>create new supplier</a>
+</b>
+<br/>
 <h2 th:text="'List of Suppliers'">Suppliers List</h2>
 <table class="table table-striped">
     <thead>
@@ -22,9 +26,9 @@
     <tr th:each="supplier, iStat  : ${supplierPage.content}"
         th:style="${iStat.odd}? 'font-weight: bold;'"
         th:alt-title="${iStat.even}? 'even' : 'odd'">
-        <td th:text="${supplier.supplierId}">1</td>
+        <td th:text="${supplier.id}">1</td>
         <td>
-            <a th:href="@{/suppliers/__${supplier.supplierId}__}" th:text="${supplier.name}"/></a>
+            <a th:href="@{/suppliers/__${supplier.id}__}" th:text="${supplier.name}"/></a>
         </td>
         <td th:text="${supplier.contactNumber}">Contact Number</td>
         <td th:text="${supplier.address}">Address</td>
