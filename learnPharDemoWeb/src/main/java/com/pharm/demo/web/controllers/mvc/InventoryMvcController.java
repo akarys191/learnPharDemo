@@ -1,13 +1,14 @@
 package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.Medicine;
 import com.pharm.demo.model.Pharmacist;
 import com.pharm.demo.model.Supplier;
 import com.pharm.demo.services.InventoryService;
 import com.pharm.demo.services.MedicineService;
 import com.pharm.demo.services.PharmacistService;
 import com.pharm.demo.services.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,8 @@ public class InventoryMvcController {
     private final MedicineService medicineService;
     private final SupplierService supplierService;
     private final PharmacistService pharmacistService;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private static final String VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM = "inventory/createOrUpdateInventory";
 
@@ -80,7 +83,7 @@ public class InventoryMvcController {
 
     @GetMapping("/{inventoryId}")
     public ModelAndView showInventory(@PathVariable("inventoryId") Long inventoryId) {
-        System.out.println("Get /inventoryId is called! " + inventoryId);
+        LOGGER.info("Get /inventoryId is called! " + inventoryId);
 
         ModelAndView mav = new ModelAndView("inventory/inventoryDetails");
         mav.addObject(inventoryService.findById(inventoryId));
@@ -96,7 +99,7 @@ public class InventoryMvcController {
 
     @PostMapping("/new")
     public String processCreationForm(@Valid Inventory inventory, BindingResult result) {
-        System.out.println("Post new is called! ");
+        LOGGER.info("Post new is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
@@ -110,12 +113,6 @@ public class InventoryMvcController {
     public String initUpdateInventoryForm(@PathVariable("inventoryId") Long inventoryId, Model model) {
         model.addAttribute("inventory", inventoryService.findById(inventoryId));
         return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
-    }
-
-    @ModelAttribute("medicines")
-    public Set<Medicine> getMedicines() {
-        Set<Medicine> medicineSet = medicineService.findAll();
-        return medicineSet;
     }
 
     @ModelAttribute("suppliers")
@@ -132,7 +129,7 @@ public class InventoryMvcController {
 
     @PostMapping("/{inventoryId}/edit")
     public String processUpdateInventoryForm(@Valid Inventory inventory, BindingResult result, @PathVariable("inventoryId") Long inventoryId) {
-        System.out.println("Post {inventoryId}/edit is called! ");
+        LOGGER.info("Post {inventoryId}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;

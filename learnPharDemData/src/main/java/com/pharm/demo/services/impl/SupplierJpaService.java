@@ -3,14 +3,16 @@ package com.pharm.demo.services.impl;
 import com.pharm.demo.model.Supplier;
 import com.pharm.demo.repositories.SupplierRepository;
 import com.pharm.demo.services.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -18,6 +20,8 @@ import java.util.Set;
 public class SupplierJpaService implements SupplierService {
 
     private final SupplierRepository supplierRepository;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public SupplierJpaService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
@@ -29,25 +33,29 @@ public class SupplierJpaService implements SupplierService {
     }
 
     @Override
+    @CacheEvict(value = "suppliers", allEntries = true)
     public Supplier save(Supplier supplier) {
         return  supplierRepository.save(supplier);
     }
 
     @Override
+    @Cacheable(value = "suppliers")
     public Set<Supplier> findAll() {
-        System.out.println("ALL suppliers  in JPA found@@@@@@@@ ");
+        LOGGER.info("ALL suppliers  in JPA found@@@@@@@@ ");
 
         Set<Supplier> supplierSet = new HashSet<>();
-         supplierRepository.findAll().forEach(supplierSet::add);
-         return supplierSet;
+        supplierRepository.findAll().forEach(supplierSet::add);
+        return supplierSet;
     }
 
     @Override
+    @CacheEvict(value = "suppliers", allEntries = true)
     public void deleteById(Long id) {
         supplierRepository.deleteById(id);
     }
 
     @Override
+    @CacheEvict(value = "suppliers", allEntries = true)
     public void delete(Supplier object) {
         supplierRepository.delete(object);
     }

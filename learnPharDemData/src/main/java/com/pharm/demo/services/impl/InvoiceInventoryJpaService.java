@@ -3,6 +3,8 @@ package com.pharm.demo.services.impl;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.repositories.InvoiceInventoryRepository;
 import com.pharm.demo.services.InvoiceInventoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,8 @@ import java.util.Set;
 public class InvoiceInventoryJpaService implements InvoiceInventoryService {
 
     private final InvoiceInventoryRepository invoiceInventoryRepository;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public InvoiceInventoryJpaService(InvoiceInventoryRepository invoiceInventoryRepository) {
         this.invoiceInventoryRepository = invoiceInventoryRepository;
@@ -38,7 +42,7 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
 
     @Override
     public Set<InvoiceInventory> findAll() {
-        System.out.println("ALL invoices  in JPA found@@@@@@@@ ");
+        LOGGER.info("ALL invoices  in JPA found@@@@@@@@ ");
         Set<InvoiceInventory> invoiceInventorySet = new HashSet<>();
         invoiceInventoryRepository.findAll().forEach(invoiceInventorySet::add);
         return invoiceInventorySet;
