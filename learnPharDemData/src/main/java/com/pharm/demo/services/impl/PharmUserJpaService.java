@@ -3,6 +3,10 @@ package com.pharm.demo.services.impl;
 import com.pharm.demo.model.PharmUser;
 import com.pharm.demo.repositories.PharmUserRepository;
 import com.pharm.demo.services.PharmUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,8 @@ import java.util.Set;
 public class PharmUserJpaService implements PharmUserService {
 
     private final PharmUserRepository pharmUserRepository;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public PharmUserJpaService(PharmUserRepository PharmUserRepository) {
         this.pharmUserRepository = PharmUserRepository;
@@ -29,24 +35,28 @@ public class PharmUserJpaService implements PharmUserService {
     }
 
     @Override
+    @CacheEvict(value = "pharmUsers", allEntries = true)
     public PharmUser save(PharmUser pharmUser) {
         return pharmUserRepository.save(pharmUser);
     }
 
     @Override
+    @Cacheable(value = "pharmUsers")
     public Set<PharmUser> findAll() {
-        System.out.println("ALL PharmUsers  in JPA found@@@@@@@@ ");
+        LOGGER.info("ALL PharmUsers  in JPA found@@@@@@@@ ");
         Set<PharmUser> PharmUserSet = new HashSet<>();
         pharmUserRepository.findAll().forEach(PharmUserSet::add);
         return PharmUserSet;
     }
 
     @Override
+    @CacheEvict(value = "pharmUsers", allEntries = true)
     public void deleteById(Long id) {
         pharmUserRepository.deleteById(id);
     }
 
     @Override
+    @CacheEvict(value = "pharmUsers", allEntries = true)
     public void delete(PharmUser object) {
         pharmUserRepository.delete(object);
     }

@@ -2,6 +2,8 @@ package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.Supplier;
 import com.pharm.demo.services.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,10 @@ import java.util.stream.IntStream;
 public class SuppliersMvcController {
     private final SupplierService supplierService;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
     private static final String VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM = "suppliers/createOrUpdateSupplier";
+
     public SuppliersMvcController(SupplierService supplierService) {
         this.supplierService = supplierService;
     }
@@ -65,7 +70,7 @@ public class SuppliersMvcController {
 
     @GetMapping("/{id}")
     public ModelAndView showSupplier(@PathVariable("id") Long id) {
-        System.out.println("Get /id is called! " + id);
+        LOGGER.info("Get /id is called! " + id);
 
         ModelAndView mav = new ModelAndView("suppliers/supplierDetails");
         mav.addObject(supplierService.findById(id));
@@ -81,7 +86,7 @@ public class SuppliersMvcController {
 
     @PostMapping("/new")
     public String processCreationForm(@Valid Supplier supplier, BindingResult result) {
-        System.out.println("Post new is called! ");
+        LOGGER.info("Post new is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;
@@ -99,7 +104,7 @@ public class SuppliersMvcController {
 
     @PostMapping("/{id}/edit")
     public String processUpdateSupplierForm(@Valid Supplier supplier, BindingResult result, @PathVariable("id") Long id) {
-        System.out.println("Post {id}/edit is called! ");
+        LOGGER.info("Post {id}/edit is called!");
 
         if (result.hasErrors()) {
             return VIEWS_SUPPLIER_CREATE_OR_UPDATE_FORM;

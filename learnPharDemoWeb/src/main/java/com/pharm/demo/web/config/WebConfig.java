@@ -1,6 +1,7 @@
 package com.pharm.demo.web.config;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -15,6 +16,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
+@EnableCaching
 @PropertySource("classpath:application.properties")
 public class WebConfig   implements WebMvcConfigurer {
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {

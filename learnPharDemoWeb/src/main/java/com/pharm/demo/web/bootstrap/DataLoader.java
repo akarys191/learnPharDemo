@@ -3,6 +3,8 @@ package com.pharm.demo.web.bootstrap;
 import com.pharm.demo.model.*;
 import com.pharm.demo.repositories.CategoryMedRepository;
 import com.pharm.demo.services.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ public class DataLoader implements CommandLineRunner {
     private  final PharmacistService pharmacistService;
     private  final PharmUserService pharmUserService;
     private  final CategoryMedRepository categoryMedRepository;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
@@ -126,16 +130,16 @@ public class DataLoader implements CommandLineRunner {
         if (pharmUserService.findByUserName(user.getUserName()) == null) {
             pharmUserService.save(user);
         } else {
-            System.out.println("Such user: " + user.getUserName() + " exists already!!!!");
+            LOGGER.info("Such user: " + user.getUserName() + " exists already!!!!");
         }
 
-        System.out.println(" Siz of users: " + pharmUserService.findAll().size());
-        System.out.println(" Siz of inventory: " + inventoryService.findAll().size());
-        System.out.println(" Inventory first: " + inventory);
-        System.out.println(" Siz of invoices: " + invoiceInventoryService.findAll().size());
-        System.out.println(" Siz of medicines: "+medicineService.findAll().size());
-        System.out.println(" Siz of suppliers: "+supplierService.findAll().size());
-        System.out.println(" Siz of pharmacists: "+pharmacistService.findAll().size());
+        LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
+        LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());
+        LOGGER.info(" Inventory first: " + inventory);
+        LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());
+        LOGGER.info(" Siz of medicines: " + medicineService.findAll().size());
+        LOGGER.info(" Siz of suppliers: " + supplierService.findAll().size());
+        LOGGER.info(" Siz of pharmacists: " + pharmacistService.findAll().size());
 
     }
 }

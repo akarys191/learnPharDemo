@@ -3,6 +3,8 @@ package com.pharm.demo.services.impl;
 import com.pharm.demo.model.Medicine;
 import com.pharm.demo.repositories.MedicineRepository;
 import com.pharm.demo.services.MedicineService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,8 @@ public class MedicineJpaService implements MedicineService {
 
     private final MedicineRepository medicineJpaRepository;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
     public MedicineJpaService(MedicineRepository medicineJpaRepository) {
         this.medicineJpaRepository = medicineJpaRepository;
     }
@@ -32,7 +36,6 @@ public class MedicineJpaService implements MedicineService {
         return this.medicineJpaRepository.searchTermFromName(term);
     }
 
-
     @Override
     public Medicine save(Medicine medicine) {
         return medicineJpaRepository.save(medicine);
@@ -40,7 +43,7 @@ public class MedicineJpaService implements MedicineService {
 
     @Override
     public Set<Medicine> findAll() {
-        System.out.println("ALL medicines  in JPA found@@@@@@@@ ");
+        LOGGER.info("ALL medicines  in JPA found@@@@@@@@ ");
         Set<Medicine> medicineSet = new HashSet<>();
         medicineJpaRepository.findAll().forEach(medicineSet::add);
 
