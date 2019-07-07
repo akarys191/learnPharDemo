@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -108,24 +109,20 @@ public class DataLoader implements CommandLineRunner {
         user.setFirstName("admin");
         user.setLastName("admin");
 
-        InvoiceInventory invoice = new InvoiceInventory(null, 100, 10000);
-        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000);
-        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300);
+        Inventory inventory = new Inventory(medicine,
+                supplier2, 100, 120.0, 100.0, LocalDateTime.now(), pharmacist);
+        Inventory inventory2 = new Inventory(medicine,
+                supplier3, 10, 220.0, 200.0, LocalDateTime.now(), pharmacist);
+        Inventory inventory3 = new Inventory(medicine,
+                supplier3, 1, 320.0, 300.0, LocalDateTime.now(), pharmacist);
+
+        InvoiceInventory invoice = new InvoiceInventory(null, 100, 10000, Arrays.asList(inventory));
+        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000, Arrays.asList(inventory2));
+        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300, Arrays.asList(inventory3));
 
         invoiceInventoryService.save(invoice);
         invoiceInventoryService.save(invoice2);
         invoiceInventoryService.save(invoice3);
-
-        Inventory inventory = new Inventory(null, medicine, invoice,
-                supplier2, 100, 120.0, 100.0, LocalDateTime.now(), pharmacist);
-        Inventory inventory2 = new Inventory(null, medicine, invoice2,
-                supplier3, 10, 220.0, 200.0, LocalDateTime.now(), pharmacist);
-        Inventory inventory3 = new Inventory(null, medicine, invoice3,
-                supplier3, 1, 320.0, 300.0, LocalDateTime.now(), pharmacist);
-
-        inventoryService.save(inventory);
-        inventoryService.save(inventory2);
-        inventoryService.save(inventory3);
 
         if (pharmUserService.findByUserName(user.getUserName()) == null) {
             pharmUserService.save(user);
