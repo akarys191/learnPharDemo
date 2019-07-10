@@ -119,7 +119,9 @@ public class DataLoader implements CommandLineRunner {
         InvoiceInventory invoice = new InvoiceInventory(null, 100, 10000, Arrays.asList(inventory));
         InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000, Arrays.asList(inventory2));
         InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300, Arrays.asList(inventory3));
-
+        inventory.setInvoice(invoice);
+        inventory2.setInvoice(invoice2);
+        inventory3.setInvoice(invoice3);
         invoiceInventoryService.save(invoice);
         invoiceInventoryService.save(invoice2);
         invoiceInventoryService.save(invoice3);

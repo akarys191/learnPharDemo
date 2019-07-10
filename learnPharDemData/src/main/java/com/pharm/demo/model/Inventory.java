@@ -21,9 +21,11 @@ public class Inventory extends AbstractEntity {
     private Long inventoryId;
     @ManyToOne
     private Medicine medicine;
+
     @ManyToOne
-    @JoinColumn(name = "invoiceId")
+    @JoinColumn(name = "INVOICE_ID")
     private InvoiceInventory invoice;
+
     @ManyToOne
     private Supplier supplier;
     private Integer quantity;
