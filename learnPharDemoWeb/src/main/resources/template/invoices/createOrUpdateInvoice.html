@@ -5,18 +5,82 @@
 
 <h2>Invoice</h2>
 <form th:object="${invoice}" class="form-horizontal" id="add-invoice-form" method="post">
-    <div class="form-group has-feedback">
 
-    </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 150px;">Id</th>
+                    <th style="width: 150px;"> medicine</th>
+                    <th style="width: 150px;"> invoice</th>
+                    <th style="width: 150px;"> supplier</th>
+                    <th style="width: 150px;"> price</th>
+                    <th style="width: 150px;"> suppliedCost</th>
+                    <th style="width: 150px;"> suppliedDate</th>
+                    <th style="width: 150px;"> Quantity</th>
+                    <th style="width: 150px;"> acceptingPharmacist</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inventory, iStat  : ${invoice.inventories}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td>
+                        <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
+                    </td>
+
+                    <td th:text="${inventory.medicine.id}">medicine</td>
+                    <td th:text="${inventory.invoice.id}">invoice</td>
+                    <td th:text="${inventory.supplier.name}">supplier</td>
+                    <td th:text="${inventory.price}">price</td>
+                    <td th:text="${inventory.suppliedCost}">suppliedCost</td>
+                    <td th:text="${inventory.suppliedDate}">suppliedDate</td>
+                    <td th:text="${inventory.quantity}">Quantity</td>
+                    <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+                </tr>
+                </tbody>
+                </tr>
+            </table>
             <button
-                    th:with="text=${invoice.id==null} ? 'Add invoice' : 'Update invoice'"
-                    class="btn btn-default" type="submit" th:text="${text}">Add
-                invoice
+                    th:with="text=${inventory.inventoryId==null} ? 'Add inventory' : 'Update inventory'"
+                    class="btn btn-default" type="submit" th:text="${text}">Add Inventory
             </button>
         </div>
     </div>
 </form>
+<script>
+		var modal = document.getElementById('myModal');
+		var btn = document.getElementById("myBtn");
+		var span = document.getElementsByClassName("close")[0];
+		btn.onclick = function() {
+			modal.style.display = "block";
+		}
+		span.onclick = function() {
+			modal.style.display = "none";
+		}
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+		//2
+		var searchModel = document.getElementById('mySearch');
+		var btn1 = document.getElementById("myBtn1");
+		var span1 = document.getElementsByClassName("close")[0];
+		btn1.onclick = function() {
+			searchModel.style.display = "block";
+		}
+		span1.onclick = function() {
+			searchModel.style.display = "none";
+		}
+		window.onclick = function(event) {
+			if (event.target == searchModel) {
+				searchModel.style.display = "none";
+			}
+		}
+
+
+</script>
 </body>
 </html>
