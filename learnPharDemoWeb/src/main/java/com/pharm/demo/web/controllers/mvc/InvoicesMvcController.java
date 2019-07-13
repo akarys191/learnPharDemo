@@ -1,6 +1,8 @@
 package com.pharm.demo.web.controllers.mvc;
 
+import com.pharm.demo.model.Inventory;
 import com.pharm.demo.model.InvoiceInventory;
+import com.pharm.demo.services.InventoryService;
 import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +25,15 @@ import java.util.stream.IntStream;
 public class InvoicesMvcController {
 
     private final InvoiceInventoryService invoiceService;
+    private final InventoryService inventoryService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
     private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoice";
+    private static final String VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoiceInventory";
 
-    public InvoicesMvcController(InvoiceInventoryService invoiceService) {
+    public InvoicesMvcController(InvoiceInventoryService invoiceService, InventoryService inventoryService) {
         this.invoiceService = invoiceService;
+        this.inventoryService = inventoryService;
     }
 
     @RequestMapping({"/invoices/", "/invoices", "invoices", "invoices.html", "invoices/"})
@@ -85,6 +89,13 @@ public class InvoicesMvcController {
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
+    @GetMapping({"/inventory/new"})
+    public String getNewInvoiceInventory(Model model) {
+        model.addAttribute("invoice", new InvoiceInventory());
+        model.addAttribute("inventory", new Inventory());
+        return VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM;
+    }
+
     @PostMapping("/new")
     public String processCreationForm(@Valid InvoiceInventory invoice, BindingResult result) {
         LOGGER.info("Post new is called! ");
@@ -95,6 +106,19 @@ public class InvoicesMvcController {
 
             InvoiceInventory savedInvoice = invoiceService.save(invoice);
             return "redirect:/invoices/" + savedInvoice.getId();
+        }
+    }
+
+    @PostMapping("/inventory/new")
+    public String processCreationForm(@Valid Inventory inventory, BindingResult result) {
+        LOGGER.info("Post new is called! ");
+
+        if (result.hasErrors()) {
+            return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
+        } else {
+
+            Inventory savedInventory = inventoryService.save(inventory);
+            return "redirect:/invoices/" + savedInventory.getInvoice().getId();
         }
     }
 

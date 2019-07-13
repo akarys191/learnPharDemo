@@ -38,14 +38,17 @@
                     <td th:text="${inventory.suppliedDate}">suppliedDate</td>
                     <td th:text="${inventory.quantity}">Quantity</td>
                     <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+                    <td>
+                        <a th:href="@{{id}/edit(id=${inventory.inventoryId})}" class="btn btn-default">Edit
+                            Inventory</a>
+                    </td>
                 </tr>
+
                 </tbody>
                 </tr>
             </table>
-            <button
-                    th:with="text=${inventory.inventoryId==null} ? 'Add inventory' : 'Update inventory'"
-                    class="btn btn-default" type="submit" th:text="${text}">Add Inventory
-            </button>
+            <a href="/invoices/inventory/new" class="btn btn-default">Add
+                Inventory</a>
         </div>
     </div>
 </form>
@@ -79,8 +82,6 @@
 				searchModel.style.display = "none";
 			}
 		}
-
-
 </script>
 </body>
 </html>
