@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,13 +23,14 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/invoices")
+@SessionAttributes("invoice")
 public class InvoicesMvcController {
 
     private final InvoiceInventoryService invoiceService;
     private final InventoryService inventoryService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoice";
+    private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "/invoices/createOrUpdateInvoice";
     private static final String VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoiceInventory";
 
     public InvoicesMvcController(InvoiceInventoryService invoiceService, InventoryService inventoryService) {
@@ -76,23 +78,25 @@ public class InvoicesMvcController {
     @GetMapping("/{id}")
     public ModelAndView showInvoice(@PathVariable("id") Long id) {
         LOGGER.info("Get /id is called! " + id);
-
-        ModelAndView mav = new ModelAndView("invoices/invoiceDetails");
-        mav.addObject(invoiceService.findById(id));
+        InvoiceInventory invoiceInventory = invoiceService.findById(id);
+        ModelAndView mav = new ModelAndView(VIEWS_INVOICE_CREATE_OR_UPDATE_FORM);
+        mav.addObject("invoice", invoiceInventory);
         return mav;
     }
 
     @GetMapping({"/new"})
     public String getNewInvoice(Model model) {
-        model.addAttribute("invoices", invoiceService.findAll());
-        model.addAttribute("invoice", new InvoiceInventory());
+        InvoiceInventory invoiceInventory = new InvoiceInventory();
+        invoiceInventory.setInventories(new ArrayList<>());
+        InvoiceInventory savedInvoice = invoiceService.save(invoiceInventory);
+        model.addAttribute("invoice", savedInvoice);
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
     @GetMapping({"/inventory/new"})
-    public String getNewInvoiceInventory(Model model) {
-        model.addAttribute("invoice", new InvoiceInventory());
-        model.addAttribute("inventory", new Inventory());
+    public String getNewInvoiceInventory(@ModelAttribute("invoice") InvoiceInventory invoiceInventory, Model model) {
+        Inventory inventory = new Inventory();
+        model.addAttribute("inventory", inventory);
         return VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
 
@@ -103,22 +107,25 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-
             InvoiceInventory savedInvoice = invoiceService.save(invoice);
             return "redirect:/invoices/" + savedInvoice.getId();
         }
     }
 
     @PostMapping("/inventory/new")
-    public String processCreationForm(@Valid Inventory inventory, BindingResult result) {
+    public String processCreationForm(@Valid Inventory inventory,
+                                      @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
+                                      Model model, BindingResult result) {
         LOGGER.info("Post new is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-
-            Inventory savedInventory = inventoryService.save(inventory);
-            return "redirect:/invoices/" + savedInventory.getInvoice().getId();
+            invoiceInventory.getInventories().add(inventory);
+            inventory.setInvoice(invoiceInventory);
+            inventoryService.save(inventory);
+            invoiceService.save(invoiceInventory);
+            return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         }
     }
 
@@ -126,6 +133,29 @@ public class InvoicesMvcController {
     public String initUpdateInvoiceForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("invoice", invoiceService.findById(id));
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
+    }
+
+    @GetMapping("/editInventory/{index}")
+    public String initUpdateInvoiceInventoryForm(@PathVariable("index") Integer index,
+                                                 @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
+                                                 Model model) {
+        model.addAttribute("inventory", invoiceInventory.getInventories().get(index));
+        return VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/editInventory/{index}")
+    public String processUpdateInvoiceInventoryForm(@Valid Inventory inventory,
+                                                    @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
+                                                    BindingResult result, @PathVariable("index") Integer index) {
+        LOGGER.info("Post {id}/editInventory is called!");
+
+        if (result.hasErrors()) {
+            return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
+        } else {
+            invoiceInventory.getInventories().set(index, inventory);
+            invoiceService.save(invoiceInventory);
+            return "redirect:/invoices/" + invoiceInventory.getId() + "/edit";
+        }
     }
 
     @PostMapping("/{id}/edit")

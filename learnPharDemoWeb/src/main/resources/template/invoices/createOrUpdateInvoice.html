@@ -30,7 +30,7 @@
                         <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
                     </td>
 
-                    <td th:text="${inventory.medicine.id}">medicine</td>
+                    <td th:text="${inventory.medicine.name}">medicine</td>
                     <td th:text="${inventory.invoice.id}">invoice</td>
                     <td th:text="${inventory.supplier.name}">supplier</td>
                     <td th:text="${inventory.price}">price</td>
@@ -39,7 +39,7 @@
                     <td th:text="${inventory.quantity}">Quantity</td>
                     <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
                     <td>
-                        <a th:href="@{{id}/edit(id=${inventory.inventoryId})}" class="btn btn-default">Edit
+                        <a th:href="@{/invoices/editInventory/{index}(index=${iStat.index})}" class="btn btn-default">Edit
                             Inventory</a>
                     </td>
                 </tr>

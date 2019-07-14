@@ -29,6 +29,8 @@
                 </div>
             </div>
         </div>
+        <input type="hidden"
+               th:field="*{invoice}" th:value="${invoice}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
         <input

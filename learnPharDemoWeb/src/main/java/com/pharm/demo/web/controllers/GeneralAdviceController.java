@@ -1,17 +1,24 @@
-package com.pharm.demo.web.controllers.mvc;
+package com.pharm.demo.web.controllers;
 
 import com.pharm.demo.model.Pharmacist;
 import com.pharm.demo.model.Supplier;
 import com.pharm.demo.services.MedicineService;
 import com.pharm.demo.services.PharmacistService;
 import com.pharm.demo.services.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @ControllerAdvice
 public class GeneralAdviceController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private final MedicineService medicineService;
     private final SupplierService supplierService;
@@ -22,6 +29,18 @@ public class GeneralAdviceController {
         this.medicineService = medicineService;
         this.supplierService = supplierService;
         this.pharmacistService = pharmacistService;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        LOGGER.error("Request: " + req.getRequestURL() + " raised  ", ex);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("errMsg", ex);
+        mav.addObject("stackTra", ex);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("errorView");
+        return mav;
     }
 
     @ModelAttribute("suppliers")
