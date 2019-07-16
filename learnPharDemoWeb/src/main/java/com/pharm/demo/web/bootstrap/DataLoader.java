@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
+
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -110,18 +112,19 @@ public class DataLoader implements CommandLineRunner {
         user.setLastName("admin");
 
         Inventory inventory = new Inventory(medicine,
-                supplier2, 100, 120.0, 100.0, LocalDateTime.now(), pharmacist);
+                supplier2, 100, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
         Inventory inventory2 = new Inventory(medicine,
-                supplier3, 10, 220.0, 200.0, LocalDateTime.now(), pharmacist);
+                supplier3, 10, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
         Inventory inventory3 = new Inventory(medicine,
-                supplier3, 1, 320.0, 300.0, LocalDateTime.now(), pharmacist);
+                supplier3, 1, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
 
-        InvoiceInventory invoice = new InvoiceInventory(null, 100, 10000, Arrays.asList(inventory));
-        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000, Arrays.asList(inventory2));
-        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300, Arrays.asList(inventory3));
+        InvoiceInventory invoice = new InvoiceInventory(null, 100, 1000.0, Arrays.asList(inventory));
+        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000.0, Arrays.asList(inventory2));
+        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300.0, Arrays.asList(inventory3));
         inventory.setInvoice(invoice);
         inventory2.setInvoice(invoice2);
         inventory3.setInvoice(invoice3);
+
         invoiceInventoryService.save(invoice);
         invoiceInventoryService.save(invoice2);
         invoiceInventoryService.save(invoice3);
@@ -134,7 +137,6 @@ public class DataLoader implements CommandLineRunner {
 
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
         LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());
-        LOGGER.info(" Inventory first: " + inventory);
         LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());
         LOGGER.info(" Siz of medicines: " + medicineService.findAll().size());
         LOGGER.info(" Siz of suppliers: " + supplierService.findAll().size());

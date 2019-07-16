@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.pharm.demo.web.util.InvoiceInventoryUtil.*;
+
 @Controller
 @RequestMapping("/invoices")
 @SessionAttributes("invoice")
@@ -122,7 +124,13 @@ public class InvoicesMvcController {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
             invoiceInventory.getInventories().add(inventory);
+            invoiceInventory.setNumberOfPaidMed(increaseNumberOfPaid(invoiceInventory.getNumberOfPaidMed()));
+
+            Double calculatedPaidSum = calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity());
+
+            invoiceInventory.setPaidSum(increasePaidSum(invoiceInventory.getPaidSum(), calculatedPaidSum));
             inventory.setInvoice(invoiceInventory);
+
             inventoryService.save(inventory);
             invoiceService.save(invoiceInventory);
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;

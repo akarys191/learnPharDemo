@@ -14,14 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceInventory extends AbstractEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_inventory_id_generator")
-        @SequenceGenerator(name="invoice_inventory_id_generator", sequenceName = "invoice_inventory_id_seq", allocationSize=50)
-        private Long id;
-        private Integer numberOfPaidMed;
-        private Integer paidSum;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_inventory_id_generator")
+    @SequenceGenerator(name = "invoice_inventory_id_generator", sequenceName = "invoice_inventory_id_seq", allocationSize = 50)
+    private Long id;
+    private Integer numberOfPaidMed = 0;
+    private Double paidSum = 0.0;
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice",
-                cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<Inventory> inventories;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inventory> inventories;
 }

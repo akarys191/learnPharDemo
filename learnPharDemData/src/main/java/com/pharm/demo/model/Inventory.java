@@ -30,6 +30,7 @@ public class Inventory extends AbstractEntity {
     private Supplier supplier;
     private Integer quantity;
     private Double price;
+    private Double markup;
     private Double suppliedCost;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -37,11 +38,14 @@ public class Inventory extends AbstractEntity {
     @ManyToOne
     private Pharmacist acceptingPharmacist;
 
+    public static Double DEFAULT_MARKUP = 0.2;
+
     public Inventory(Medicine medicine, Supplier supplier, Integer quantity,
-                     Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
+                     Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
         this.medicine = medicine;
         this.supplier = supplier;
         this.quantity = quantity;
+        this.markup = markup;
         this.price = price;
         this.suppliedCost = suppliedCost;
         this.suppliedDate = suppliedDate;
