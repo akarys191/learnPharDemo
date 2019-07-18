@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePaidSum;
 import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
 
 @Component
@@ -118,9 +119,9 @@ public class DataLoader implements CommandLineRunner {
         Inventory inventory3 = new Inventory(medicine,
                 supplier3, 1, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
 
-        InvoiceInventory invoice = new InvoiceInventory(null, 100, 1000.0, Arrays.asList(inventory));
-        InvoiceInventory invoice2 = new InvoiceInventory(null, 10, 2000.0, Arrays.asList(inventory2));
-        InvoiceInventory invoice3 = new InvoiceInventory(null, 1, 300.0, Arrays.asList(inventory3));
+        InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
+        InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));
+        InvoiceInventory invoice3 = new InvoiceInventory(null, calculatePaidSum(inventory3.getSuppliedCost(), inventory3.getQuantity()), supplier4, Arrays.asList(inventory3));
         inventory.setInvoice(invoice);
         inventory2.setInvoice(invoice2);
         inventory3.setInvoice(invoice3);

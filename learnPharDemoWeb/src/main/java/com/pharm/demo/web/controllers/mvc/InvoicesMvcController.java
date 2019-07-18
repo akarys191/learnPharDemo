@@ -21,7 +21,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.pharm.demo.web.util.InvoiceInventoryUtil.*;
+import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePaidSum;
+import static com.pharm.demo.web.util.InvoiceInventoryUtil.increasePaidSum;
 
 @Controller
 @RequestMapping("/invoices")
@@ -124,7 +125,6 @@ public class InvoicesMvcController {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
             invoiceInventory.getInventories().add(inventory);
-            invoiceInventory.setNumberOfPaidMed(increaseNumberOfPaid(invoiceInventory.getNumberOfPaidMed()));
 
             Double calculatedPaidSum = calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity());
 

@@ -14,7 +14,9 @@
     <thead>
     <tr>
         <th style="width: 150px;"> Id</th>
-        <th style="width: 150px;"> Number of</th>
+        <th style="width: 150px;"> Supplier</th>
+        <th style="width: 150px;"> Number of inventories</th>
+        <th style="width: 150px;"> Paid sum</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +26,9 @@
         <td>
             <a th:href="@{/invoices/__${invoice.id}__}" th:text="${invoice.id}"/></a>
         </td>
-        <td th:text="${invoice.numberOfPaidMed}">Number of paid inventory</td>
+        <td th:text="${invoice.supplier.name}">Supplier</td>
+        <td th:text="${invoice.inventories.size()}">Number of inventory</td>
+        <td th:text="${invoice.paidSum}">Paid sum</td>
     </tr>
     </tbody>
     </tr>
