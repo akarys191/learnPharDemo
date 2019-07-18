@@ -8,6 +8,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @MappedSuperclass
 public class Company extends CommonProperties {
+    private Long bin;
     private String address;
     private String contactNumber;
     private String email;

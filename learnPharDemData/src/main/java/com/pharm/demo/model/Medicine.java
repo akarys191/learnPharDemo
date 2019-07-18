@@ -18,4 +18,10 @@ public class Medicine extends CommonProperties {
     private Long id;
     @ManyToOne
     private CategoryMed category;
+
+    @ManyToOne
+    private Country country;
+    @ManyToOne
+    private Manufacturer manufacturer;
+    private Integer numberOfPlates = 0;
 }
