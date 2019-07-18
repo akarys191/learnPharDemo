@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'invoices')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+<body>
+<b>
+    <a th:href="@{/invoices/new}"/>create new invoice</a>
+</b>
+<br/>
+<h2 th:text="'List of Invoices'">Invoices List</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;"> Id</th>
+        <th style="width: 150px;"> Supplier</th>
+        <th style="width: 150px;"> Number of inventories</th>
+        <th style="width: 150px;"> Paid sum</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invoice, iStat  : ${invoicePage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td>
+            <a th:href="@{/invoices/__${invoice.id}__}" th:text="${invoice.id}"/></a>
+        </td>
+        <td th:text="${invoice.supplier.name}">Supplier</td>
+        <td th:text="${invoice.inventories.size()}">Number of inventory</td>
+        <td th:text="${invoice.paidSum}">Paid sum</td>
+    </tr>
+    </tbody>
+    </tr>
+</table>
+<div th:if="${invoicePage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/invoices/listInvoices(size=${invoicePage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==invoicePage.number + 1} ? active"></a>
+</div>
+</body>
+</html>

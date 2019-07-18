@@ -46,7 +46,6 @@
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     <span>Find Medicines</span>
                 </li>
-
                 <li th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list','Suppliers')">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                     <span>Suppliers</span>
@@ -56,10 +55,13 @@
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                     <span>Inventory</span>
                 </li>
-
-                        <li th:replace="::menuItem ('/oups','error','trigger a RuntimeException to see how it is handled','warning-sign','Error')">
+                <li th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list','Invoices')">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    <span>Invoices</span>
+                </li>
+                <li th:replace="::menuItem ('/oups','Sales','Sales','Sales','Sales')">
                     <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-                    <span>Error</span>
+                    <span>Sales</span>
                 </li>
                 <li>
                     <div class="dropdown" style="margin-top:0px; margin-left:150px;">

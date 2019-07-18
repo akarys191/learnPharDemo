@@ -1,3 +1,4 @@
+<!--
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layoutForSearch :: layout (~{::body},'inventory')}">
 
@@ -9,13 +10,13 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 
-<form th:object="${inventory}" class="form-horizontal" id="add-inventory-form" method="post">
+<form th:object="${invoice}" class="form-horizontal" id="add-invoice-form" method="post">
 
     <div class="form-group has-feedback">
         <input
-                type="hidden" name="inventoryId" th:field="*{inventoryId}" th:value="${inventoryId}"/>
+                type="hidden" name="invoiceId" th:field="*{id}" th:value="${id}"/>
         <input
-                id="medicineIdInput" type="hidden" name="medicine" th:field="*{medicine}" value=""/>
+                id="medicineIdInput" type="hidden" name="medicine" th:field="*{invoice.inventory.medicine}" value=""/>
         <select
                 th:replace="~{fragments/selectField :: select ('Suppliers', 'supplier',  ${suppliers})}"/>
         <select
@@ -30,7 +31,7 @@
             </div>
         </div>
         <input
-                th:replace="~{fragments/inputField :: input ('Invoice', 'invoice.id', 'text')}"/>
+                th:replace="~{fragments/inputField :: input ('Invoice', 'invoice.invoiceId', 'text')}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
         <input
@@ -44,9 +45,9 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${inventory.inventoryId==null} ? 'Add inventory' : 'Update inventory'"
+                    th:with="text=${invoice.id==null} ? 'Add invoice' : 'Update invoice'"
                     class="btn btn-default" type="submit" th:text="${text}">Add
-                Inventory
+                invoice
             </button>
         </div>
     </div>
@@ -100,6 +101,7 @@
     });
 });
 </script>
-<!--<script th:src="@{/js/search.js}"></script>-->
+&lt;!&ndash;<script th:src="@{/js/search.js}"></script>&ndash;&gt;
 </body>
 </html>
+-->

@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layoutForSearch :: layout (~{::body},'inventory')}">
+      th:replace="~{fragments/layoutForSearch :: layout (~{::body},'invoices')}">
 
 <body>
-<h2>Inventory</h2>
+<h2>Invoice Inventory</h2>
 
 <head>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -29,8 +29,8 @@
                 </div>
             </div>
         </div>
-        <input
-                th:replace="~{fragments/inputField :: input ('Invoice', 'invoice.id', 'text')}"/>
+        <input type="hidden"
+               th:field="*{invoice}" th:value="${invoice}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
         <input
@@ -58,6 +58,7 @@
 	function inputBlur(i){
 		if(i.value==""){ i.value=i.defaultValue; i.style.color="#848484"; }
 	}
+
 
 </script>
 <script type="text/javascript">
@@ -99,7 +100,7 @@
         }
     });
 });
+
 </script>
-<!--<script th:src="@{/js/search.js}"></script>-->
 </body>
 </html>

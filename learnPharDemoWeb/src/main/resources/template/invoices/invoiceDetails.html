@@ -1,0 +1,38 @@
+<!--
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'suppliers')}">
+
+  <body>
+  
+  
+    <h2>Supplier Information</h2>
+  
+  
+    <table class="table table-striped" th:object="${supplier}">
+      <tr>
+        <th>Name</th>
+        <td th:text="*{name}" /></td>
+      </tr>
+      <tr>
+        <th>Contact Number</th>
+        <td th:text="*{contactNumber}" /></td>
+      </tr>
+       <tr>
+        <th>Address</th>
+            <td th:text="*{address}" /></td>
+        </tr>
+    </table>
+
+    <a th:href="@{{id}/edit(id=${supplier.id})}" class="btn btn-default">Edit
+      Supplier</a>
+  
+    <br />
+    <br />
+    <br />
+  
+  </body>
+
+</html>
+-->
