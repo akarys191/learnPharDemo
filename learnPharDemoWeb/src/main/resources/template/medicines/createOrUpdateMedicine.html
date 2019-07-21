@@ -10,6 +10,12 @@
                 type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+        <input
+                th:replace="~{fragments/inputField :: input ('Number of plates', 'numberOfPlates', 'text')}"/>
+        <select
+                th:replace="~{fragments/selectField :: select ('Countries', 'country',  ${countries})}"/>
+        <select
+                th:replace="~{fragments/selectField :: select ('Manufacturers', 'manufacturer',  ${manufacturers})}"/>
         <select
                 th:replace="~{fragments/selectField :: select ('Category', 'category',  ${categories})}"/>
     </div>

@@ -24,6 +24,8 @@ public class DataLoader implements CommandLineRunner {
     private  final PharmacistService pharmacistService;
     private  final PharmUserService pharmUserService;
     private  final CategoryMedRepository categoryMedRepository;
+    private final ManufacturerService manufacturerService;
+    private final CountryService countryService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -31,6 +33,7 @@ public class DataLoader implements CommandLineRunner {
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
                       CategoryMedRepository categoryMedRepository, InventoryService inventoryService,
+                      CountryService countryService, ManufacturerService manufacturerService,
                       InvoiceInventoryService invoiceInventoryService) {
         this.inventoryService = inventoryService;
         this.invoiceInventoryService = invoiceInventoryService;
@@ -39,103 +42,121 @@ public class DataLoader implements CommandLineRunner {
         this.pharmacistService = pharmacistService;
         this.pharmUserService = pharmUserService;
         this.categoryMedRepository = categoryMedRepository;
+        this.manufacturerService = manufacturerService;
+        this.countryService = countryService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i=0;i<1;i++) {
-            Supplier supplier = new Supplier();
-            supplier.setName("Astana"+i);
-            supplier.setContactNumber("8777555221"+i);
-            supplier.setEmail("astana@gmail.com"+i);
-            supplierService.save(supplier);
+        if (this.isEmpty()) {
+            for (int i = 0; i < 5; i++) {
+                Supplier supplier = new Supplier();
+                supplier.setName("Supplier" + i);
+                supplier.setContactNumber("8777555221" + i);
+                supplier.setEmail("astana@gmail.com" + i);
+                supplierService.save(supplier);
+            }
+
+            for (int i = 0; i < 5; i++) {
+                Country country = new Country();
+                country.setName("Country" + i);
+                country.setFullName("CountryFullName" + i);
+                countryService.save(country);
+            }
+
+            for (int i = 0; i < 5; i++) {
+                Manufacturer manufacturer = new Manufacturer();
+                manufacturer.setName("Manufacturer" + i);
+                manufacturer.setContactNumber("8777555221" + i);
+                manufacturer.setEmail("manufacturer@gmail.com" + i);
+                manufacturerService.save(manufacturer);
+            }
+
+
+            Supplier supplier2 = new Supplier();
+            supplier2.setName("Astana2");
+            supplier2.setContactNumber("8777555222");
+            supplier2.setEmail("astana2@gmail.com");
+            supplierService.save(supplier2);
+
+            Supplier supplier3 = new Supplier();
+            supplier3.setName("Astana3");
+            supplier3.setContactNumber("8777555223");
+            supplier3.setEmail("astana3@gmail.com");
+            supplierService.save(supplier3);
+
+            Supplier supplier4 = new Supplier();
+            supplier4.setName("Astana4");
+            supplier4.setContactNumber("8777555224");
+            supplier4.setEmail("astana4@gmail.com");
+            supplierService.save(supplier4);
+
+            Medicine medicine = new Medicine();
+            CategoryMed cardioMed = new CategoryMed();
+            cardioMed.setName("Cardio");
+            cardioMed.setName("Cardio vuscular");
+            categoryMedRepository.save(cardioMed);
+
+            medicine.setCategory(cardioMed);
+            medicine.setName("Paracetomol");
+            medicineService.save(medicine);
+
+            Medicine medicine2 = new Medicine();
+            CategoryMed brainMed = new CategoryMed();
+            brainMed.setName("Brain vuscular");
+            categoryMedRepository.save(brainMed);
+
+            medicine2.setCategory(brainMed);
+            medicine2.setName("Paracetomol2");
+            medicineService.save(medicine2);
+
+            Medicine medicine3 = new Medicine();
+            medicine3.setCategory(cardioMed);
+            medicine3.setName("Paracetomol3");
+            medicineService.save(medicine3);
+
+            Pharmacist pharmacist = new Pharmacist();
+            pharmacist.setFirstName("Aidana");
+            pharmacist.setLastName("Kassimova");
+            pharmacist.setUserName("aidana");
+            pharmacistService.save(pharmacist);
+
+            Pharmacist pharmacist2 = new Pharmacist();
+            pharmacist2.setFirstName("Aidana");
+            pharmacist2.setLastName("Kassimova");
+            pharmacistService.save(pharmacist2);
+
+            PharmUser user = new PharmUser();
+            user.setUserName("admin");
+            user.setPassword("admin");
+            user.setRoles("ADMIN");
+            user.setFirstName("admin");
+            user.setLastName("admin");
+
+            Inventory inventory = new Inventory(medicine,
+                    supplier2, 100, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
+            Inventory inventory2 = new Inventory(medicine,
+                    supplier3, 10, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
+            Inventory inventory3 = new Inventory(medicine,
+                    supplier3, 1, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
+
+            InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
+            InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));
+            InvoiceInventory invoice3 = new InvoiceInventory(null, calculatePaidSum(inventory3.getSuppliedCost(), inventory3.getQuantity()), supplier4, Arrays.asList(inventory3));
+            inventory.setInvoice(invoice);
+            inventory2.setInvoice(invoice2);
+            inventory3.setInvoice(invoice3);
+
+            invoiceInventoryService.save(invoice);
+            invoiceInventoryService.save(invoice2);
+            invoiceInventoryService.save(invoice3);
+
+            if (pharmUserService.findByUserName(user.getUserName()) == null) {
+                pharmUserService.save(user);
+            } else {
+                LOGGER.info("Such user: " + user.getUserName() + " exists already!!!!");
+            }
         }
-
-
-        Supplier supplier2 = new Supplier();
-        supplier2.setName("Astana2");
-        supplier2.setContactNumber("8777555222");
-        supplier2.setEmail("astana2@gmail.com");
-        supplierService.save(supplier2);
-
-        Supplier supplier3 = new Supplier();
-        supplier3.setName("Astana3");
-        supplier3.setContactNumber("8777555223");
-        supplier3.setEmail("astana3@gmail.com");
-        supplierService.save(supplier3);
-
-        Supplier supplier4 = new Supplier();
-        supplier4.setName("Astana4");
-        supplier4.setContactNumber("8777555224");
-        supplier4.setEmail("astana4@gmail.com");
-        supplierService.save(supplier4);
-
-        Medicine medicine = new Medicine();
-        CategoryMed cardioMed = new CategoryMed();
-        cardioMed.setName("Cardio");
-        cardioMed.setName("Cardio vuscular");
-        categoryMedRepository.save(cardioMed);
-
-        medicine.setCategory(cardioMed);
-        medicine.setName("Paracetomol");
-        medicineService.save(medicine);
-
-        Medicine medicine2 =  new Medicine();
-        CategoryMed brainMed = new CategoryMed();
-        brainMed.setName("Brain vuscular");
-        categoryMedRepository.save(brainMed);
-
-        medicine2.setCategory(brainMed);
-        medicine2.setName("Paracetomol2");
-        medicineService.save(medicine2);
-
-        Medicine medicine3 = new Medicine();
-        medicine3.setCategory(cardioMed);
-        medicine3.setName("Paracetomol3");
-        medicineService.save(medicine3);
-
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist.setFirstName("Aidana");
-        pharmacist.setLastName("Kassimova");
-        pharmacist.setUserName("aidana");
-        pharmacistService.save(pharmacist);
-
-        Pharmacist pharmacist2 = new Pharmacist();
-        pharmacist2.setFirstName("Aidana");
-        pharmacist2.setLastName("Kassimova");
-        pharmacistService.save(pharmacist2);
-
-        PharmUser user = new PharmUser();
-        user.setUserName("admin");
-        user.setPassword("admin");
-        user.setRoles("ADMIN");
-        user.setFirstName("admin");
-        user.setLastName("admin");
-
-        Inventory inventory = new Inventory(medicine,
-                supplier2, 100, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
-        Inventory inventory2 = new Inventory(medicine,
-                supplier3, 10, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
-        Inventory inventory3 = new Inventory(medicine,
-                supplier3, 1, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
-
-        InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
-        InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));
-        InvoiceInventory invoice3 = new InvoiceInventory(null, calculatePaidSum(inventory3.getSuppliedCost(), inventory3.getQuantity()), supplier4, Arrays.asList(inventory3));
-        inventory.setInvoice(invoice);
-        inventory2.setInvoice(invoice2);
-        inventory3.setInvoice(invoice3);
-
-        invoiceInventoryService.save(invoice);
-        invoiceInventoryService.save(invoice2);
-        invoiceInventoryService.save(invoice3);
-
-        if (pharmUserService.findByUserName(user.getUserName()) == null) {
-            pharmUserService.save(user);
-        } else {
-            LOGGER.info("Such user: " + user.getUserName() + " exists already!!!!");
-        }
-
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
         LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());
         LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());
@@ -143,5 +164,11 @@ public class DataLoader implements CommandLineRunner {
         LOGGER.info(" Siz of suppliers: " + supplierService.findAll().size());
         LOGGER.info(" Siz of pharmacists: " + pharmacistService.findAll().size());
 
+    }
+
+    private boolean isEmpty() {
+        return categoryMedRepository.findAll().isEmpty() || invoiceInventoryService.findAll().isEmpty() || invoiceInventoryService.findAll().isEmpty() ||
+                medicineService.findAll().isEmpty() || supplierService.findAll().isEmpty() || pharmUserService.findAll().isEmpty() ||
+                countryService.findAll().isEmpty() || manufacturerService.findAll().isEmpty() || pharmUserService.findAll().isEmpty();
     }
 }
