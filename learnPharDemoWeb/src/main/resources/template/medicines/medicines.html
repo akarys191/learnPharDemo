@@ -15,6 +15,7 @@
     <tr>
         <th style="width: 150px;">Id</th>
         <th style="width: 150px;"> Name</th>
+        <th style="width: 150px;"> Country</th>
         <th style="width: 150px;">Category</th>
     </tr>
     </thead>
@@ -26,7 +27,8 @@
         <td>
             <a th:href="@{/medicines/__${medicine.id}__}" th:text="${medicine.name}"/></a>
         </td>
-        <td th:text="${medicine.category.name}">Category</td>
+           <td th:text="${medicine.country.name}">Country</td>
+           <td th:text="${medicine.category.name}">Category</td>
     </tr>
     </tbody>
     </tr>

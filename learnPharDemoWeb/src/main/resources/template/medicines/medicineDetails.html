@@ -12,9 +12,24 @@
         <td th:text="*{name}" /></td>
       </tr>
       <tr>
-        <th>Category</th>
-        <td th:text="*{category.name}" /></td>
+          <th>Country</th>
+          <td th:text="*{country.name}"/>
+          </td>
       </tr>
+        <tr>
+            <th>Manufacturer</th>
+            <td th:text="*{manufacturer.name}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Number of plates</th>
+            <td th:text="*{numberOfPlates}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td th:text="*{category.name}" /></td>
+        </tr>
     </table>
 
     <a th:href="@{{id}/edit(id=${medicine.id})}" class="btn btn-default">Edit

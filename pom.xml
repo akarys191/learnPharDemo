@@ -53,12 +53,6 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>compile</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.7</version>
-		</dependency>
 		<dependency>
 			<groupId>org.junit.contrib</groupId>
 			<artifactId>junit-theories</artifactId>

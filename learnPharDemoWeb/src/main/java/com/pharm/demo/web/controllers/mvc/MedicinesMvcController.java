@@ -1,8 +1,12 @@
 package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.CategoryMed;
+import com.pharm.demo.model.Country;
+import com.pharm.demo.model.Manufacturer;
 import com.pharm.demo.model.Medicine;
 import com.pharm.demo.services.CategoryMedService;
+import com.pharm.demo.services.CountryService;
+import com.pharm.demo.services.ManufacturerService;
 import com.pharm.demo.services.MedicineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +31,18 @@ import java.util.stream.IntStream;
 public class MedicinesMvcController {
     private final MedicineService medicineService;
     private final CategoryMedService categoryMedService;
+    private final CountryService countryService;
+    private final ManufacturerService manufacturerService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private static final String VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM = "medicines/createOrUpdateMedicine";
 
-    public MedicinesMvcController(MedicineService medicineService, CategoryMedService categoryMedService) {
+    public MedicinesMvcController(MedicineService medicineService, CategoryMedService categoryMedService, CountryService countryService, ManufacturerService manufacturerService) {
         this.medicineService = medicineService;
         this.categoryMedService = categoryMedService;
+        this.countryService = countryService;
+        this.manufacturerService = manufacturerService;
     }
 
     @RequestMapping({"/medicines/","/medicines","medicines","medicines.html","medicines/"})
@@ -118,6 +126,18 @@ public class MedicinesMvcController {
     public Set<CategoryMed> getCategories() {
         Set<CategoryMed> categoryMedSet = categoryMedService.findAll();
         return categoryMedSet;
+    }
+
+    @ModelAttribute("countries")
+    public Set<Country> getCountries() {
+        Set<Country> countrySet = countryService.findAll();
+        return countrySet;
+    }
+
+    @ModelAttribute("manufacturers")
+    public Set<Manufacturer> getManufacturers() {
+        Set<Manufacturer> manufacturerSet = manufacturerService.findAll();
+        return manufacturerSet;
     }
 
     @PostMapping("/{id}/edit")

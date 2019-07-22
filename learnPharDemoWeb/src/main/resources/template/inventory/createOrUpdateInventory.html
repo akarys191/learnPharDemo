@@ -1,13 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layoutForSearch :: layout (~{::body},'inventory')}">
+      th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
 
 <body>
 <h2>Inventory</h2>
 
-<head>
+<!--<head>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-</head>
+</head>-->
 
 <form th:object="${inventory}" class="form-horizontal" id="add-inventory-form" method="post">
 
