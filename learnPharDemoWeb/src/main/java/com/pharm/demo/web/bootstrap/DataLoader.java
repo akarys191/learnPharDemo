@@ -9,7 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePaidSum;
 import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
@@ -48,6 +50,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        List<Country> countries = new ArrayList<>();
+        List<Manufacturer> manufacturers = new ArrayList<>();
         if (this.isEmpty()) {
             for (int i = 0; i < 5; i++) {
                 Supplier supplier = new Supplier();
@@ -62,6 +66,8 @@ public class DataLoader implements CommandLineRunner {
                 country.setName("Country" + i);
                 country.setFullName("CountryFullName" + i);
                 countryService.save(country);
+                countries.add(country);
+
             }
 
             for (int i = 0; i < 5; i++) {
@@ -70,6 +76,8 @@ public class DataLoader implements CommandLineRunner {
                 manufacturer.setContactNumber("8777555221" + i);
                 manufacturer.setEmail("manufacturer@gmail.com" + i);
                 manufacturerService.save(manufacturer);
+                manufacturers.add(manufacturer);
+
             }
 
 
@@ -99,6 +107,8 @@ public class DataLoader implements CommandLineRunner {
 
             medicine.setCategory(cardioMed);
             medicine.setName("Paracetomol");
+            medicine.setCountry(countries.get(0));
+            medicine.setManufacturer(manufacturers.get(0));
             medicineService.save(medicine);
 
             Medicine medicine2 = new Medicine();
@@ -108,11 +118,15 @@ public class DataLoader implements CommandLineRunner {
 
             medicine2.setCategory(brainMed);
             medicine2.setName("Paracetomol2");
+            medicine2.setCountry(countries.get(1));
+            medicine2.setManufacturer(manufacturers.get(1));
             medicineService.save(medicine2);
 
             Medicine medicine3 = new Medicine();
             medicine3.setCategory(cardioMed);
             medicine3.setName("Paracetomol3");
+            medicine3.setCountry(countries.get(2));
+            medicine3.setManufacturer(manufacturers.get(2));
             medicineService.save(medicine3);
 
             Pharmacist pharmacist = new Pharmacist();
