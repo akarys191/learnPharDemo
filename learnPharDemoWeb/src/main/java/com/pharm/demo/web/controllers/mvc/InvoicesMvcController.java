@@ -91,8 +91,7 @@ public class InvoicesMvcController {
     public String getNewInvoice(Model model) {
         InvoiceInventory invoiceInventory = new InvoiceInventory();
         invoiceInventory.setInventories(new ArrayList<>());
-        InvoiceInventory savedInvoice = invoiceService.save(invoiceInventory);
-        model.addAttribute("invoice", savedInvoice);
+        model.addAttribute("invoice", invoiceInventory);
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -130,9 +129,8 @@ public class InvoicesMvcController {
 
             invoiceInventory.setPaidSum(increasePaidSum(invoiceInventory.getPaidSum(), calculatedPaidSum));
             inventory.setInvoice(invoiceInventory);
-
-            inventoryService.save(inventory);
             invoiceService.save(invoiceInventory);
+            inventoryService.save(inventory);
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         }
     }

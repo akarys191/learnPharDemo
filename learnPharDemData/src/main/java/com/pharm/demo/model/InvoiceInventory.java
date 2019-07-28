@@ -19,6 +19,7 @@ public class InvoiceInventory extends AbstractEntity {
     @SequenceGenerator(name = "invoice_inventory_id_generator", sequenceName = "invoice_inventory_id_seq", allocationSize = 50)
     private Long id;
     private Double paidSum = 0.0;
+
     @ManyToOne
     private Supplier supplier;
 
