@@ -28,7 +28,7 @@ public class Inventory extends AbstractEntity {
 
     @ManyToOne
     private Supplier supplier;
-    private Integer quantity;
+    private Double quantity;
     private Double price;
     private Double markup;
     private Double suppliedCost;
@@ -40,7 +40,7 @@ public class Inventory extends AbstractEntity {
 
     public static Double DEFAULT_MARKUP = 0.2;
 
-    public Inventory(Medicine medicine, Supplier supplier, Integer quantity,
+    public Inventory(Medicine medicine, Supplier supplier, Double quantity,
                      Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
         this.medicine = medicine;
 

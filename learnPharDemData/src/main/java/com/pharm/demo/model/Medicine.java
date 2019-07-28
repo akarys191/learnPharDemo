@@ -19,6 +19,8 @@ public class Medicine extends CommonProperties {
     @ManyToOne
     private CategoryMed category;
 
+    private String barCode;
+
     @ManyToOne
     private Country country;
     @ManyToOne

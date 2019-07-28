@@ -6836,7 +6836,7 @@ strong {
   height: 3px;
 }
 .dropbtn {
-  background: url("../images/logo.png") -3px -3px no-repeat;
+  background: url("../resources/images/logo.png") -3px -3px no-repeat;
   color: white;
   padding: 16px;
   font-size: 16px;
