@@ -31,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
+    private Boolean load = false;
 
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
@@ -52,7 +53,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         List<Country> countries = new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();
-        if (this.isEmpty()) {
+        if (this.isEmpty() || load) {
             for (int i = 0; i < 5; i++) {
                 Supplier supplier = new Supplier();
                 supplier.setName("Supplier" + i);
@@ -107,12 +108,14 @@ public class DataLoader implements CommandLineRunner {
 
             medicine.setCategory(cardioMed);
             medicine.setName("Paracetomol");
+            medicine.setBarCode("11111111111111");
             medicine.setCountry(countries.get(0));
             medicine.setManufacturer(manufacturers.get(0));
             medicineService.save(medicine);
 
             Medicine medicine2 = new Medicine();
             CategoryMed brainMed = new CategoryMed();
+            medicine2.setBarCode("22222222222222");
             brainMed.setName("Brain vuscular");
             categoryMedRepository.save(brainMed);
 
@@ -124,6 +127,7 @@ public class DataLoader implements CommandLineRunner {
 
             Medicine medicine3 = new Medicine();
             medicine3.setCategory(cardioMed);
+            medicine3.setBarCode("33333333333333");
             medicine3.setName("Paracetomol3");
             medicine3.setCountry(countries.get(2));
             medicine3.setManufacturer(manufacturers.get(2));
@@ -148,11 +152,11 @@ public class DataLoader implements CommandLineRunner {
             user.setLastName("admin");
 
             Inventory inventory = new Inventory(medicine,
-                    supplier2, 100, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
+                    supplier2, 100.0, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
             Inventory inventory2 = new Inventory(medicine,
-                    supplier3, 10, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
             Inventory inventory3 = new Inventory(medicine,
-                    supplier3, 1, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
 
             InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
             InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));
@@ -170,6 +174,8 @@ public class DataLoader implements CommandLineRunner {
             } else {
                 LOGGER.info("Such user: " + user.getUserName() + " exists already!!!!");
             }
+
+            load = false;
         }
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
         LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());

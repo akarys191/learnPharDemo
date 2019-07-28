@@ -6,7 +6,7 @@ public class InvoiceInventoryUtil {
         return suppliedCost * markup + suppliedCost;
     }
 
-    public static Double calculatePaidSum(Double suppliedCost, Integer quantity) {
+    public static Double calculatePaidSum(Double suppliedCost, Double quantity) {
         return suppliedCost * quantity;
     }
 
