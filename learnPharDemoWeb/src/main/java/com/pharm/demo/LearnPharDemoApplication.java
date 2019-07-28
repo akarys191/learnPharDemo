@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Import;
 @Import({WebConfig.class})
 @ComponentScan
 @EnableAutoConfiguration
-public class  LearnPharDemoApplication extends SpringBootServletInitializer {
+public class    LearnPharDemoApplication extends SpringBootServletInitializer {
 
     private static Class applicationClass = LearnPharDemoApplication.class;
 
