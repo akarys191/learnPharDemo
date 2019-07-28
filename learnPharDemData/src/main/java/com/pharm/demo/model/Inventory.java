@@ -43,6 +43,7 @@ public class Inventory extends AbstractEntity {
     public Inventory(Medicine medicine, Supplier supplier, Integer quantity,
                      Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
         this.medicine = medicine;
+
         this.supplier = supplier;
         this.quantity = quantity;
         this.markup = markup;
