@@ -88,6 +88,15 @@ public class MedicinesMvcController {
         return medicineService.findByNameTerm(term);
     }
 
+
+    @RequestMapping(value = "/findByBarcode", produces = " application/json")
+    public @ResponseBody
+    Medicine findByBarcode(@Param("term") String term) {
+        return medicineService.findByBarcode(term);
+    }
+
+
+
     @GetMapping("/{id}")
     public ModelAndView showMedicine(@PathVariable("id") Long id) {
         LOGGER.info("Get /id is called! " + id);

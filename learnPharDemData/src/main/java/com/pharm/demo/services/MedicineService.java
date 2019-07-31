@@ -10,4 +10,6 @@ public interface MedicineService extends CrudService<Medicine,Long>{
     Page<Medicine> findPaginated(Pageable pageable);
 
     List<Medicine> findByNameTerm(String term);
+
+    Medicine findByBarcode(String barcode);
 }

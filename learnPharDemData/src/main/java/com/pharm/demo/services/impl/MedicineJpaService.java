@@ -37,6 +37,11 @@ public class MedicineJpaService implements MedicineService {
     }
 
     @Override
+    public Medicine findByBarcode(String term) {
+        return this.medicineJpaRepository.findByBarcode(term);
+    }
+
+    @Override
     public Medicine save(Medicine medicine) {
         return medicineJpaRepository.save(medicine);
     }
