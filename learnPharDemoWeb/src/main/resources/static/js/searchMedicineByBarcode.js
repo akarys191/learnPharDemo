@@ -16,6 +16,20 @@ $(document).ready(function() {
                   }
           });
 
+          } else if(event.target.id == "medQuery"){
+                 var val = $("#medQuery").val();
+                 $.ajax({
+                          dataType: "json",
+                         url: "/medicines/findByBarcode",
+                          data: {term: val},
+                         success:function(data) {
+                               $("#medQuery").val('Лекарство с таким номером уже существует.');
+                          },
+                          error:function(data) {
+                            $("#medQuery").val(val);
+                             console.log('Лекарство не найдено')
+                          }
+                  });
           }
        return false;
     }

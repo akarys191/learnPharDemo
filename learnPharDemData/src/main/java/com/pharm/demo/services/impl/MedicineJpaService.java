@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,6 +36,12 @@ public class MedicineJpaService implements MedicineService {
     public List<Medicine> findByNameTerm(String term) {
         return this.medicineJpaRepository.searchTermFromName(term);
     }
+
+    @Override
+    public boolean exists(String barCode) {
+        return Optional.ofNullable(this.medicineJpaRepository.findByBarcode(barCode)).isPresent();
+    }
+
 
     @Override
     public Medicine findByBarcode(String term) {
@@ -69,4 +76,5 @@ public class MedicineJpaService implements MedicineService {
     public Page<Medicine> findPaginated(Pageable pageable) {
         return medicineJpaRepository.findAll(pageable);
     }
+
 }
