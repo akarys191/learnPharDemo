@@ -9,7 +9,7 @@
         <input
                 type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Barcode', 'barCode', 'text')}"/>
+               th:replace="~{fragments/inputField :: input ('Barcode', 'barCode', 'text')}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}"/>
         <input
@@ -29,5 +29,6 @@
         </div>
     </div>
   </form>
+<script type="text/javascript" src="/js/searchMedicineByBarcode.js"></script>
 </body>
 </html>
