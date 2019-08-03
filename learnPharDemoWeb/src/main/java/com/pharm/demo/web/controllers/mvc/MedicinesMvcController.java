@@ -114,14 +114,19 @@ public class MedicinesMvcController {
     }
 
     @PostMapping("/new")
-    public String processCreationForm(@Valid Medicine medicine, BindingResult result) {
+    public String processCreationForm(@Valid Medicine medicine, Model model, BindingResult result) {
         LOGGER.info("Post new is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         } else {
-            Medicine saveMedicine =  medicineService.save(medicine);
-            return "redirect:/medicines/" + saveMedicine.getId();
+            if (!medicineService.exists(medicine.getBarCode())) {
+                Medicine saveMedicine = medicineService.save(medicine);
+                return "redirect:/medicines/" + saveMedicine.getId();
+            }
+            Medicine existingMedicine = medicineService.findByBarcode(medicine.getBarCode());
+            model.addAttribute("medicine", existingMedicine);
+            return VIEWS_MEDICINE_CREATE_OR_UPDATE_FORM;
         }
     }
 

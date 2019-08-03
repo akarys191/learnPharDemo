@@ -8,7 +8,7 @@
     <div class="form-group has-feedback">
         <input
                 type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
-        <input id="medQuery"
+        <input
                th:replace="~{fragments/inputField :: input ('Barcode', 'barCode', 'text')}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}"/>
