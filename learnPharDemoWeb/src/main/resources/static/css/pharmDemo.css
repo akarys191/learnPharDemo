@@ -1,0 +1,25 @@
+.ui-autocomplete {
+  max-height: 140px !important;
+  max-width: 1001px !important;
+  background-color: #ffffff !important;
+}
+ul.ui-autocomplete {
+  height: 200px;
+  width: 76% !important;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+button.my-sm-0{
+      color:white
+}
+
+a.dropdown-toggle{
+      margin-left: 120px !important;
+      color:white
+}
+
+ul.mr-auto{
+    padding-left: 10;
+    margin-right:100px!important
+}

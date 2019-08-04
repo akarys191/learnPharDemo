@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/resources/**",
                             "/access-denied",
                             "/css/**",
+                            "/libs/**",
                             "/img/**",
                             "/webjars/**").permitAll()
                 /*.antMatchers("/medicines/{pathVar}/edit/**")

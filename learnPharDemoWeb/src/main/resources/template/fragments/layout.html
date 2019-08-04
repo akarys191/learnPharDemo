@@ -12,14 +12,18 @@
 
     <title>Drug store :: a Spring Framework demonstration</title>
 
+    <link rel="stylesheet" href="/css/pharmDemo.css">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/libs/css/fontawesome.css">
+    <link rel="stylesheet" href="/libs/css/all.css">
     <!-- Bootstrap core CSS -->
     <link href="/libs/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/libs/css/mdb.min.css" rel="stylesheet">
     <!-- JQuery UI Css -->
     <link rel="stylesheet" href="/libs/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/libs/css/mdb.min.css">
     <!-- Bootstrap Table -->
     <link rel="stylesheet" href="/libs/css/bootstrap-table.min.css">
 
@@ -31,10 +35,9 @@
     <script type="text/javascript" src="/libs/js/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="/libs/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/libs/js/bootbox/bootbox.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="/libs/js/mdb.min.js"></script>
-    <script src="/js/messagePrompt.js"></script>
-
 </head>
 
 <body>
@@ -72,22 +75,23 @@
             <li class="nav-item" th:replace="::menuItem ('/oups','Sales','Sales','th-list','Sales')">
                 <a class="nav-link" href="#">Sales</a>
             </li>
-            <li class="nav-item dropdown" >
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sign Out</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" th:href="@{/logout}">Sign Out</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        Logged as <span sec:authentication="name"></span>
-                        Has role <span sec:authentication="principal.authorities"></span>
-                    </a>
-                </div>
-            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Find Medicine" aria-label="Search">
             <button class="btn my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">Sign Out</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                <a class="dropdown-item" th:href="@{/logout}">Sign Out</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">
+                    Logged as <span sec:authentication="name"></span>
+                    Has role <span sec:authentication="principal.authorities"></span>
+                </a>
+            </div>
+        </li>
     </div>
 </nav>
 
@@ -108,7 +112,7 @@
         </div>
     </div>
 </div>
-<script src="/js/messagePrompt.js"></script>
+<script type="text/javascript" src="/js/messagePrompt.js"></script>
 </body>
 
 </html>

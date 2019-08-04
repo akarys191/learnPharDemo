@@ -23,10 +23,7 @@ $(document).ready(function() {
                          url: "/medicines/findByBarcode",
                           data: {term: val},
                          success:function(data) {
-                               bootbox.confirm("This is the default confirm!", function(result){
-                                   console.log('This was logged in the callback: ' + result);
-                               });
-                               $("#barCode").val('Лекарство с таким номером уже существует.');
+                              messagePrompt('Такое лекарство уже существует!');
                           },
                           error:function(data) {
                             $("#barCode").val(val);
