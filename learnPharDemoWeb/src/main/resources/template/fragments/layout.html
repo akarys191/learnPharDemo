@@ -59,7 +59,10 @@
             <li th:class="nav-item" th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list','Suppliers')">
                 <a class="nav-link" href="#">Suppliers</a>
             </li>
-
+            <li th:class="nav-item"
+                th:replace="::menuItem ('/medicines/listMedicines','medicines','medicines','th-list','Medicines')">
+                <a class="nav-link" href="#">Suppliers</a>
+            </li>
             <li class="nav-item" th:replace="::menuItem ('/inventory/listInventory','inventory','inventory','th-list','Inventory')">
                 <a class="nav-link" href="#">Inventory</a>
             </li>
@@ -105,7 +108,7 @@
         </div>
     </div>
 </div>
-
+<script src="/js/messagePrompt.js"></script>
 </body>
 
 </html>
