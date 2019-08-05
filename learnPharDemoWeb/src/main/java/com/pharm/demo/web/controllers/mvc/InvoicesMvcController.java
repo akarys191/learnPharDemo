@@ -7,6 +7,7 @@ import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,30 @@ public class InvoicesMvcController {
         return "invoices/invoices";
     }
 
+    @RequestMapping(value = "/listInventory", method = RequestMethod.GET)
+    public String listInventory(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
+            @RequestParam("invoiceId") Long invoiceId) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(50);
+
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+
+        int totalPages = invoiceInventoryPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "inventory/inventory";
+    }
+
     @RequestMapping(value = "/listInvoices", method = RequestMethod.GET)
     public String listInvoices(
             Model model,
@@ -81,8 +106,13 @@ public class InvoicesMvcController {
     @GetMapping("/{id}")
     public ModelAndView showInvoice(@PathVariable("id") Long id) {
         LOGGER.info("Get /id is called! " + id);
+        int currentPage = 1;
+        int pageSize = 50;
+
         InvoiceInventory invoiceInventory = invoiceService.findById(id);
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), id);
         ModelAndView mav = new ModelAndView(VIEWS_INVOICE_CREATE_OR_UPDATE_FORM);
+        mav.addObject("invoiceInventoryPage", invoiceInventoryPage);
         mav.addObject("invoice", invoiceInventory);
         return mav;
     }
@@ -91,6 +121,8 @@ public class InvoicesMvcController {
     public String getNewInvoice(Model model) {
         InvoiceInventory invoiceInventory = new InvoiceInventory();
         invoiceInventory.setInventories(new ArrayList<>());
+        Page<Inventory> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("invoice", invoiceInventory);
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }

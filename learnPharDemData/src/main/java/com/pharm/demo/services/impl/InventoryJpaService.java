@@ -33,6 +33,11 @@ public class InventoryJpaService implements InventoryService {
     }
 
     @Override
+    public Page<Inventory> findInvoiceInventoryPaginated(Pageable pageable, Long invoiceId) {
+        return this.inventoryRepository.findInvoiceInventoryPaginated(pageable, invoiceId);
+    }
+
+    @Override
     public Inventory findById(Long aLong) {
         return this.inventoryRepository.findById(aLong).orElse(null);
     }
