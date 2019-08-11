@@ -28,4 +28,7 @@ ul.mr-auto{
     padding-top: 1.4rem;
 }
 
+.fa nav-link dropdown-toggle{
+  content: "\f08b"
+}
 .modal-footer {height:50px;}

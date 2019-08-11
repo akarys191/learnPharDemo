@@ -14,18 +14,20 @@
 
     <link rel="stylesheet" href="/css/pharmDemo.css">
 
+    <!-- Bootstrap Table -->
+    <link rel="stylesheet" href="/libs/css/bootstrap-table.min.css">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/libs/css/fontawesome.css">
-    <link rel="stylesheet" href="/libs/css/all.css">
     <!-- Bootstrap core CSS -->
     <link href="/libs/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/libs/css/mdb.min.css" rel="stylesheet">
+
     <!-- JQuery UI Css -->
     <link rel="stylesheet" href="/libs/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/libs/css/mdb.min.css">
-    <!-- Bootstrap Table -->
-    <link rel="stylesheet" href="/libs/css/bootstrap-table.min.css">
+
 
     <!-- JQuery -->
     <script type="text/javascript" src="/libs/js/jquery.min.js"></script>
@@ -38,19 +40,23 @@
     <script type="text/javascript" src="/libs/js/bootbox/bootbox.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="/libs/js/mdb.min.js"></script>
-</head>
+    <link rel="stylesheet" href="/libs/css/all.css">
 
+
+</head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-    <a class="navbar-brand badge" href="/home">911</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand badge" href="/">911</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1"
+            aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbar1">
         <ul class="navbar-nav mr-auto">
-            <li th:fragment="menuItem (path,active,title,glyph,text)" th:class="${active==menu ? 'nav-item active' : 'nav-item'}">
-                <a th:class="nav-link" th:href="@{__${path}__}" th:title="${title}" >
+            <li th:fragment="menuItem (path,active,title,glyph,text)"
+                th:class="${active==menu ? 'nav-item active' : 'nav-item'}">
+                <a th:class="nav-link" th:href="@{__${path}__}" th:title="${title}">
                     <i th:class="'fa fa-'+${glyph}"></i>
                     <span th:text="${text}">Template</span>
                 </a>
@@ -59,17 +65,20 @@
             <li th:replace="::menuItem ('/','home','home page','home','Home')">
                 <a th:class="${'nav-item'}" class="" href="#">Home</a>
             </li>
-            <li th:class="nav-item" th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list','Suppliers')">
+            <li th:class="nav-item"
+                th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list','Suppliers')">
                 <a class="nav-link" href="#">Suppliers</a>
             </li>
             <li th:class="nav-item"
                 th:replace="::menuItem ('/medicines/listMedicines','medicines','medicines','th-list','Medicines')">
                 <a class="nav-link" href="#">Suppliers</a>
             </li>
-            <li class="nav-item" th:replace="::menuItem ('/inventory/listInventory','inventory','inventory','th-list','Inventory')">
+            <li class="nav-item"
+                th:replace="::menuItem ('/inventory/listInventory','inventory','inventory','th-list','Inventory')">
                 <a class="nav-link" href="#">Inventory</a>
             </li>
-            <li class="nav-item" th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list','Invoices')">
+            <li class="nav-item"
+                th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list','Invoices')">
                 <a class="nav-link" href="#">Invoices</a>
             </li>
             <li class="nav-item" th:replace="::menuItem ('/oups','Sales','Sales','th-list','Sales')">
@@ -81,7 +90,8 @@
             <button class="btn my-2 my-sm-0" type="submit">Search</button>
         </form>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+            <a class="fas fa-sign-out-alt nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+               data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">Sign Out</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                 <a class="dropdown-item" th:href="@{/logout}">Sign Out</a>
@@ -105,9 +115,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <img src="../static/resources/images/spring-pivotal-logo.png" th:src="@{/resources/images/spring-pivotal-logo.png}"
+                    <img src="../static/resources/images/spring-pivotal-logo.png"
+                         th:src="@{/resources/images/spring-pivotal-logo.png}"
                          alt="911"/>
-                <h3></h3></div>
+                    <h3></h3></div>
             </div>
         </div>
     </div>
