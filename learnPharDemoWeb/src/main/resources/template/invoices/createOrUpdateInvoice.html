@@ -6,10 +6,9 @@
 </head>
 
 <body>
-
 <!-- Editable table -->
 <div class="card">
-    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoices</h3>
     <div class="card-body">
         <div id="table" class="table-editable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
@@ -17,7 +16,6 @@
             <table class="table table-bordered table-responsive-md table-striped text-center">
                 <thead>
                 <tr>
-                    <th style="width: 150px;">Id</th>
                     <th style="width: 150px;"> medicine</th>
                     <th style="width: 150px;"> invoice</th>
                     <th style="width: 150px;"> supplier</th>
@@ -34,18 +32,14 @@
                 <tr th:each="inventory, iStat  : ${invoiceInventoryPage.content}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
-                    <td>
-                        <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
-                    </td>
-
-                    <td class="pt-3-half" contenteditable="true" th:text="${inventory.medicine.name}">medicine</td>
-                    <td class="pt-3-half" contenteditable="true" th:text="${inventory.invoice.id}">invoice</td>
-                    <td class="pt-3-half" contenteditable="true" th:text="${inventory.supplier.name}">supplier</td>
-                    <td class="pt-3-half" contenteditable="true" th:text="${inventory.price}">price</td>
-                    <td th:text="${inventory.suppliedCost}">suppliedCost</td>
-                    <td th:text="${inventory.suppliedDate}">suppliedDate</td>
-                    <td th:text="${inventory.quantity}">Quantity</td>
-                    <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+                    <td class="pt-3-half" th:text="${inventory.medicine.name}">medicine</td>
+                    <td class="pt-3-half" th:text="${inventory.invoice.id}">invoice</td>
+                    <td class="pt-3-half" th:text="${inventory.supplier.name}">supplier</td>
+                    <td class="pt-3-half" th:text="${inventory.price}">price</td>
+                    <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
+                    <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
+                    <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
+                    <td class="pt-3-half" th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
                     <td class="pt-3-half">
               <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                          aria-hidden="true"></i></a></span>
@@ -53,8 +47,13 @@
                                                                                      aria-hidden="true"></i></a></span>
                     </td>
                     <td>
-              <span class="table-remove"><button type="button"
-                                                 class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+                        <span class="table-edit"><button type="button"><i class="fas fa-edit"
+                                                                          style="font-size:20px;color:red"
+                                                                          aria-hidden="true"></i></button></span>
+                        <span class="table-submit"><button type="button"
+                        ><i class="fa fa-plus" style="color:red" aria-hidden="true"></i></button></span>
+                        <span class="table-remove"><button type="button"
+                        ><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i></button></span>
                     </td>
                 </tr>
                 </tbody>
@@ -62,98 +61,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/editableTable.js"></script>
 
-
-<script type="text/javascript">//src="/js/editableTable.js">
-    const $tableID = $('#table');
- const $BTN = $('#export-btn');
- const $EXPORT = $('#export');
-
- const newTr = `
-<tr class="hide">
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half">
-    <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
-    <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
-  </td>
-  <td>
-    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
-  </td>
-</tr>`;
-
- $('.table-add').on('click', 'i', () => {
-
-   const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
-
-   if ($tableID.find('tbody tr').length === 0) {
-
-     $('tbody').append(newTr);
-   }
-
-   $tableID.find('table').append($clone);
- });
-
- $tableID.on('click', '.table-remove', function () {
-
-   $(this).parents('tr').detach();
- });
-
- $tableID.on('click', '.table-up', function () {
-
-   const $row = $(this).parents('tr');
-
-   if ($row.index() === 1) {
-     return;
-   }
-
-   $row.prev().before($row.get(0));
- });
-
- $tableID.on('click', '.table-down', function () {
-
-   const $row = $(this).parents('tr');
-   $row.next().after($row.get(0));
- });
-
- // A few jQuery helpers for exporting only
- jQuery.fn.pop = [].pop;
- jQuery.fn.shift = [].shift;
-
- $BTN.on('click', () => {
-
-   const $rows = $tableID.find('tr:not(:hidden)');
-   const headers = [];
-   const data = [];
-
-   // Get the headers (add special header logic here)
-   $($rows.shift()).find('th:not(:empty)').each(function () {
-
-     headers.push($(this).text().toLowerCase());
-   });
-
-   // Turn all existing rows into a loopable array
-   $rows.each(function () {
-     const $td = $(this).find('td');
-     const h = {};
-
-     // Use the headers from earlier to name our hash keys
-     headers.forEach((header, i) => {
-
-       h[header] = $td.eq(i).text();
-     });
-
-     data.push(h);
-   });
-
-   // Output the result
-   $EXPORT.text(JSON.stringify(data));
- });
-
-</script>
 <b>
     <a th:href="@{/inventory/new}"/>create new inventory</a>
 </b>

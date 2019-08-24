@@ -4,30 +4,56 @@ const $tableID = $('#table');
 
  const newTr = `
 <tr class="hide">
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half" contenteditable="true">Example</td>
-  <td class="pt-3-half">
+  <td class="pt-3-half"></td>
+                     <td class="pt-3-half" ></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half"></td>
+                     <td class="pt-3-half">
     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
   </td>
   <td>
-    <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 waves-effect waves-light">Remove</button></span>
+   <span class="table-edit" style="display: none;"><button type="button"><i class="fas fa-edit"  style="font-size:20px;color:red" aria-hidden="true"></i></button></span>
+   <span class="table-submit"><button type="button"><i class="fa fa-plus" style="color:red" aria-hidden="true"></i></button></span>
+   <span class="table-remove"><button type="button"><i class="fa fa-times-circle"  style="color:red" aria-hidden="true"></i></button></span>
   </td>
-</tr>`;
+</tr> `;
+
+$tableID.find('.table-remove').hide();
+$tableID .find('.table-submit').hide();
+
+
+$tableID.on('click', '.table-edit', function(event)  {
+    event.preventDefault();
+    const $row = $(this).parents('tr');
+    $row.find('.table-edit').hide();
+    $row.find('.table-remove').show();
+    $row.find('.table-submit').show();
+
+	//make the whole row editable
+	$row.find('.pt-3-half')
+	.attr('contenteditable', 'true')
+	.attr('edit_type', 'button')
+	.addClass('bg-warning')
+	.css('padding','3px')
+ });
 
  $('.table-add').on('click', 'i', () => {
+    $tBody = $('tbody');
+   $tBody.append(newTr);
+    const $row =$('#table tr:last');
+    $row.find('.table-edit').hide();
 
-   const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
-
-   if ($tableID.find('tbody tr').length === 0) {
-
-     $('tbody').append(newTr);
-   }
-
-   $tableID.find('table').append($clone);
+   	//make the whole row editable
+   	$row.find('.pt-3-half')
+   	.attr('contenteditable', 'true')
+   	.attr('edit_type', 'button')
+   	.addClass('bg-warning')
+   	.css('padding','3px')
  });
 
  $tableID.on('click', '.table-remove', function () {
