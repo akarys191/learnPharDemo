@@ -162,9 +162,9 @@ public class DataLoader implements CommandLineRunner {
             Inventory inventory = new Inventory(medicine,
                     supplier2, 100.0, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
             Inventory inventory2 = new Inventory(medicine,
-                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist2);
             Inventory inventory3 = new Inventory(medicine,
-                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist3);
 
             InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
             InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));

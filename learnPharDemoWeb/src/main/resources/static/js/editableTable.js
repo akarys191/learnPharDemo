@@ -6,7 +6,9 @@ const $tableID = $('#table');
 <tr class="hide">
   <td class="pt-3-half"></td>
     <td class="pt-3-half" ></td>
-    <td class="pt-3-half"></td>
+    <td class="pt-3-half">
+        <select id="selectSupplier" class="tableSelect"></select>
+    </td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
@@ -42,11 +44,11 @@ $tableID.on('click', '.table-edit', function(event)  {
 	.addClass('bg-warning')
 	.css('padding','3px')
 	var pharmacistId = $(this).parents("tr").find("td:eq(7)").children('input').val();
-	console.log("pharmacistId");
-	console.log(pharmacistId);
-
+	var supplierId = $(this).parents("tr").find("td:eq(2)").children('input').val();
     $(this).parents("tr").find("td:eq(7)").html('<select id="acceptingPharmacist" class="tableSelect"></select>');
-    selectPharmacists($(this).parents("tr"));
+    $(this).parents("tr").find("td:eq(2)").html('<select id="selectSupplier" class="tableSelect"></select>');
+    selectPharmacists($(this).parents("tr"), pharmacistId);
+    selectSuppliers($(this).parents("tr"), supplierId);
  });
 
  $('.table-add').on('click', 'i', () => {
@@ -63,7 +65,8 @@ $tableID.on('click', '.table-edit', function(event)  {
    	.addClass('bg-warning')
    	.css('padding','3px')
 
-     selectPharmacists($('#table tr:last'));
+     selectPharmacists($('#table tr:last'), null);
+     selectSuppliers($('#table tr:last'), null);
  });
 
  $tableID.on('click', '.table-remove', function () {
@@ -119,14 +122,33 @@ $tableID.on('click', '.table-edit', function(event)  {
    $EXPORT.text(JSON.stringify(data));
  });
 
- function selectPharmacists(component/*, defaultSelectId*/){
+ function selectPharmacists(component, defaultSelectId){
     var pharmacists = "";
     var pharmacistsJson = syncAjaxRequest("/rest/pharmacists/all",{});
     $.each(pharmacistsJson ,function(index,pharmacist){
-           pharmacists+="<option value='"+pharmacist.id+"'>"+pharmacist.firstName+" "+pharmacist.lastName+"</option>";
-           component.find("#acceptingPharmacist").html(pharmacists);
-    });
+            console.log(pharmacist.id)
+            console.log(defaultSelectId)
+            if(defaultSelectId == pharmacist.id){
+               pharmacists+="<option selected value='"+pharmacist.id+"'>"+pharmacist.firstName+" "+pharmacist.lastName+"</option>";
+            } else {
+               pharmacists+="<option value='"+pharmacist.id+"'>"+pharmacist.firstName+" "+pharmacist.lastName+"</option>";
+            }
+            component.find("#acceptingPharmacist").html(pharmacists);
+        });
   }
+
+  function selectSuppliers(component, defaultSelectId){
+      var suppliers = "";
+      var suppliersJson = syncAjaxRequest("/rest/suppliers/all",{});
+      $.each(suppliersJson ,function(index,supplier){
+              if(defaultSelectId == supplier.id){
+                 suppliers+="<option selected value='"+supplier.id+"'>"+supplier.name+"</option>";
+              } else {
+                 suppliers+="<option value='"+supplier.id+"'>"+supplier.name+"</option>";
+              }
+              component.find("#selectSupplier").html(suppliers);
+          });
+    }
 
   function syncAjaxRequest(urlLink, params){
     var theResponse = null;

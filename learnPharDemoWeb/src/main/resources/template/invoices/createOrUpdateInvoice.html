@@ -34,15 +34,17 @@
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
                     <td class="pt-3-half" th:text="${inventory.medicine.name}">medicine</td>
                     <td class="pt-3-half" th:text="${inventory.invoice.id}">invoice</td>
-                    <td class="pt-3-half" th:text="${inventory.supplier.name}">supplier</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.supplier.name}"></th:block>
+                        <input type="hidden" id="supplierHiddenId" th:value="${inventory.supplier.id}"/>
+                    </td>
                     <td class="pt-3-half" th:text="${inventory.price}">price</td>
                     <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
                     <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
                     <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
-                    <td class="pt-3-half" pharmacistId="${inventory.acceptingPharmacist.id}"
-                        th:text="${inventory.acceptingPharmacist.name}">
-                        <input type="hidden" id="pharmacistHiddenId"
-                               th:value="${inventory.acceptingPharmacist.id"/>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.acceptingPharmacist.name}"></th:block>
+                        <input type="hidden" id="pharmacistHiddenId" th:value="${inventory.acceptingPharmacist.id}"/>
                     </td>
                     <td class="pt-3-half">
               <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
