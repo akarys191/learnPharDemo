@@ -136,13 +136,21 @@ public class DataLoader implements CommandLineRunner {
             Pharmacist pharmacist = new Pharmacist();
             pharmacist.setFirstName("Aidana");
             pharmacist.setLastName("Kassimova");
-            pharmacist.setUserName("aidana");
+            pharmacist.setUserName("aidanaKasimova");
             pharmacistService.save(pharmacist);
 
             Pharmacist pharmacist2 = new Pharmacist();
-            pharmacist2.setFirstName("Aidana");
-            pharmacist2.setLastName("Kassimova");
+            pharmacist2.setFirstName("Aigerim");
+            pharmacist2.setLastName("Salimova");
+            pharmacist2.setUserName("aigerimSalimova");
             pharmacistService.save(pharmacist2);
+
+
+            Pharmacist pharmacist3 = new Pharmacist();
+            pharmacist3.setFirstName("Aizhan");
+            pharmacist3.setLastName("Berdeiova");
+            pharmacist3.setUserName("aizhanBerdeiova");
+            pharmacistService.save(pharmacist3);
 
             PharmUser user = new PharmUser();
             user.setUserName("admin");

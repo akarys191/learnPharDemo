@@ -39,7 +39,11 @@
                     <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
                     <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
                     <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
-                    <td class="pt-3-half" th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+                    <td class="pt-3-half" pharmacistId="${inventory.acceptingPharmacist.id}"
+                        th:text="${inventory.acceptingPharmacist.name}">
+                        <input type="hidden" id="pharmacistHiddenId"
+                               th:value="${inventory.acceptingPharmacist.id"/>
+                    </td>
                     <td class="pt-3-half">
               <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                          aria-hidden="true"></i></a></span>
