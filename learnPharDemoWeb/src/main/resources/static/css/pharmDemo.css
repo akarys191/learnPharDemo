@@ -27,6 +27,11 @@ ul.mr-auto{
 .pt-3-half {
     padding-top: 1.4rem;
 }
+.tableInput{
+   background-color:#fb3!important;
+   width:100%;
+   border:0;
+}
 .tableSelect{
     width:100%;
     background-color:#fb3!important;

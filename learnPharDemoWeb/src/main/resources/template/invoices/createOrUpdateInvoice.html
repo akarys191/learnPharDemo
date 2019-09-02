@@ -7,10 +7,12 @@
 
 <body>
 <!-- Editable table -->
-<div class="card">
+<div id="1" class="card">
+    <form method="POST" id="edit_form"></form>
+    <form method="POST" id="add_form"></form>
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoices</h3>
     <div class="card-body">
-        <div id="table" class="table-editable">
+        <div id="table" class="table-editable" th:fragment="editableTable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
               class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
             <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -32,7 +34,11 @@
                 <tr th:each="inventory, iStat  : ${invoiceInventoryPage.content}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
-                    <td class="pt-3-half" th:text="${inventory.medicine.name}">medicine</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.medicine.name}"></th:block>
+                        <input type="hidden" id="medicineId" th:value="${inventory.medicine.id}"/>
+                        <input type="hidden" id="medicineName" th:value="${inventory.medicine.name}"/>
+                    </td>
                     <td class="pt-3-half" th:text="${inventory.invoice.id}">invoice</td>
                     <td class="pt-3-half">
                         <th:block th:text="${inventory.supplier.name}"></th:block>
@@ -47,7 +53,8 @@
                         <input type="hidden" id="pharmacistHiddenId" th:value="${inventory.acceptingPharmacist.id}"/>
                     </td>
                     <td class="pt-3-half">
-              <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                        <input type="hidden" name="inventoryId" th:value="${inventory.inventoryId}"/>
+                        <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                          aria-hidden="true"></i></a></span>
                         <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
                                                                                      aria-hidden="true"></i></a></span>
@@ -56,9 +63,9 @@
                         <span class="table-edit"><button type="button"><i class="fas fa-edit"
                                                                           style="font-size:20px;color:red"
                                                                           aria-hidden="true"></i></button></span>
-                        <span class="table-submit"><button type="button"
-                        ><i class="fa fa-plus" style="color:red" aria-hidden="true"></i></button></span>
-                        <span class="table-remove"><button type="button"
+                        <span class="table-submit" style="display: none;"><button type="button"
+                        ><i class="fa fa-paper-plane" style="color:red" aria-hidden="true"></i></button></span>
+                        <span class="table-remove" style="display: none;"><button type="button"
                         ><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i></button></span>
                     </td>
                 </tr>
@@ -68,6 +75,7 @@
     </div>
 </div>
 <script type="text/javascript" src="/js/editableTable.js"></script>
+<script type="text/javascript" src="/js/searchMedicineByBarcode.js"></script>
 
 <b>
     <a th:href="@{/inventory/new}"/>create new inventory</a>
