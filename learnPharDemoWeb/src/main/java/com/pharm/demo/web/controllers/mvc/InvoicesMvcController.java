@@ -7,6 +7,7 @@ import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,10 @@ public class InvoicesMvcController {
     private final InventoryService inventoryService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "/invoices/createOrUpdateInvoice";
+    private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoice";
     private static final String VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoiceInventory";
-
+    private static int currentInventoryPage = 1;
+    private static int currentInventoryPageSize = 50;
     public InvoicesMvcController(InvoiceInventoryService invoiceService, InventoryService inventoryService) {
         this.invoiceService = invoiceService;
         this.inventoryService = inventoryService;
@@ -46,6 +48,29 @@ public class InvoicesMvcController {
         model.addAttribute("invoices", invoiceService.findAll());
 
         return "invoices/invoices";
+    }
+
+    @RequestMapping(value = "/listInventory", method = RequestMethod.GET)
+    public String listInventory(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
+            @RequestParam("invoiceId") Long invoiceId) {
+        int currentPage = page.orElse(currentInventoryPage);
+        int pageSize = size.orElse(currentInventoryPageSize);
+        currentInventoryPage = currentPage;
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+
+        int totalPages = invoiceInventoryPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
     @RequestMapping(value = "/listInvoices", method = RequestMethod.GET)
@@ -81,8 +106,13 @@ public class InvoicesMvcController {
     @GetMapping("/{id}")
     public ModelAndView showInvoice(@PathVariable("id") Long id) {
         LOGGER.info("Get /id is called! " + id);
+        int currentPage = 1;
+        int pageSize = 50;
+
         InvoiceInventory invoiceInventory = invoiceService.findById(id);
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), id);
         ModelAndView mav = new ModelAndView(VIEWS_INVOICE_CREATE_OR_UPDATE_FORM);
+        mav.addObject("invoiceInventoryPage", invoiceInventoryPage);
         mav.addObject("invoice", invoiceInventory);
         return mav;
     }
@@ -91,6 +121,8 @@ public class InvoicesMvcController {
     public String getNewInvoice(Model model) {
         InvoiceInventory invoiceInventory = new InvoiceInventory();
         invoiceInventory.setInventories(new ArrayList<>());
+        Page<Inventory> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("invoice", invoiceInventory);
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
@@ -112,6 +144,50 @@ public class InvoicesMvcController {
             InvoiceInventory savedInvoice = invoiceService.save(invoice);
             return "redirect:/invoices/" + savedInvoice.getId();
         }
+    }
+
+    @PostMapping("/inventory")
+    public String processCreationForm(@Valid Inventory inventory,
+                                      Model model, BindingResult result) {
+        LOGGER.info("Post inventory {1} is called! ", inventory.getInventoryId());
+        InvoiceInventory invoiceInventory = inventory.getInvoice();
+        int currentPage = currentInventoryPage;
+        int pageSize = currentInventoryPageSize;
+        Long invoiceId = invoiceInventory.getId();
+        this.currentInventoryPage = currentPage;
+        if (result.hasErrors()) {
+            return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
+        } else {
+            if (inventory.getInventoryId() == null && !invoiceInventory.getInventories().contains(inventory)) {
+                invoiceInventory.getInventories().add(inventory);
+            }
+            Double calculatedPaidSum = calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity());
+            invoiceInventory.setPaidSum(increasePaidSum(invoiceInventory.getPaidSum(), calculatedPaidSum));
+            inventory.setInvoice(invoiceInventory);
+            invoiceService.save(invoiceInventory);
+            inventoryService.save(inventory);
+            Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+            model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+            return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";
+        }
+    }
+
+    @ResponseBody
+    @DeleteMapping("/inventory/{id}")
+    public void processDeletionForm(@PathVariable("id") Long inventoryId) {
+        LOGGER.info("Delete inventory {1} is called! ", inventoryId);
+        Inventory deleteInventory = inventoryService.findById(inventoryId);
+        InvoiceInventory invoiceInventory = deleteInventory.getInvoice();
+        invoiceInventory.getInventories().remove(deleteInventory);
+        inventoryService.delete(deleteInventory);
+        invoiceService.save(invoiceInventory);
+        /*int currentPage = currentInventoryPage;
+        int pageSize = currentInventoryPageSize;
+        Long invoiceId = invoiceInventory.getId();
+        this.currentInventoryPage = currentPage;
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+        return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";*/
     }
 
     @PostMapping("/inventory/new")

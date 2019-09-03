@@ -1,17 +1,24 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout (~{::body},'invoices')}">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'invoices')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
 
-<body>
-
-<h2>Invoice</h2>
-<form th:object="${invoice}" class="form-horizontal" id="add-invoice-form" method="post">
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <table class="table table-striped">
+<body id="editableTableBody">
+<!-- Editable table -->
+<div id="cardDiv" class="card">
+    <form method="POST" id="edit_form"></form>
+    <form method="POST" id="add_form"></form>
+    <input type="hidden" id="invoiceId" name="invoice" th:value="${invoice.id}"/>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoices</h3>
+    <div class="card-body">
+        <div id="table" class="table-editable" th:fragment="editableTable">
+      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+              class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+            <table class="table table-bordered table-responsive-md table-striped text-center">
                 <thead>
                 <tr>
-                    <th style="width: 150px;">Id</th>
                     <th style="width: 150px;"> medicine</th>
                     <th style="width: 150px;"> invoice</th>
                     <th style="width: 150px;"> supplier</th>
@@ -20,68 +27,66 @@
                     <th style="width: 150px;"> suppliedDate</th>
                     <th style="width: 150px;"> Quantity</th>
                     <th style="width: 150px;"> acceptingPharmacist</th>
+                    <th style="width: 150px;"> *</th>
+                    <th style="width: 150px;"> **</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="inventory, iStat  : ${invoice.inventories}"
+                <tr th:each="inventory, iStat  : ${invoiceInventoryPage.content}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
-                    <td>
-                        <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.medicine.name}"></th:block>
+                        <input type="hidden" id="medicineId" th:value="${inventory.medicine.id}"/>
+                        <input type="hidden" id="medicineName" th:value="${inventory.medicine.name}"/>
                     </td>
-
-                    <td th:text="${inventory.medicine.name}">medicine</td>
-                    <td th:text="${inventory.invoice.id}">invoice</td>
-                    <td th:text="${inventory.supplier.name}">supplier</td>
-                    <td th:text="${inventory.price}">price</td>
-                    <td th:text="${inventory.suppliedCost}">suppliedCost</td>
-                    <td th:text="${inventory.suppliedDate}">suppliedDate</td>
-                    <td th:text="${inventory.quantity}">Quantity</td>
-                    <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+                    <td class="pt-3-half" id="invoiceTd" th:text="${inventory.invoice.id}">invoice</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.supplier.name}"></th:block>
+                        <input type="hidden" id="supplierHiddenId" th:value="${inventory.supplier.id}"/>
+                    </td>
+                    <td class="pt-3-half" th:text="${inventory.price}">price</td>
+                    <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
+                    <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
+                    <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${inventory.acceptingPharmacist.name}"></th:block>
+                        <input type="hidden" id="pharmacistHiddenId" th:value="${inventory.acceptingPharmacist.id}"/>
+                    </td>
+                    <td class="pt-3-half">
+                        <input type="hidden" name="inventoryId" th:value="${inventory.inventoryId}"/>
+                        <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                                                         aria-hidden="true"></i></a></span>
+                        <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                                                                     aria-hidden="true"></i></a></span>
+                    </td>
                     <td>
-                        <a th:href="@{/invoices/editInventory/{index}(index=${iStat.index})}" class="btn btn-default">Edit
-                            Inventory</a>
+                        <span class="table-edit"><button type="button"><i class="fas fa-edit"
+                                                                          style="font-size:20px;color:red"
+                                                                          aria-hidden="true"></i></button></span>
+                        <span class="table-submit" style="display: none;"><button type="button"
+                        ><i class="fa fa-paper-plane" style="color:red" aria-hidden="true"></i></button></span>
+                        <span class="table-remove" style="display: none;"><button type="button"
+                        ><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i></button></span>
                     </td>
                 </tr>
-
                 </tbody>
-                </tr>
             </table>
-            <a href="/invoices/inventory/new" class="btn btn-default">Add
-                Inventory</a>
         </div>
     </div>
-</form>
-<script>
-		var modal = document.getElementById('myModal');
-		var btn = document.getElementById("myBtn");
-		var span = document.getElementsByClassName("close")[0];
-		btn.onclick = function() {
-			modal.style.display = "block";
-		}
-		span.onclick = function() {
-			modal.style.display = "none";
-		}
-		window.onclick = function(event) {
-			if (event.target == modal) {
-				modal.style.display = "none";
-			}
-		}
-		//2
-		var searchModel = document.getElementById('mySearch');
-		var btn1 = document.getElementById("myBtn1");
-		var span1 = document.getElementsByClassName("close")[0];
-		btn1.onclick = function() {
-			searchModel.style.display = "block";
-		}
-		span1.onclick = function() {
-			searchModel.style.display = "none";
-		}
-		window.onclick = function(event) {
-			if (event.target == searchModel) {
-				searchModel.style.display = "none";
-			}
-		}
-</script>
+</div>
+<script type="text/javascript" src="/js/editableTable.js"></script>
+<script type="text/javascript" src="/js/searchMedicineByBarcode.js"></script>
+
+<b>
+    <a th:href="@{/inventory/new}"/>create new inventory</a>
+</b>
+
+<div th:if="${invoiceInventoryPage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/invoices/listInventory(size=${invoiceInventoryPage.size}, page=${pageNumber})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==invoiceInventoryPage.number + 1} ? active"></a>
+</div>
 </body>
 </html>

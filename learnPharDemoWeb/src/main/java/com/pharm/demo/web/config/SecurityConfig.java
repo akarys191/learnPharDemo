@@ -38,12 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             "/resources/**",
                             "/access-denied",
                             "/css/**",
+                            "/libs/**",
                             "/img/**",
                             "/webjars/**").permitAll()
-                /*.antMatchers("/medicines/{pathVar}/edit/**")
-                  .access("@webSecurity.checkPathVar(authentication,#pathVar)")
-                  .antMatchers("/suppliers/{pathVar}/edit/**")
-                  .access("@webSecurity.checkPathVar(authentication,#pathVar)")*/
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .antMatchers("/**").hasRole("ADMIN")

@@ -41,7 +41,6 @@ public class PharmacistJpaService implements PharmacistService {
     @Cacheable(value = "pharmacists")
     public Set<Pharmacist> findAll() {
         LOGGER.info("ALL pharmacists in JPA found@@@@@@@@ ");
-
         Set<Pharmacist> pharmacists = new HashSet<>();
          pharmacistRepository.findAll().forEach(pharmacists::add);
          return pharmacists;

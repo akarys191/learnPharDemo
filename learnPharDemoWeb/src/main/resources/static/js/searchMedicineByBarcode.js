@@ -1,7 +1,9 @@
 $(document).ready(function() {
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
-        if(event.target.id == "tagQuery"){
+    console.log('event 13');
+    console.log(event.target);
+         if(event.target.id == "tagQuery"){
          var val = $("#tagQuery").val();
          $.ajax({
                   dataType: "json",
@@ -15,22 +17,42 @@ $(document).ready(function() {
                      alert(data+' не найдено в базе ');
                   }
           });
-
           } else if(event.target.id == "barCode"){
                  var val = $("#barCode").val();
                  $.ajax({
-                          dataType: "json",
-                         url: "/medicines/findByBarcode",
-                          data: {term: val},
-                         success:function(data) {
-                               $("#barCode").val('Лекарство с таким номером уже существует.');
-                          },
-                          error:function(data) {
+                      dataType: "json",
+                      url: "/medicines/findByBarcode",
+                      data: {term: val},
+                      success:function(data) {
+                              messagePrompt('Такое лекарство уже существует!');
+                      },
+                      error:function(data) {
                             $("#barCode").val(val);
                              console.log('Лекарство не найдено')
-                          }
+                      }
                   });
-          }
+          } else if(event.target.id.lastIndexOf("medicineName") == 0){
+                  var barCodeMedicine = $('#'+event.target.id);
+                  console.log(event.target.id);
+                  var barCodeMedicineVal = barCodeMedicine.val();
+                  var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
+                  var barCodeMedicineId = $('#'+medicineIdForm);
+                   $.ajax({
+                       dataType: "json",
+                       url: "/medicines/findByBarcode",
+                       data: {term: barCodeMedicineVal},
+                           success:function(data) {
+                               console.log(data);
+                               barCodeMedicine.val(data.name);
+                               barCodeMedicineId.val(data.id);
+                           },
+                           error:function(error) {
+                               barCodeMedicine.val('Не найдено!');
+                               messagePrompt('Такая лекарства не найдено!');
+                               console.log(error);
+                           }
+                       });
+                      }
        return false;
     }
   });

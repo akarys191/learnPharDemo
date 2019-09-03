@@ -136,13 +136,21 @@ public class DataLoader implements CommandLineRunner {
             Pharmacist pharmacist = new Pharmacist();
             pharmacist.setFirstName("Aidana");
             pharmacist.setLastName("Kassimova");
-            pharmacist.setUserName("aidana");
+            pharmacist.setUserName("aidanaKasimova");
             pharmacistService.save(pharmacist);
 
             Pharmacist pharmacist2 = new Pharmacist();
-            pharmacist2.setFirstName("Aidana");
-            pharmacist2.setLastName("Kassimova");
+            pharmacist2.setFirstName("Aigerim");
+            pharmacist2.setLastName("Salimova");
+            pharmacist2.setUserName("aigerimSalimova");
             pharmacistService.save(pharmacist2);
+
+
+            Pharmacist pharmacist3 = new Pharmacist();
+            pharmacist3.setFirstName("Aizhan");
+            pharmacist3.setLastName("Berdeiova");
+            pharmacist3.setUserName("aizhanBerdeiova");
+            pharmacistService.save(pharmacist3);
 
             PharmUser user = new PharmUser();
             user.setUserName("admin");
@@ -154,9 +162,9 @@ public class DataLoader implements CommandLineRunner {
             Inventory inventory = new Inventory(medicine,
                     supplier2, 100.0, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
             Inventory inventory2 = new Inventory(medicine,
-                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist2);
             Inventory inventory3 = new Inventory(medicine,
-                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist);
+                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist3);
 
             InvoiceInventory invoice = new InvoiceInventory(null, calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity()), supplier2, Arrays.asList(inventory));
             InvoiceInventory invoice2 = new InvoiceInventory(null, calculatePaidSum(inventory2.getSuppliedCost(), inventory2.getQuantity()), supplier3, Arrays.asList(inventory2));

@@ -1,0 +1,47 @@
+.ui-autocomplete {
+  max-height: 140px !important;
+  max-width: 1001px !important;
+  background-color: #ffffff !important;
+}
+ul.ui-autocomplete {
+  height: 200px;
+  width: 76% !important;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+button.my-sm-0{
+      color:white
+}
+
+a.dropdown-toggle{
+      margin-left: 120px !important;
+      color:white
+}
+
+ul.mr-auto{
+    padding-left: 10;
+    margin-right:100px!important
+}
+
+.pt-3-half {
+    padding-top: 1.4rem;
+}
+.tableInput{
+   background-color:#fb3!important;
+   width:100%;
+   border:0;
+}
+.tableSelect{
+    width:100%;
+    background-color:#fb3!important;
+    font-size:15px;
+    border:0px;
+    outline:0px;
+}
+
+
+.fa nav-link dropdown-toggle{
+  content: "\f08b"
+}
+.modal-footer {height:50px;}
