@@ -24,6 +24,6 @@ public class InvoiceInventory extends AbstractEntity {
     private Supplier supplier;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice",
-            cascade = CascadeType.ALL, orphanRemoval = true)
+            cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Inventory> inventories;
 }

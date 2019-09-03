@@ -5,11 +5,12 @@
     <title>Learn Pharm Demo</title>
 </head>
 
-<body>
+<body id="editableTableBody">
 <!-- Editable table -->
-<div id="1" class="card">
+<div id="cardDiv" class="card">
     <form method="POST" id="edit_form"></form>
     <form method="POST" id="add_form"></form>
+    <input type="hidden" id="invoiceId" name="invoice" th:value="${invoice.id}"/>
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoices</h3>
     <div class="card-body">
         <div id="table" class="table-editable" th:fragment="editableTable">
@@ -39,7 +40,7 @@
                         <input type="hidden" id="medicineId" th:value="${inventory.medicine.id}"/>
                         <input type="hidden" id="medicineName" th:value="${inventory.medicine.name}"/>
                     </td>
-                    <td class="pt-3-half" th:text="${inventory.invoice.id}">invoice</td>
+                    <td class="pt-3-half" id="invoiceTd" th:text="${inventory.invoice.id}">invoice</td>
                     <td class="pt-3-half">
                         <th:block th:text="${inventory.supplier.name}"></th:block>
                         <input type="hidden" id="supplierHiddenId" th:value="${inventory.supplier.id}"/>

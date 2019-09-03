@@ -149,7 +149,7 @@ public class InvoicesMvcController {
     @PostMapping("/inventory")
     public String processCreationForm(@Valid Inventory inventory,
                                       Model model, BindingResult result) {
-        LOGGER.info("Post new is called! ");
+        LOGGER.info("Post inventory {1} is called! ", inventory.getInventoryId());
         InvoiceInventory invoiceInventory = inventory.getInvoice();
         int currentPage = currentInventoryPage;
         int pageSize = currentInventoryPageSize;
@@ -158,7 +158,7 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-            if (inventory.getInventoryId() == null) {
+            if (inventory.getInventoryId() == null && !invoiceInventory.getInventories().contains(inventory)) {
                 invoiceInventory.getInventories().add(inventory);
             }
             Double calculatedPaidSum = calculatePaidSum(inventory.getSuppliedCost(), inventory.getQuantity());
@@ -170,6 +170,24 @@ public class InvoicesMvcController {
             model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";
         }
+    }
+
+    @ResponseBody
+    @DeleteMapping("/inventory/{id}")
+    public void processDeletionForm(@PathVariable("id") Long inventoryId) {
+        LOGGER.info("Delete inventory {1} is called! ", inventoryId);
+        Inventory deleteInventory = inventoryService.findById(inventoryId);
+        InvoiceInventory invoiceInventory = deleteInventory.getInvoice();
+        invoiceInventory.getInventories().remove(deleteInventory);
+        inventoryService.delete(deleteInventory);
+        invoiceService.save(invoiceInventory);
+        /*int currentPage = currentInventoryPage;
+        int pageSize = currentInventoryPageSize;
+        Long invoiceId = invoiceInventory.getId();
+        this.currentInventoryPage = currentPage;
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+        return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";*/
     }
 
     @PostMapping("/inventory/new")

@@ -1,7 +1,9 @@
 $(document).ready(function() {
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
-        if(event.target.id == "tagQuery"){
+    console.log('event 13');
+    console.log(event.target);
+         if(event.target.id == "tagQuery"){
          var val = $("#tagQuery").val();
          $.ajax({
                   dataType: "json",
@@ -15,7 +17,6 @@ $(document).ready(function() {
                      alert(data+' не найдено в базе ');
                   }
           });
-
           } else if(event.target.id == "barCode"){
                  var val = $("#barCode").val();
                  $.ajax({
@@ -30,11 +31,13 @@ $(document).ready(function() {
                              console.log('Лекарство не найдено')
                       }
                   });
-          } else if(event.target.id == "medicineName"){
-                  var barCodeMedicine = $("#medicineName");
-                  var barCodeMedicineVal = $("#medicineName").val();
-                  var barCodeMedicineId = $("#medicineId");
-                  $.ajax({
+          } else if(event.target.id.lastIndexOf("medicineName") == 0){
+                  var barCodeMedicine = $('#'+event.target.id);
+                  console.log(event.target.id);
+                  var barCodeMedicineVal = barCodeMedicine.val();
+                  var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
+                  var barCodeMedicineId = $('#'+medicineIdForm);
+                   $.ajax({
                        dataType: "json",
                        url: "/medicines/findByBarcode",
                        data: {term: barCodeMedicineVal},
@@ -44,7 +47,8 @@ $(document).ready(function() {
                                barCodeMedicineId.val(data.id);
                            },
                            error:function(error) {
-                               barCodeMedicine.val("Unknown");
+                               barCodeMedicine.val('Не найдено!');
+                               messagePrompt('Такая лекарства не найдено!');
                                console.log(error);
                            }
                        });

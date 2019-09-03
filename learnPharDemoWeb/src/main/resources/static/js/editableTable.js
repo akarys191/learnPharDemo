@@ -2,21 +2,21 @@
  const $BTN = $('#export-btn');
  const $EXPORT = $('#export');
  const $SUBMIT = $('#submitTableData');
-
+ const $DIVCARD = $('#cardDiv');
+ var editFormNumber = 0;
+ var editFormId = 'edit_form'
+ var addFormId = 'add_form'
  const newTr = `
 <tr class="hide">
   <td class="pt-3-half"></td>
     <td class="pt-3-half" ></td>
-    <td class="pt-3-half">
-        <select id="selectSupplier" class="tableSelect"></select>
+    <td class="pt-3-half"></select>
     </td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
-    <td class="pt-3-half"><input type="datetime-local" id="dateLocal"/></td>
-    <td class="pt-3-half"><input type="text" name="quantity"/></td>
-    <td class="pt-3-half">
-       <select id="acceptingPharmacist" class="tableSelect"></select>
-    </td>
+    <td class="pt-3-half"></td>
+    <td class="pt-3-half"></td>
+    <td class="pt-3-half"></td>
     <td class="pt-3-half">
     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
@@ -35,83 +35,91 @@ $( function() {
 $tableID.on('click', '.table-submit', function(event)  {
     event.preventDefault();
     const $row = $(this).parents('tr');
-    $form = $('#edit_form');
-    console.log('edit_form:::');
+    $submitButton = $row.find('.table-submit');
+    var formId = $submitButton.attr('form');
+    $form = $('#'+formId);
+    console.log('formId:::');
+    console.log(formId);
+    console.log('edit_add_form:::');
     console.log($form);
-    ajaxRequestPost('/invoices/inventory', $form.serialize(), $tableID)
-
+    console.log($form);
+    ajaxRequestPost('/invoices/inventory', $form.serialize(), $tableID);
  });
 
 $tableID.on('click', '.table-edit', function(event)  {
     event.preventDefault();
-
     const $row = $(this).parents('tr');
     $row.find('.table-edit').hide();
     $row.find('.table-remove').show();
-    $row.find('.table-submit').show();
+    $submitButton = $row.find('.table-submit');
+    $submitButton.show();
 	//make the whole row editable
 	$row.find('.pt-3-half')
-	.attr('contenteditable', 'true')
+	//.attr('contenteditable', 'true')
 	.attr('edit_type', 'button')
 	.addClass('bg-warning')
 	.css('padding','3px')
 
-    console.log($('#edit_form'));
+    var invoiceIdInput = $('#invoiceId');
+	var invoiceId = invoiceIdInput.val();
+    var components = $('input[form="'+editFormId+'"]');
+    if(components.length > 0){
+       editFormNumber=editFormNumber+1;
+       editFormId = 'edit_form' + editFormNumber;
+       $DIVCARD.append('<form method="POST" id="'+editFormId+'"><input type="hidden" name="invoice" value="'+invoiceId+'"/></form>');
+    } else {
+       $DIVCARD.append('<input type="hidden" name="invoice" form="edit_form" value="'+invoiceId+'"/>');
+    }
 
+    $row.find("td:eq(1)").removeClass('bg-warning');
 	var medicineId = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineId]').val();
 	var medicineName = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineName]').val();
 	var pharmacistId = $(this).parents("tr").find("td:eq(7)").children('input').val();
 	var supplierId = $(this).parents("tr").find("td:eq(2)").children('input').val();
-	var invoiceId = $(this).parents("tr").find("td:eq(1)").text();
 	var price = $(this).parents("tr").find("td:eq(3)").text();
 	var suppliedCost = $(this).parents("tr").find("td:eq(4)").text();
 	var dateLocal = $(this).parents("tr").find("td:eq(5)").text();
 	var quantity = $(this).parents("tr").find("td:eq(6)").text();
 
-    $row.find("td:eq(0)").html('<input id="medicineName" class="tableInput"/>');
-    $row.find("td:eq(0)").append('<input id="medicineId" type="hidden" name="medicine" form="edit_form"/>');
-    $row.find("td:eq(0)").children('input[id=medicineName]').val(medicineName);
-    $row.find("td:eq(0)").children('input[id=medicineId]').val(medicineId);
-    $row.find("td:eq(1)").html('<input class="tableInput" name="invoice" form="edit_form"/>');
-    $row.find("td:eq(1)").children('input').val(invoiceId);
-    $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="edit_form" class="tableSelect"></select>');
-    $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="edit_form"/>');
+    var medicineNumber = editFormNumber+1;
+    var medicineNameId = 'medicineName'+medicineNumber;
+    var medicineIdId = 'medicineId'+medicineNumber ;
+    console.log('medicineNameId: '+medicineNameId+' medicineIdId: '+medicineIdId);
+    $row.find("td:eq(0)").html('<input id="'+medicineNameId+'" medicineIdForm="'+medicineIdId+'" class="tableInput"/>');
+    $row.find("td:eq(0)").append('<input id="'+medicineIdId+'" type="hidden" name="medicine" form="'+editFormId+'"/>');
+    $row.find("td:eq(0)").children('input[id='+medicineNameId+']').val(medicineName);
+    $row.find("td:eq(0)").children('input[id='+medicineIdId+']').val(medicineId);
+    $row.find("td:eq(1)").text(invoiceId);
+    $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+editFormId+'"/>');
     $row.find("td:eq(3)").children('input').val(price);
-    $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="edit_form"/>');
+    $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+editFormId+'"/>');
     $row.find("td:eq(4)").children('input').val(suppliedCost);
-    $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="edit_form"/>');
+    $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+editFormId+'"/>');
     $row.find("td:eq(5)").children('input').val(dateLocal);
-    $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="edit_form"/>');
+    $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+editFormId+'"/>');
     $row.find("td:eq(6)").children('input').val(quantity);
-    $row.find("td:eq(8)").children('input').attr('form','edit_form');
-
-    $row.find("td:eq(7)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="edit_form" class="tableSelect"></select>');
+    $row.find("td:eq(7)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(8)").children('input').attr('form',''+editFormId);
+    $submitButton.attr('form',editFormId);
 
     selectPharmacists($(this).parents("tr"), pharmacistId);
     selectSuppliers($(this).parents("tr"), supplierId);
-
  });
 
  $('.table-add').on('click', 'i', () => {
-
-    $tBody = $('tbody');
-    $tBody.append(newTr);
-    const $row =$('#table tr:last');
-    $row.find('.table-edit').hide();
-
-   	//make the whole row editable
-   	$row.find('.pt-3-half')
-   	.attr('contenteditable', 'true')
-   	.attr('edit_type', 'button')
-   	.addClass('bg-warning')
-   	.css('padding','3px')
-
-     selectPharmacists($('#table tr:last'), null);
-     selectSuppliers($('#table tr:last'), null);
+ console.log('add new tr');
+    addNewTr();
  });
 
  $tableID.on('click', '.table-remove', function () {
-
+     event.preventDefault();
+     const $row = $(this).parents('tr');
+     $removeButton = $row.find('.table-remove');
+     var inventoryId = $row.find('input[name=inventoryId]').val();
+     console.log('inventoryId:');
+     console.log(inventoryId);
+     ajaxRequestDelete("/invoices/inventory/"+inventoryId,$(this));
  });
 
  $tableID.on('click', '.table-up', function () {
@@ -156,13 +164,57 @@ $tableID.on('click', '.table-edit', function(event)  {
    $EXPORT.text(JSON.stringify(data));
  });
 
-   function selectPharmacists(component, defaultSelectId){
+  function addNewTr(){
+      $tBody = $('tbody');
+         $tBody.append(newTr);
+         const $row =$('#table tr:last');
+         $row.find('.table-edit').hide();
+
+         $submitButton = $row.find('.table-submit');
+         $submitButton.show();
+         $row.find('.table-remove').show();
+        	//make the whole row editable
+        	$row.find('.pt-3-half')
+        	//.attr('contenteditable', 'true')
+        	.attr('edit_type', 'button')
+        	.addClass('bg-warning')
+        	.css('padding','3px')
+
+         var components = $('input[form="'+addFormId+'"]');
+         if(components.length > 0){
+            messagePrompt('Вы уже добавляете новый запись!');
+            return;
+         }
+
+         var invoiceIdInput = $('#invoiceId');
+         var invoiceId = invoiceIdInput.val();
+         console.log(invoiceId);
+
+         $row.find("td:eq(1)").removeClass('bg-warning');
+         $row.find("td:eq(0)").html('<input id="medicineName'+0+'" medicineIdForm="medicineId'+0+'" class="tableInput"/>');
+         $row.find("td:eq(0)").append('<input id="medicineId'+0+'" type="hidden" name="medicine" form="'+addFormId+'"/>');
+         $row.find("td:eq(1)").text(invoiceId);
+         $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
+         $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+addFormId+'"/>');
+         $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+addFormId+'"/>');
+         $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+addFormId+'"/>');
+         $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
+         $row.find("td:eq(7)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
+         $row.find("td:eq(8)").children('input').attr('form',''+addFormId);
+         $DIVCARD.append('<input type="hidden" name="invoice" form="'+addFormId+'" value="'+invoiceId+'"/>');
+         $submitButton.attr('form',addFormId);
+
+         selectPharmacists($('#table tr:last'), null);
+         selectSuppliers($('#table tr:last'), null);
+  }
+
+  function selectPharmacists(component, defaultSelectId){
       selectOptions(component, "acceptingPharmacist" ,"/rest/pharmacists/all",{},defaultSelectId);
    }
 
-   function selectSuppliers(component, defaultSelectId){
+  function selectSuppliers(component, defaultSelectId){
        selectOptions(component, "selectSupplier", "/rest/suppliers/all",{},defaultSelectId);
-   }
+  }
 
   function selectOptions(component, targetComponentId, url, params, defaultSelectId){
         var items = "";
@@ -190,6 +242,22 @@ $tableID.on('click', '.table-edit', function(event)  {
         }
      });
     }
+
+    function ajaxRequestDelete(urlLink, $component){
+        $.ajax({
+           url: urlLink,
+           type: 'delete',
+           success: function(data){
+               console.log(data);
+               $component.parents('tr').detach();
+               //divComponent.html(data);
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+               console.log(textStatus);
+               messagePrompt(textStatus);
+            }
+         });
+        }
 
   function syncAjaxRequest(urlLink, params){
     var theResponse = null;
