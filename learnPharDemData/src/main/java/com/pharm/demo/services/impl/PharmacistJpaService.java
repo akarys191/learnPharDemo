@@ -16,13 +16,14 @@ import java.util.Set;
 
 @Service
 @Profile("springdatajpa")
-public class PharmacistJpaService implements PharmacistService {
+public class PharmacistJpaService extends AbstractPharmUserService<Pharmacist> implements PharmacistService {
 
     private final PharmacistRepository pharmacistRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public PharmacistJpaService(PharmacistRepository pharmacistRepository) {
+        super(pharmacistRepository);
         this.pharmacistRepository = pharmacistRepository;
     }
 

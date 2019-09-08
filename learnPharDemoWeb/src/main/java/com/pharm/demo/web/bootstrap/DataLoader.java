@@ -137,6 +137,8 @@ public class DataLoader implements CommandLineRunner {
             pharmacist.setFirstName("Aidana");
             pharmacist.setLastName("Kassimova");
             pharmacist.setUserName("aidanaKasimova");
+            pharmacist.setPassword("aidanaKasimova");
+            pharmacist.setRoles("ADMIN");
             pharmacistService.save(pharmacist);
 
             Pharmacist pharmacist2 = new Pharmacist();
@@ -185,6 +187,8 @@ public class DataLoader implements CommandLineRunner {
 
             load = false;
         }
+        LOGGER.info(" Is pharmacist user: " + pharmUserService.findByUserName("" +
+                ""));
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
         LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());
         LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());

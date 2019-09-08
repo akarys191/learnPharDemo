@@ -181,13 +181,6 @@ public class InvoicesMvcController {
         invoiceInventory.getInventories().remove(deleteInventory);
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
-        /*int currentPage = currentInventoryPage;
-        int pageSize = currentInventoryPageSize;
-        Long invoiceId = invoiceInventory.getId();
-        this.currentInventoryPage = currentPage;
-        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
-        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
-        return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";*/
     }
 
     @PostMapping("/inventory/new")
