@@ -3,23 +3,22 @@
 
 <body>
 
-<h2>Supplier</h2>
+<h2 th:text="#{suppliersText}"></h2>
 <form th:object="${supplier}" class="form-horizontal" id="add-supplier-form" method="post">
     <div class="form-group has-feedback">
         <input
                 type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}" />
+                th:replace="~{fragments/inputField :: input (#{nameText}, 'name', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Contact Number', 'contactNumber', 'text')}" />
+                th:replace="~{fragments/inputField :: input (#{contactNumberText}, 'contactNumber', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Address', 'address', 'text')}" />
-
+                th:replace="~{fragments/inputField :: input (#{addressText}, 'address', 'text')}"/>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${supplier.id==null} ? 'Add supplier' : 'Update supplier'"
+                    th:with="text=${supplier.id==null} ? #{addText} : #{updateText}"
                     class="btn btn-default" type="submit" th:text="${text}">Add
                 Supplier</button>
         </div>

@@ -5,54 +5,51 @@
 
 <body>
 
-
 <h2>Inventory Information</h2>
-
-
 <table class="table table-striped" th:object="${inventory}">
     <tr>
-        <th>Inventory Id</th>
+        <th th:text="#{idText}">Inventory Id</th>
         <td th:text="*{inventoryId}"/>
         </td>
     </tr>
     <tr>
-        <th>Medicine</th>
+        <th th:text="#{medicineText}">Medicine</th>
         <td th:text="*{medicine.name}"/>
         </td>
     </tr>
     <tr>
-        <th>Invoice</th>
+        <th th:text="#{invoiceText}">Invoice</th>
         <td th:text="*{invoice.id}"/>
         </td>
     </tr>
     <tr>
-        <th>Supplier</th>
+        <th th:text="#{supplierText}">Supplier</th>
         <td th:text="*{supplier.name}"/>
         </td>
     </tr>
     <tr>
-        <th>Quantity</th>
+        <th th:text="#{quantityText}">Quantity</th>
         <td th:text="*{quantity}"/>
         </td>
     </tr>
     <tr>
     <tr>
-        <th>Price</th>
+        <th th:text="#{priceText}">Price</th>
         <td th:text="*{price}"/>
         </td>
     </tr>
     <tr>
-        <th>Supplied cost</th>
+        <th th:text="#{suppliedCostText}">Supplied cost</th>
         <td th:text="*{suppliedCost}"/>
         </td>
     </tr>
     <tr>
-        <th>Supplied date</th>
+        <th th:text="#{suppliedDateText}">Supplied date</th>
         <td th:text="*{suppliedDate}"/>
         </td>
     </tr>
     <tr>
-        <th>Accepting pharmacist</th>
+        <th th:text="#{acceptingPharmacistText}">Accepting pharmacist</th>
         <td th:text="*{acceptingPharmacist.name}"/>
         </td>
     </tr>
@@ -60,7 +57,6 @@
 
 <a th:href="@{{id}/edit(id=${inventory.inventoryId})}" class="btn btn-default">Edit
     Inventory</a>
-
 <br/>
 <br/>
 <br/>

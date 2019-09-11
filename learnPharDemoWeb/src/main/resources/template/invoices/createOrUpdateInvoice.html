@@ -13,7 +13,8 @@
     <form method="POST" id="edit_form"></form>
     <form method="POST" id="add_form"></form>
     <input type="hidden" id="invoiceId" name="invoice" th:value="${invoice.id}"/>
-    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Invoices</h3>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4" th:text="#{invoiceInventories}">
+        Invoices</h3>
     <div class="card-body">
         <div id="table" class="table-editable" th:fragment="editableTable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
@@ -21,14 +22,14 @@
             <table class="table table-bordered table-responsive-md table-striped text-center">
                 <thead>
                 <tr>
-                    <th style="width: 150px;"> medicine</th>
-                    <th style="width: 150px;"> invoice</th>
-                    <th style="width: 150px;"> supplier</th>
-                    <th style="width: 150px;"> price</th>
-                    <th style="width: 150px;"> suppliedCost</th>
-                    <th style="width: 150px;"> suppliedDate</th>
-                    <th style="width: 150px;"> Quantity</th>
-                    <th style="width: 150px;"> acceptingPharmacist</th>
+                    <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+                    <th style="width: 150px;" th:text="#{invoiceText}"> invoice</th>
+                    <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
+                    <th style="width: 150px;" th:text="#{priceText}"> price</th>
+                    <th style="width: 150px;" th:text="#{suppliedCostText}"> suppliedCost</th>
+                    <th style="width: 150px;" th:text="#{suppliedDateText}"> suppliedDate</th>
+                    <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
+                    <th style="width: 150px;" th:text="#{acceptingPharmacistText}"> acceptingPharmacist</th>
                     <th style="width: 150px;"> *</th>
                     <th style="width: 150px;"> **</th>
                 </tr>
@@ -81,7 +82,7 @@
     </div>
 </div>
 <b>
-    <a th:href="@{/inventory/new}"/>create new inventory</a>
+    <a th:href="@{/inventory/new}" th:text="#{createNewInvoiceInventory}"/>create new inventory</a>
 </b>
 <div th:if="${invoiceInventoryPage.totalPages > 0}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">

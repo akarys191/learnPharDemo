@@ -6,23 +6,20 @@
 </head>
 
 <body>
-<b>
-    <a th:href="@{/inventory/new}"/>create new inventory</a>
-</b>
 <br/>
-<h2 th:text="'Inventory'">Inventory List</h2>
+<h2 th:text="#{inventoryText}">Inventory List</h2>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th style="width: 150px;">Id</th>
-        <th style="width: 150px;"> medicine</th>
-        <th style="width: 150px;"> invoice</th>
-        <th style="width: 150px;"> supplier</th>
-        <th style="width: 150px;"> price</th>
-        <th style="width: 150px;"> suppliedCost</th>
-        <th style="width: 150px;"> suppliedDate</th>
-        <th style="width: 150px;"> Quantity</th>
-        <th style="width: 150px;"> acceptingPharmacist</th>
+        <th style="width: 150px;" th:text="#{idText}">Id</th>
+        <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+        <th style="width: 150px;" th:text="#{invoiceText}"> invoice</th>
+        <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
+        <th style="width: 150px;" th:text="#{priceText}"> price</th>
+        <th style="width: 150px;" th:text="#{suppliedCostText}"> suppliedCost</th>
+        <th style="width: 150px;" th:text="#{suppliedDateText}"> suppliedDate</th>
+        <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
+        <th style="width: 150px;" th:text="#{acceptingPharmacistText}"> acceptingPharmacist</th>
     </tr>
     </thead>
     <tbody>
@@ -30,7 +27,8 @@
         th:style="${iStat.odd}? 'font-weight: bold;'"
         th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td>
-            <a th:href="@{/inventory/__${inventory.inventoryId}__}" th:text="${inventory.inventoryId}"/></a>
+            <a class="tableLink" th:href="@{/inventory/__${inventory.inventoryId}__}"
+               th:text="${inventory.inventoryId}"/></a>
         </td>
 
         <td th:text="${inventory.medicine.id}">medicine</td>

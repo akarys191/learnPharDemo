@@ -3,28 +3,28 @@
 
 <body>
 
-<h2>Medicine</h2>
+<h2 th:text="#{medicineText}">Medicine</h2>
   <form th:object="${medicine}" class="form-horizontal" id="add-medicine-form" method="post">
     <div class="form-group has-feedback">
         <input
                 type="hidden" name="id" th:field="*{id}" th:value="${id}"/>
         <input
-               th:replace="~{fragments/inputField :: input ('Barcode', 'barCode', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{barCodeText}, 'barCode', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Name', 'name', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{nameText}, 'name', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Number of plates', 'numberOfPlates', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{numOfPlates}, 'numberOfPlates', 'text')}"/>
         <select
-                th:replace="~{fragments/selectField :: select ('Countries', 'country',  ${countries})}"/>
+                th:replace="~{fragments/selectField :: select (#{countryText}, 'country',  ${countries})}"/>
         <select
-                th:replace="~{fragments/selectField :: select ('Manufacturers', 'manufacturer',  ${manufacturers})}"/>
+                th:replace="~{fragments/selectField :: select (#{manufacturerText}, 'manufacturer',  ${manufacturers})}"/>
         <select
-                th:replace="~{fragments/selectField :: select ('Category', 'category',  ${categories})}"/>
+                th:replace="~{fragments/selectField :: select (#{categoryText}, 'category',  ${categories})}"/>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${medicine.id==null} ? 'Add medicine' : 'Update medicine'"
+                    th:with="text=${medicine.id==null} ? #{addText} : #{updateText}"
                     class="btn btn-default" type="submit" th:text="${text}">Add Medicine</button>
         </div>
     </div>
