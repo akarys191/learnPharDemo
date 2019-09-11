@@ -1,3 +1,19 @@
+ //key get Urls
+ const $medicineBarcodeUrl =  "/medicines/findByBarcode";
+ const $allPharmacistsUrl = "/rest/pharmacists/all";
+ const $acceptingPharmUserUrl = "/rest/pharmacists/currentPharmUser";
+ const $allSuppliersUrl = "/rest/suppliers/all";
+ const $postInvoiceInventoryUrl = "/invoices/inventory"
+ 
+ //Editable key table classes
+ const $tableEditClass = 'table-edit';
+ const $tableRemoveClass = 'table-remove';
+ const $tableSubmitClass = 'table-submit';
+ const $tableEditRowClass = 'pt-3-half';
+ const $editWarningClass = 'bg-warning'
+
+
+ //General ids
  const $tableID = $('#table');
  const $BTN = $('#export-btn');
  const $EXPORT = $('#export');
@@ -6,7 +22,21 @@
  var editFormNumber = 0;
  var editFormId = 'edit_form'
  var addFormId = 'add_form'
- const newTr = `
+
+//Catalogues
+var pharmacistsRef= {json : null };
+var suppliersRef={json : null };
+var acceptingPharmacistRef;
+
+
+//Ajax queries
+$( window ).on("load", function() {
+    selectPharmacists(null, pharmacistsRef, null);
+    selectSuppliers(null, suppliersRef, null);
+    acceptingPharmacistRef = syncAjaxRequest($acceptingPharmUserUrl, {});
+});
+
+const newTr = `
 <tr class="hide">
   <td class="pt-3-half"></td>
     <td class="pt-3-half" ></td>
@@ -28,36 +58,25 @@
   </td>
 </tr> `;
 
-$( function() {
-     $("#datepicker" ).datepicker();
-} );
-
-$tableID.on('click', '.table-submit', function(event)  {
+$tableID.on('click', '.'+$tableSubmitClass, function(event)  {
     event.preventDefault();
     const $row = $(this).parents('tr');
-    $submitButton = $row.find('.table-submit');
+    $submitButton = $row.find('.'+$tableSubmitClass);
     var formId = $submitButton.attr('form');
-    $form = $('#'+formId);
-    console.log('formId:::');
-    console.log(formId);
-    console.log('edit_add_form:::');
-    console.log($form);
-    console.log($form);
-    ajaxRequestPost('/invoices/inventory', $form.serialize(), $tableID);
- });
+    ajaxRequestPost($postInvoiceInventoryUrl, $form.serialize(), $tableID);
+});
 
-$tableID.on('click', '.table-edit', function(event)  {
+$tableID.on('click', '.'+$tableEditClass, function(event)  {
     event.preventDefault();
     const $row = $(this).parents('tr');
-    $row.find('.table-edit').hide();
-    $row.find('.table-remove').show();
-    $submitButton = $row.find('.table-submit');
+    $row.find('.'+$tableEditClass).hide();
+    $row.find('.'+$tableRemoveClass).show();
+    $submitButton = $row.find('.'+$tableSubmitClass);
     $submitButton.show();
 	//make the whole row editable
-	$row.find('.pt-3-half')
-	//.attr('contenteditable', 'true')
+	$row.find('.'+$tableEditRowClass)
 	.attr('edit_type', 'button')
-	.addClass('bg-warning')
+	.addClass($editWarningClass)
 	.css('padding','3px')
 
     var invoiceIdInput = $('#invoiceId');
@@ -71,7 +90,7 @@ $tableID.on('click', '.table-edit', function(event)  {
        $DIVCARD.append('<input type="hidden" name="invoice" form="edit_form" value="'+invoiceId+'"/>');
     }
 
-    $row.find("td:eq(1)").removeClass('bg-warning');
+    $row.find("td:eq(1)").removeClass($editWarningClass);
 	var medicineId = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineId]').val();
 	var medicineName = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineName]').val();
 	var pharmacistId = $(this).parents("tr").find("td:eq(7)").children('input').val();
@@ -80,11 +99,10 @@ $tableID.on('click', '.table-edit', function(event)  {
 	var suppliedCost = $(this).parents("tr").find("td:eq(4)").text();
 	var dateLocal = $(this).parents("tr").find("td:eq(5)").text();
 	var quantity = $(this).parents("tr").find("td:eq(6)").text();
-
+    console.log("dateLocal: "+dateLocal);
     var medicineNumber = editFormNumber+1;
     var medicineNameId = 'medicineName'+medicineNumber;
     var medicineIdId = 'medicineId'+medicineNumber ;
-    console.log('medicineNameId: '+medicineNameId+' medicineIdId: '+medicineIdId);
     $row.find("td:eq(0)").html('<input id="'+medicineNameId+'" medicineIdForm="'+medicineIdId+'" class="tableInput"/>');
     $row.find("td:eq(0)").append('<input id="'+medicineIdId+'" type="hidden" name="medicine" form="'+editFormId+'"/>');
     $row.find("td:eq(0)").children('input[id='+medicineNameId+']').val(medicineName);
@@ -103,23 +121,20 @@ $tableID.on('click', '.table-edit', function(event)  {
     $row.find("td:eq(8)").children('input').attr('form',''+editFormId);
     $submitButton.attr('form',editFormId);
 
-    selectPharmacists($(this).parents("tr"), pharmacistId);
-    selectSuppliers($(this).parents("tr"), supplierId);
+    selectPharmacists($(this).parents("tr"), pharmacistsRef, pharmacistId);
+    selectSuppliers($(this).parents("tr"), suppliersRef,  supplierId);
  });
 
  $('.table-add').on('click', 'i', () => {
- console.log('add new tr');
-    addNewTr();
+    addNewTr(null);
  });
 
- $tableID.on('click', '.table-remove', function () {
+ $tableID.on('click', '.'+$tableRemoveClass, function () {
      event.preventDefault();
      const $row = $(this).parents('tr');
-     $removeButton = $row.find('.table-remove');
+     $removeButton = $row.find('.'+$tableRemoveClass);
      var inventoryId = $row.find('input[name=inventoryId]').val();
-     console.log('inventoryId:');
-     console.log(inventoryId);
-     ajaxRequestDelete("/invoices/inventory/"+inventoryId,$(this));
+     ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId,$(this));
  });
 
  $tableID.on('click', '.table-up', function () {
@@ -164,69 +179,108 @@ $tableID.on('click', '.table-edit', function(event)  {
    $EXPORT.text(JSON.stringify(data));
  });
 
-  function addNewTr(){
-      $tBody = $('tbody');
-         $tBody.append(newTr);
-         const $row =$('#table tr:last');
-         $row.find('.table-edit').hide();
+  function addNewTr(medicine){
 
-         $submitButton = $row.find('.table-submit');
-         $submitButton.show();
-         $row.find('.table-remove').show();
-        	//make the whole row editable
-        	$row.find('.pt-3-half')
-        	//.attr('contenteditable', 'true')
-        	.attr('edit_type', 'button')
-        	.addClass('bg-warning')
-        	.css('padding','3px')
+       var components = $('input[form="'+addFormId+'"]');
+       if(components.length > 0){
+          messagePrompt('Вы уже добавляете новый запись!');
+         return;
+       }
+       $tBody = $('tbody');
+       $tBody.append(newTr);
+       const $row =$('#table tr:last');
+       $row.find('.'+$tableEditClass).hide();
 
-         var components = $('input[form="'+addFormId+'"]');
-         if(components.length > 0){
-            messagePrompt('Вы уже добавляете новый запись!');
-            return;
+       $submitButton = $row.find('.'+$tableSubmitClass);
+       $submitButton.show();
+       $row.find('.'+$tableRemoveClass).show();
+       //make the whole row editable
+       $row.find('.'+$tableEditRowClass)
+       	.attr('edit_type', 'button')
+       	.addClass($editWarningClass)
+       	.css('padding','3px');
+
+        var invoiceIdInput = $('#invoiceId');
+        var invoiceId = invoiceIdInput.val();
+        console.log(invoiceId);
+        var medicineName = 'medicineName'+0;
+        var medicineId = 'medicineId'+0;
+        var medicineIdForm = 'medicineId'+0;
+        var currentIsoDate = getIsoDate(new Date());
+        console.log('currentIsoDate: '+currentIsoDate);
+        $row.find("td:eq(1)").removeClass($editWarningClass);
+        $row.find("td:eq(0)").html('<input id="'+medicineName+'" medicineIdForm="'+medicineIdForm+'" class="tableInput"/>');
+        $row.find("td:eq(0)").append('<input id="'+medicineId+'" type="hidden" name="medicine" form="'+addFormId+'"/>');
+        if(medicine != null){
+           $row.find("td:eq(0)").children('input[id='+medicineId+']').val(medicine.id);
+           $row.find("td:eq(0)").children('input[id="'+medicineName+'"]').val(medicine.name);
+        }
+        $row.find("td:eq(1)").text(invoiceId);
+        $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
+        $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+addFormId+'"/>');
+        $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+addFormId+'"/>');
+        $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+addFormId+'"/>');
+        $row.find("td:eq(5)").children('input').val(currentIsoDate);
+        $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
+        var $rowCol7 =  $row.find("td:eq(7)");
+        if(acceptingPharmacistRef.roles.includes("ADMIN")){
+            console.log('selectiong');
+            console.log(pharmacistsRef);
+            console.log(acceptingPharmacistRef);
+            $rowCol7.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
+            selectPharmacists($rowCol7.parents("tr"), pharmacistsRef, acceptingPharmacistRef.id);
+         } else {
+            $rowCol7.removeClass($editWarningClass);
+            $rowCol7.text(acceptingPharmacistRef.name);
+            $rowCol7.append('<input id="'+medicineId+'" type="hidden" name="acceptingPharmacist" form="'+addFormId+'"/>');
+            $rowCol7.children('input').val(acceptingPharmacistRef.id);
          }
-
-         var invoiceIdInput = $('#invoiceId');
-         var invoiceId = invoiceIdInput.val();
-         console.log(invoiceId);
-
-         $row.find("td:eq(1)").removeClass('bg-warning');
-         $row.find("td:eq(0)").html('<input id="medicineName'+0+'" medicineIdForm="medicineId'+0+'" class="tableInput"/>');
-         $row.find("td:eq(0)").append('<input id="medicineId'+0+'" type="hidden" name="medicine" form="'+addFormId+'"/>');
-         $row.find("td:eq(1)").text(invoiceId);
-         $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
-         $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+addFormId+'"/>');
-         $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+addFormId+'"/>');
-         $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+addFormId+'"/>');
-         $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
-         $row.find("td:eq(7)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
          $row.find("td:eq(8)").children('input').attr('form',''+addFormId);
          $DIVCARD.append('<input type="hidden" name="invoice" form="'+addFormId+'" value="'+invoiceId+'"/>');
          $submitButton.attr('form',addFormId);
-
-         selectPharmacists($('#table tr:last'), null);
-         selectSuppliers($('#table tr:last'), null);
+         selectSuppliers($('#table tr:last'), suppliersRef, null);
   }
 
-  function selectPharmacists(component, defaultSelectId){
-      selectOptions(component, "acceptingPharmacist" ,"/rest/pharmacists/all",{},defaultSelectId);
+  function getIsoDate(date){
+     return date.getFullYear()+'-'+attachZeroIfNecessary(date.getMonth())+'-'+attachZeroIfNecessary(date.getDate())+'T'+attachZeroIfNecessary(date.getHours())+':'+attachZeroIfNecessary(date.getMinutes())+':'+attachZeroIfNecessary(date.getSeconds());
+  }
+
+  function attachZeroIfNecessary(time){
+     var timeString = time+'';
+     if(timeString.length == 1){
+        if(!timeString.includes('0'))
+           return '0'+time;
+     }
+     return time;
+  }
+
+  function selectPharmacists(component, fillPharmacists, defaultSelectId){
+      selectOptions(component, fillPharmacists,  "acceptingPharmacist" ,$allPharmacistsUrl,{},defaultSelectId);
    }
 
-  function selectSuppliers(component, defaultSelectId){
-       selectOptions(component, "selectSupplier", "/rest/suppliers/all",{},defaultSelectId);
+  function selectSuppliers(component, fillSuppliers, defaultSelectId){
+       selectOptions(component, fillSuppliers, "selectSupplier", $allSuppliersUrl,{},defaultSelectId);
   }
 
-  function selectOptions(component, targetComponentId, url, params, defaultSelectId){
+  function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelectId){
         var items = "";
-        var itemsJson = syncAjaxRequest(url,params);
-        $.each(itemsJson ,function(index,item){
-                if(defaultSelectId == item.id){
-                   items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
-                } else {
-                   items+="<option value='"+item.id+"'>"+item.name+"</option>";
-                }
-                component.find("#"+targetComponentId).html(items);
-         });
+        if(fillItems.json == null){
+            fillItems.json = syncAjaxRequest(url,params);
+        }
+        if(component != null){
+            $.each(fillItems.json ,function(index,item){
+                        console.log(fillItems.json);
+                        console.log(component);
+                        console.log(targetComponentId);
+
+                    if(defaultSelectId == item.id){
+                       items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
+                    } else {
+                       items+="<option value='"+item.id+"'>"+item.name+"</option>";
+                    }
+                    component.find("#"+targetComponentId).html(items);
+             });
+         }
   }
   function ajaxRequestPost(urlLink, data, divComponent){
     $.ajax({
@@ -248,9 +302,9 @@ $tableID.on('click', '.table-edit', function(event)  {
            url: urlLink,
            type: 'delete',
            success: function(data){
+               console.log('deleted row');
                console.log(data);
                $component.parents('tr').detach();
-               //divComponent.html(data);
             },
             error: function( jqXhr, textStatus, errorThrown ){
                console.log(textStatus);
@@ -261,6 +315,9 @@ $tableID.on('click', '.table-edit', function(event)  {
 
   function syncAjaxRequest(urlLink, params){
     var theResponse = null;
+    console.log("urlLink::: ");
+    console.log(urlLink);
+    console.log(params);
     $.ajax({
            url: urlLink,
            async: false,
@@ -275,3 +332,21 @@ $tableID.on('click', '.table-edit', function(event)  {
     });
     return theResponse;
   }
+  $(document).scannerDetection({
+  	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+  	//startChar: [120], // Prefix character for the cabled scanner (OPL6845R)
+  	//endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+  	avgTimeByChar: 30, // it's not a barcode if a character takes longer than 40ms
+  	onComplete: function(barcode, qty){
+  	    var medicine = syncAjaxRequest($medicineBarcodeUrl, {term:barcode});
+  	    if(medicine == null)
+  	    {
+  	         messagePrompt('Лекарство не найдено!');
+  	         return;
+  	    }
+  	    console.log("medicine: ");
+  	    console.log(barcode);
+  	    console.log(medicine);
+  	   	addNewTr(medicine);
+  	} // main callback function
+  });

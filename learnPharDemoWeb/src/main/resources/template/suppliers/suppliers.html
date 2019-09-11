@@ -4,31 +4,28 @@
     <meta charset="UTF-8">
     <title>Learn Pharm Demo</title>
 </head>
-<!--<body>
-    <h1 th:text="Index Page"> </h1>
-</body>-->
 <body>
 <b>
-    <a th:href="@{/suppliers/new}"/>create new supplier</a>
+    <a th:href="@{/suppliers/new}" th:text="#{createNewSupplier}"/></a>
 </b>
 <br/>
-<h2 th:text="'List of Suppliers'">Suppliers List</h2>
+<h2 th:text="#{listOfSuppliers}">Suppliers List</h2>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th style="width: 150px;">Id</th>
-        <th style="width: 150px;"> Name</th>
-        <th style="width: 150px;"> Contact Number</th>
-        <th style="width: 150px;"> Address </th>
+        <th style="width: 150px;" th:text="#{idText}">Id</th>
+        <th style="width: 150px;" th:text="#{nameText}"> Name</th>
+        <th style="width: 150px;" th:text="#{contactNumberText}"> Contact Number</th>
+        <th style="width: 150px;" th:text="#{addressText}"> Address</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="supplier, iStat  : ${supplierPage.content}"
         th:style="${iStat.odd}? 'font-weight: bold;'"
         th:alt-title="${iStat.even}? 'even' : 'odd'">
-        <td th:text="${supplier.id}">1</td>
+        <td th:text="${supplier.id}"></td>
         <td>
-            <a th:href="@{/suppliers/__${supplier.id}__}" th:text="${supplier.name}"/></a>
+            <a class="tableLink" th:href="@{/suppliers/__${supplier.id}__}" th:text="${supplier.name}"/></a>
         </td>
         <td th:text="${supplier.contactNumber}">Contact Number</td>
         <td th:text="${supplier.address}">Address</td>

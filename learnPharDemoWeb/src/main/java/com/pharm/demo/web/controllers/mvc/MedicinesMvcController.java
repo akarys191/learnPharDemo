@@ -92,7 +92,8 @@ public class MedicinesMvcController {
     @RequestMapping(value = "/findByBarcode", produces = " application/json")
     public @ResponseBody
     Medicine findByBarcode(@Param("term") String term) {
-        return medicineService.findByBarcode(term);
+        Medicine medicine = medicineService.findByBarcode(term);
+        return medicine;
     }
 
 

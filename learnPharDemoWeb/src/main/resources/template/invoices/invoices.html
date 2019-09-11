@@ -6,17 +6,17 @@
 </head>
 <body>
 <b>
-    <a th:href="@{/invoices/new}"/>create new invoice</a>
+    <a th:href="@{/invoices/new}" th:text="#{createNewInvoice}"/></a>
 </b>
 <br/>
-<h2 th:text="'List of Invoices'">Invoices List</h2>
+<h2 th:text="#{listOfInvoices}">Invoices List</h2>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th style="width: 150px;"> Id</th>
-        <th style="width: 150px;"> Supplier</th>
-        <th style="width: 150px;"> Number of inventories</th>
-        <th style="width: 150px;"> Paid sum</th>
+        <th style="width: 150px;" th:text="#{idText}"> Id</th>
+        <th style="width: 150px;" th:text="#{suppliersText}"> Supplier</th>
+        <th style="width: 150px;" th:text="#{numberOfInventories}"> Number of inventories</th>
+        <th style="width: 150px;" th:text="#{paidSumText}"> Paid sum</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@
         th:style="${iStat.odd}? 'font-weight: bold;'"
         th:alt-title="${iStat.even}? 'even' : 'odd'">
         <td>
-            <a th:href="@{/invoices/__${invoice.id}__}" th:text="${invoice.id}"/></a>
+            <a class="tableLink" th:href="@{/invoices/__${invoice.id}__}" th:text="${invoice.id}"/></a>
         </td>
         <td th:text="${invoice.supplier.name}">Supplier</td>
         <td th:text="${invoice.inventories.size()}">Number of inventory</td>

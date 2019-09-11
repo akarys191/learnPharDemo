@@ -6,17 +6,17 @@
 </head>
 <body>
 <b>
-    <a th:href="@{/medicines/new}"/>Create new medicine</a>
+    <a th:href="@{/medicines/new}" th:text="#{createNewMedicine}"/></a>
 </b>
 <br/>
-<h2 th:text="'List of Medicines'">Medicines List</h2>
+<h2 th:text="#{listOfMedicines}">Medicines List</h2>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th style="width: 150px;">Barcode</th>
-        <th style="width: 150px;"> Name</th>
-        <th style="width: 150px;"> Country</th>
-        <th style="width: 150px;">Category</th>
+        <th style="width: 150px;" th:text="#{barCodeText}">Barcode</th>
+        <th style="width: 150px;" th:text="#{nameText}"> Name</th>
+        <th style="width: 150px;" th:text="#{countryText}"> Country</th>
+        <th style="width: 150px;" th:text="#{categoryText}">Category</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
         th:alt-title="${iStat.even}? 'even' : 'odd'">
            <td th:text="${medicine.id}">1</td>
         <td>
-            <a th:href="@{/medicines/__${medicine.id}__}" th:text="${medicine.barCode}"/></a>
+            <a class="tableLink" th:href="@{/medicines/__${medicine.id}__}" th:text="${medicine.barCode}"/></a>
         </td>
            <td th:text="${medicine.country.name}">Country</td>
            <td th:text="${medicine.category.name}">Category</td>

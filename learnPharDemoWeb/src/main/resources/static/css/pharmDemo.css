@@ -1,37 +1,57 @@
 .ui-autocomplete {
-  max-height: 140px !important;
-  max-width: 1001px !important;
-  background-color: #ffffff !important;
+   max-height: 140px !important;
+   max-width: 1001px !important;
+   background-color: #ffffff !important;
 }
+
 ul.ui-autocomplete {
-  height: 200px;
-  width: 76% !important;
-  overflow: hidden;
-  overflow-y: scroll;
+   height: 200px;
+   width: 76% !important;
+   overflow: hidden;
+   overflow-y: scroll;
 }
 
 button.my-sm-0{
-      color:white
+   color:white
 }
 
+div.languageLinks{
+ margin-left: 75px !important;
+ display: inline-flex;
+}
+
+div.dropdown-menu.show{
+   margin-left: -50px !important;
+}
 a.dropdown-toggle{
-      margin-left: 120px !important;
-      color:white
+  margin-left: 100px !important;
+  color:white
+}
+
+form.form-inline.my-2.my-lg-0{
+   margin-left: 190px;
+   width: 450px;
+}
+
+input.form-control.mr-sm-2{
+   width: 250px;
 }
 
 ul.mr-auto{
-    padding-left: 10;
-    margin-right:100px!important
+   padding-left: 10;
+   margin-right:100px!important
 }
 
 .pt-3-half {
-    padding-top: 1.4rem;
+   padding-top: 1.4rem;
 }
+
 .tableInput{
    background-color:#fb3!important;
    width:100%;
    border:0;
 }
+
 .tableSelect{
     width:100%;
     background-color:#fb3!important;
@@ -40,8 +60,29 @@ ul.mr-auto{
     outline:0px;
 }
 
+button.btn.my-2.my-sm-0{
+   background-color:#007bff!important;
+}
 
 .fa nav-link dropdown-toggle{
-  content: "\f08b"
+    content: "\f08b"
 }
+
 .modal-footer {height:50px;}
+
+a.tableLink {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    color: #007bff !important;
+    webkit-transition: all .2s ease-in-out !important;
+    o-transition: all .2s ease-in-out !important;
+    transition: all .2s ease-in-out !important;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
+
+a:active {
+  text-decoration: underline !important;
+}

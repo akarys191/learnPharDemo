@@ -36,9 +36,9 @@
     <script type="text/javascript" src="/libs/js/mdb.min.js"></script>
     <link rel="stylesheet" href="/libs/css/all.css">
 </head>
-<body>
+<body id="layout">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-    <a class="navbar-brand badge" href="/">911</a>
+    <a class="navbar-brand badge" href="/"><h1>911</h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -53,44 +53,44 @@
                     <span th:text="${text}">Template</span>
                 </a>
             </li>
-
-            <li th:replace="::menuItem ('/','home','home page','home','Home')">
-                <a th:class="${'nav-item'}" class="" href="#">Home</a>
+            <li th:class="nav-item"
+                th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list',#{suppliersText})">
+                <a class="nav-link" href="#" th:text="#{suppliersText}">Suppliers</a>
             </li>
             <li th:class="nav-item"
-                th:replace="::menuItem ('/suppliers/listSuppliers','suppliers','suppliers','th-list','Suppliers')">
-                <a class="nav-link" href="#">Suppliers</a>
-            </li>
-            <li th:class="nav-item"
-                th:replace="::menuItem ('/medicines/listMedicines','medicines','medicines','th-list','Medicines')">
-                <a class="nav-link" href="#">Suppliers</a>
+                th:replace="::menuItem ('/medicines/listMedicines','medicines','medicines','th-list',#{medicinesText})">
+                <a class="nav-link" href="#">Medicines</a>
             </li>
             <li class="nav-item"
-                th:replace="::menuItem ('/inventory/listInventory','inventory','inventory','th-list','Inventory')">
+                th:replace="::menuItem ('/inventory/listInventory','inventory','inventory','th-list',#{inventoryText})">
                 <a class="nav-link" href="#">Inventory</a>
             </li>
             <li class="nav-item"
-                th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list','Invoices')">
+                th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list',#{invoicesText})">
                 <a class="nav-link" href="#">Invoices</a>
             </li>
-            <li class="nav-item" th:replace="::menuItem ('/oups','Sales','Sales','th-list','Sales')">
+            <li class="nav-item" th:replace="::menuItem ('/oups','Sales','Sales','th-list',#{salesText})">
                 <a class="nav-link" href="#">Sales</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Find Medicine" aria-label="Search">
-            <button class="btn my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control mr-sm-2" type="search" th:placeholder="#{findMedicineText}" aria-label='Search'>
+            <button class="btn my-2 my-sm-0" th:text="#{searchText}" type="submit">Search</button>
         </form>
         <li class="nav-item dropdown">
+            <div class="languageLinks">
+                <a class="nav-link" href="#">Ru</a>
+                <a class="nav-link" href="#">En</a>
+            </div>
             <a class="fas fa-sign-out-alt nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
                data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">Sign Out</a>
+               aria-haspopup="true" aria-expanded="false" th:text="#{signOutText}"></a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                <a class="dropdown-item" th:href="@{/logout}">Sign Out</a>
+                <a class="dropdown-item" th:href="@{/logout}" th:text="#{signOutText}"></a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">
-                    Logged as <span sec:authentication="name"></span>
-                    Has role <span sec:authentication="principal.authorities"></span>
+                    <b th:text="#{loggedAsText}"></b> <span sec:authentication="name"></span>
+                    <b th:text="#{hasRoleText}"></b> <span sec:authentication="principal.authorities"></span>
                 </a>
             </div>
         </li>

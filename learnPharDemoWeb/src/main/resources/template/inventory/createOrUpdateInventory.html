@@ -2,12 +2,8 @@
       th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
 
 <body>
-<h2>Inventory</h2>
+<h2 th:text="#{inventoryText}">Inventory</h2>
 
-<!--<head>
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-</head>-->
 
 <form th:object="${inventory}" class="form-horizontal" id="add-inventory-form" method="post">
 
@@ -17,12 +13,12 @@
         <input
                 id="medicineIdInput" type="hidden" name="medicine" th:field="*{medicine}" value=""/>
         <select
-                th:replace="~{fragments/selectField :: select ('Suppliers', 'supplier',  ${suppliers})}"/>
+                th:replace="~{fragments/selectField :: select (#{suppliersText}, 'supplier',  ${suppliers})}"/>
         <select
-                th:replace="~{fragments/selectField :: select ('Accepting pharmacists', 'acceptingPharmacist',  ${acceptingPharmacists})}"/>
+                th:replace="~{fragments/selectField :: select (#{acceptingPharmacistText}, 'acceptingPharmacist',  ${acceptingPharmacists})}"/>
         <div id="ui-widget-search" class="ui-widget">
             <div class="form-group">
-                <label id="tagQueryLabel" class="col-sm-2 control-label" for="tagQuery">Medicine</label>
+                <label id="tagQueryLabel" class="col-sm-2 control-label" for="tagQuery" th:text="#{medicineText}">Medicine</label>
                 <div class="col-sm-10">
                     <input id="tagQuery" class="form-control" th:value="*{medicine != null} ? *{medicine.name} : ''"
                            type="text" name="tagQuery" onFocus="inputFocus(this)" onBlur="inputBlur(this)">
@@ -30,15 +26,15 @@
             </div>
         </div>
         <input
-                th:replace="~{fragments/inputField :: input ('Invoice', 'invoice.id', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{invoiceText}, 'invoice.id', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{priceText}, 'price', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Quantity', 'quantity', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{quantityText}, 'quantity', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Supplied Cost', 'suppliedCost', 'text')}"/>
+                th:replace="~{fragments/inputField :: input (#{suppliedCostText}, 'suppliedCost', 'text')}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Supplied Date', 'suppliedDate', 'date')}"/>
+                th:replace="~{fragments/inputField :: input (#{suppliedDateText}, 'suppliedDate', 'date')}"/>
 
     </div>
     <div class="form-group">

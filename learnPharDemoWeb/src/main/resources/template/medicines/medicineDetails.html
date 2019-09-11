@@ -4,41 +4,41 @@
   th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 
   <body>
-    <h2>Medicine Information</h2>
+  <h2 th:text="#{medicineInfo}"></h2>
 
     <table class="table table-striped" th:object="${medicine}">
         <tr>
-            <th>Barcode</th>
+            <th th:text="#{barCodeText}">Barcode</th>
             <td th:text="*{barCode}"/>
             </td>
         </tr>
         <tr>
         <tr>
-        <th>Name</th>
+            <th th:text="#{nameText}">Name</th>
         <td th:text="*{name}" /></td>
       </tr>
       <tr>
-          <th>Country</th>
+          <th th:text="#{countryText}">Country</th>
           <td th:text="*{country.name}"/>
           </td>
       </tr>
         <tr>
-            <th>Manufacturer</th>
+            <th th:text="#{manufacturerText}">Manufacturer</th>
             <td th:text="*{manufacturer.name}"/>
             </td>
         </tr>
         <tr>
-            <th>Number of plates</th>
+            <th th:text="#{countryText}">Number of plates</th>
             <td th:text="*{numberOfPlates}"/>
             </td>
         </tr>
         <tr>
-            <th>Category</th>
+            <th th:text="#{categoryText}">Category</th>
             <td th:text="*{category.name}" /></td>
         </tr>
     </table>
 
-    <a th:href="@{{id}/edit(id=${medicine.id})}" class="btn btn-default">Edit
+  <a th:href="@{{id}/edit(id=${medicine.id})}" class="btn btn-default" th:text="#{editText}">Edit
       Medicine</a>
     <br />
     <br />
