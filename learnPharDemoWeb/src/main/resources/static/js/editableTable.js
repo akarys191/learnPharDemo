@@ -63,6 +63,7 @@ $tableID.on('click', '.'+$tableSubmitClass, function(event)  {
     const $row = $(this).parents('tr');
     $submitButton = $row.find('.'+$tableSubmitClass);
     var formId = $submitButton.attr('form');
+    $form = $('#'+formId);
     ajaxRequestPost($postInvoiceInventoryUrl, $form.serialize(), $tableID);
 });
 

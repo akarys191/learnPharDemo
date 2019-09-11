@@ -82,7 +82,7 @@
     </div>
 </div>
 <b>
-    <a th:href="@{/inventory/new}" th:text="#{createNewInvoiceInventory}"/>create new inventory</a>
+    <a th:href="@{/inventory/new}" th:text="#{createNewInvoiceInventory}"/></a>
 </b>
 <div th:if="${invoiceInventoryPage.totalPages > 0}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">

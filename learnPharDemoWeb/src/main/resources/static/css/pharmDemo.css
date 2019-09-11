@@ -25,11 +25,13 @@ div.dropdown-menu.show{
 }
 a.dropdown-toggle{
   margin-left: 100px !important;
+  justify-content: flex-end;
   color:white
 }
 
 form.form-inline.my-2.my-lg-0{
-   margin-left: 190px;
+   /*margin-left: 90px;*/
+   justify-content: flex-end !important;
    width: 450px;
 }
 
@@ -38,8 +40,7 @@ input.form-control.mr-sm-2{
 }
 
 ul.mr-auto{
-   padding-left: 10;
-   margin-right:100px!important
+   justify-content: flex-start !important;
 }
 
 .pt-3-half {
