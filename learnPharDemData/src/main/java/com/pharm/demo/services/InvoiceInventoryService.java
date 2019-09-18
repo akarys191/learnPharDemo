@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface InvoiceInventoryService extends CrudService<InvoiceInventory, Long> {
     Page<InvoiceInventory> findPaginated(Pageable pageable);
+
 }

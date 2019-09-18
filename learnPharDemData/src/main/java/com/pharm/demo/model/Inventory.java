@@ -32,6 +32,7 @@ public class Inventory extends AbstractEntity {
     private Double price;
     private Double markup;
     private Double suppliedCost;
+    private Double paidSum;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime suppliedDate;
@@ -51,5 +52,16 @@ public class Inventory extends AbstractEntity {
         this.suppliedCost = suppliedCost;
         this.suppliedDate = suppliedDate;
         this.acceptingPharmacist = acceptingPharmacist;
+        this.paidSum = this.quantity * this.suppliedCost;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void setPaidSum() {
+        this.paidSum = this.quantity * this.suppliedCost;
+    }
+
+    public Double getPaidSum() {
+        return this.paidSum;
     }
 }

@@ -1,10 +1,7 @@
- //key get Urls
- const $medicineBarcodeUrl =  "/medicines/findByBarcode";
- const $allPharmacistsUrl = "/rest/pharmacists/all";
- const $acceptingPharmUserUrl = "/rest/pharmacists/currentPharmUser";
- const $allSuppliersUrl = "/rest/suppliers/all";
- const $postInvoiceInventoryUrl = "/invoices/inventory"
- 
+
+//Urls
+ const $urlLinkListInventory = '/invoices/listInventory'
+
  //Editable key table classes
  const $tableEditClass = 'table-edit';
  const $tableRemoveClass = 'table-remove';
@@ -19,22 +16,20 @@
  const $EXPORT = $('#export');
  const $SUBMIT = $('#submitTableData');
  const $DIVCARD = $('#cardDiv');
+
+// Global variables
+ const $invoiceId = $('#invoiceId').val();
+ const $totalPages = $('#totalPages').val();
+//Language bundle values
+ const $nextPaginationMessage = $("#nextPaginationMessage").val();
+ const $prevPaginationMessage = $("#prevPaginationMessage").val();
+ const $firstPaginationMessage = $("#firstPaginationMessage").val();
+ const $lastPaginationMessage = $("#lastPaginationMessage").val();
+ const $addRecordIsInProcessMessage = $("#addRecordIsInProcessMessage").val();
+
  var editFormNumber = 0;
  var editFormId = 'edit_form'
  var addFormId = 'add_form'
-
-//Catalogues
-var pharmacistsRef= {json : null };
-var suppliersRef={json : null };
-var acceptingPharmacistRef;
-
-
-//Ajax queries
-$( window ).on("load", function() {
-    selectPharmacists(null, pharmacistsRef, null);
-    selectSuppliers(null, suppliersRef, null);
-    acceptingPharmacistRef = syncAjaxRequest($acceptingPharmUserUrl, {});
-});
 
 const newTr = `
 <tr class="hide">
@@ -48,6 +43,7 @@ const newTr = `
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half">
+    <input type="hidden" name="inventoryId" value=null/>
     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
   </td>
@@ -122,8 +118,8 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     $row.find("td:eq(8)").children('input').attr('form',''+editFormId);
     $submitButton.attr('form',editFormId);
 
-    selectPharmacists($(this).parents("tr"), pharmacistsRef, pharmacistId);
-    selectSuppliers($(this).parents("tr"), suppliersRef,  supplierId);
+    selectPharmacists($(this).parents("tr"), pharmacistId);
+    selectSuppliers($(this).parents("tr"), supplierId);
  });
 
  $('.table-add').on('click', 'i', () => {
@@ -136,6 +132,7 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
      $removeButton = $row.find('.'+$tableRemoveClass);
      var inventoryId = $row.find('input[name=inventoryId]').val();
      ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId,$(this));
+     $row.find('input[name=inventoryId]').attr('form',null);
  });
 
  $tableID.on('click', '.table-up', function () {
@@ -181,10 +178,12 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
  });
 
   function addNewTr(medicine){
-
-       var components = $('input[form="'+addFormId+'"]');
-       if(components.length > 0){
-          messagePrompt('Вы уже добавляете новый запись!');
+       const $rowLast =$('#table tr:last');
+       var addFormIdTest = $rowLast.find('input[name=inventoryId]').attr('form');
+       console.log('addFormIdTest');
+       console.log(addFormIdTest);
+       if(addFormIdTest == addFormId){
+          messagePrompt($addRecordIsInProcessMessage);
          return;
        }
        $tBody = $('tbody');
@@ -225,11 +224,10 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
         $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
         var $rowCol7 =  $row.find("td:eq(7)");
         if(acceptingPharmacistRef.roles.includes("ADMIN")){
-            console.log('selectiong');
-            console.log(pharmacistsRef);
+            console.log('acceptingPharmacistRef');
             console.log(acceptingPharmacistRef);
             $rowCol7.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
-            selectPharmacists($rowCol7.parents("tr"), pharmacistsRef, acceptingPharmacistRef.id);
+            selectPharmacists($rowCol7.parents("tr"), acceptingPharmacistRef.id);
          } else {
             $rowCol7.removeClass($editWarningClass);
             $rowCol7.text(acceptingPharmacistRef.name);
@@ -237,117 +235,21 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
             $rowCol7.children('input').val(acceptingPharmacistRef.id);
          }
          $row.find("td:eq(8)").children('input').attr('form',''+addFormId);
+         $row.find('input[name=inventoryId]').attr('form',addFormId)
          $DIVCARD.append('<input type="hidden" name="invoice" form="'+addFormId+'" value="'+invoiceId+'"/>');
          $submitButton.attr('form',addFormId);
-         selectSuppliers($('#table tr:last'), suppliersRef, null);
+         selectSuppliers($('#table tr:last'), null);
   }
 
-  function getIsoDate(date){
-     return date.getFullYear()+'-'+attachZeroIfNecessary(date.getMonth())+'-'+attachZeroIfNecessary(date.getDate())+'T'+attachZeroIfNecessary(date.getHours())+':'+attachZeroIfNecessary(date.getMinutes())+':'+attachZeroIfNecessary(date.getSeconds());
-  }
-
-  function attachZeroIfNecessary(time){
-     var timeString = time+'';
-     if(timeString.length == 1){
-        if(!timeString.includes('0'))
-           return '0'+time;
-     }
-     return time;
-  }
-
-  function selectPharmacists(component, fillPharmacists, defaultSelectId){
-      selectOptions(component, fillPharmacists,  "acceptingPharmacist" ,$allPharmacistsUrl,{},defaultSelectId);
-   }
-
-  function selectSuppliers(component, fillSuppliers, defaultSelectId){
-       selectOptions(component, fillSuppliers, "selectSupplier", $allSuppliersUrl,{},defaultSelectId);
-  }
-
-  function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelectId){
-        var items = "";
-        if(fillItems.json == null){
-            fillItems.json = syncAjaxRequest(url,params);
-        }
-        if(component != null){
-            $.each(fillItems.json ,function(index,item){
-                        console.log(fillItems.json);
-                        console.log(component);
-                        console.log(targetComponentId);
-
-                    if(defaultSelectId == item.id){
-                       items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
-                    } else {
-                       items+="<option value='"+item.id+"'>"+item.name+"</option>";
-                    }
-                    component.find("#"+targetComponentId).html(items);
-             });
-         }
-  }
-  function ajaxRequestPost(urlLink, data, divComponent){
-    $.ajax({
-       url: urlLink,
-       type: 'post',
-       data: data,
-       success: function(data){
-           console.log( data );
-           divComponent.html( data );
-        },
-        error: function( jqXhr, textStatus, errorThrown ){
-           console.log(textStatus);
-        }
-     });
-    }
-
-    function ajaxRequestDelete(urlLink, $component){
-        $.ajax({
-           url: urlLink,
-           type: 'delete',
-           success: function(data){
-               console.log('deleted row');
-               console.log(data);
-               $component.parents('tr').detach();
-            },
-            error: function( jqXhr, textStatus, errorThrown ){
-               console.log(textStatus);
-               messagePrompt(textStatus);
-            }
-         });
-        }
-
-  function syncAjaxRequest(urlLink, params){
-    var theResponse = null;
-    console.log("urlLink::: ");
-    console.log(urlLink);
-    console.log(params);
-    $.ajax({
-           url: urlLink,
-           async: false,
-           data: params,
-           dataType: "json",
-           success: function (json) {
-             theResponse = json;
-           },
-           error:function (xhr) {
-             messagePrompt('Ошибка: '+ xhr.statusText);
-           }
-    });
-    return theResponse;
-  }
-  $(document).scannerDetection({
-  	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-  	//startChar: [120], // Prefix character for the cabled scanner (OPL6845R)
-  	//endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
-  	avgTimeByChar: 30, // it's not a barcode if a character takes longer than 40ms
-  	onComplete: function(barcode, qty){
-  	    var medicine = syncAjaxRequest($medicineBarcodeUrl, {term:barcode});
-  	    if(medicine == null)
-  	    {
-  	         messagePrompt('Лекарство не найдено!');
-  	         return;
-  	    }
-  	    console.log("medicine: ");
-  	    console.log(barcode);
-  	    console.log(medicine);
-  	   	addNewTr(medicine);
-  	} // main callback function
-  });
+  $('#pagination-demo').twbsPagination({
+      totalPages: $totalPages,
+      visiblePages: $totalPages%5,
+      next: $nextPaginationMessage,
+      prev: $prevPaginationMessage,
+      first: $firstPaginationMessage,
+      last: $lastPaginationMessage,
+      onPageClick: function (event, page) {
+        var urlLink = $urlLinkListInventory+'?page='+page+'&invoiceId='+$invoiceId;
+        ajaxRequestGet(urlLink, $tableID);
+      }
+   });

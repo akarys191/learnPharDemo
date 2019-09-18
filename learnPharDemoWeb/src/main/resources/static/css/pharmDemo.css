@@ -87,3 +87,27 @@ a:hover {
 a:active {
   text-decoration: underline !important;
 }
+
+
+.wrapper{
+  margin: 10px auto;
+  text-align: center;
+}
+h1{
+  margin-bottom: 1.25em;
+}
+#pagination-demo{
+  display: inline-block;
+  margin-bottom: 1.75em;
+}
+#pagination-demo li{
+  display: inline-block;
+}
+
+.page-content{
+  background: #eee;
+  display: inline-block;
+  padding: 0px;
+  width: 100%;
+  max-width: 660px;
+}
