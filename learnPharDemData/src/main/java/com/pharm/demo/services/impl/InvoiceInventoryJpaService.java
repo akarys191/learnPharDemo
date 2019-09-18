@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,6 +29,11 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     @Override
     public Page<InvoiceInventory> findPaginated(Pageable pageable) {
         return this.invoiceInventoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Double getTotalPaidSum(Long invoiceId) {
+        return Optional.ofNullable(invoiceInventoryRepository.getTotalPaidSum(invoiceId)).orElse(0.0);
     }
 
     @Override

@@ -16,7 +16,6 @@
         <th style="width: 150px;" th:text="#{idText}"> Id</th>
         <th style="width: 150px;" th:text="#{suppliersText}"> Supplier</th>
         <th style="width: 150px;" th:text="#{numberOfInventories}"> Number of inventories</th>
-        <th style="width: 150px;" th:text="#{paidSumText}"> Paid sum</th>
     </tr>
     </thead>
     <tbody>
@@ -28,7 +27,6 @@
         </td>
         <td th:text="${invoice.supplier.name}">Supplier</td>
         <td th:text="${invoice.inventories.size()}">Number of inventory</td>
-        <td th:text="${invoice.paidSum}">Paid sum</td>
     </tr>
     </tbody>
     </tr>

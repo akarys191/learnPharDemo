@@ -43,7 +43,7 @@ const newTr = `
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half">
-    <input type="hidden" name="inventoryId" value=null/>
+    <input type="hidden" name="inventoryId"/>
     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
   </td>

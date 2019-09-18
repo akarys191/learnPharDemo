@@ -87,6 +87,11 @@
                 </tr>
                 </tbody>
             </table>
+            <div>
+                <label style="display: flex;" th:text="#{labelTotalPaidNum} +': '+ ${totalPaidNum}">totalPaidNum</label>
+                <label style="display: flex;"
+                       th:text="#{labelTotalPaidSum}  +': '+ ${totalPaidSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
+            </div>
         </div>
     </div>
 </div>

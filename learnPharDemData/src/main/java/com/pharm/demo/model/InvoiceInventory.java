@@ -18,8 +18,6 @@ public class InvoiceInventory extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_inventory_id_generator")
     @SequenceGenerator(name = "invoice_inventory_id_generator", sequenceName = "invoice_inventory_id_seq", allocationSize = 50)
     private Long id;
-    @Transient
-    private Double paidSum = 0.0;
 
     @ManyToOne
     private Supplier supplier;
@@ -28,5 +26,8 @@ public class InvoiceInventory extends AbstractEntity {
             cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Inventory> inventories;
 
+    public int getTotalPaidNum() {
+        return inventories.size();
+    }
 
 }

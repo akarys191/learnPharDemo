@@ -96,6 +96,8 @@ public class InvoicesMvcController {
         mav.addObject("totalPages", totalPages);
         mav.addObject("invoiceInventoryPage", invoiceInventoryPage);
         mav.addObject("invoice", invoiceInventory);
+        mav.addObject("totalPaidSum", invoiceService.getTotalPaidSum(invoiceInventory.getId()));
+        mav.addObject("totalPaidNum", invoiceInventory.getTotalPaidNum());
         return mav;
     }
 
@@ -106,6 +108,8 @@ public class InvoicesMvcController {
         Page<Inventory> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("invoice", invoiceInventory);
+        model.addAttribute("totalPaidSum", 0);
+        model.addAttribute("totalPaidNum", invoiceInventory.getTotalPaidNum());
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -144,10 +148,15 @@ public class InvoicesMvcController {
                 invoiceInventory.getInventories().add(inventory);
             }
             inventory.setInvoice(invoiceInventory);
+
             invoiceService.save(invoiceInventory);
             inventoryService.save(inventory);
+
             Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+            model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
+            model.addAttribute("totalPaidNum", inventory.getInvoice().getTotalPaidNum());
             model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+
             return VIEWS_INVOICE_INVENTORY_EDITABLE_TABLE;
         }
     }
@@ -157,8 +166,10 @@ public class InvoicesMvcController {
     public void processDeletionForm(@PathVariable("id") Long inventoryId) {
         LOGGER.info("Delete inventory {1} is called! ", inventoryId);
         Inventory deleteInventory = inventoryService.findById(inventoryId);
+
         InvoiceInventory invoiceInventory = deleteInventory.getInvoice();
         invoiceInventory.getInventories().remove(deleteInventory);
+
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
     }
@@ -172,17 +183,23 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
+
             invoiceInventory.getInventories().add(inventory);
             inventory.setInvoice(invoiceInventory);
+
             invoiceService.save(invoiceInventory);
             inventoryService.save(inventory);
+
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         }
     }
 
     @GetMapping("/{id}/edit")
     public String initUpdateInvoiceForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("invoice", invoiceService.findById(id));
+        InvoiceInventory invoiceInventory = invoiceService.findById(id);
+        model.addAttribute("invoice", invoiceInventory);
+        model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(id));
+        model.addAttribute("totalPaidNum", invoiceInventory.getTotalPaidNum());
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
