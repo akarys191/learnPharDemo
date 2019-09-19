@@ -28,7 +28,6 @@ $( window ).on("load", function() {
   function attachZeroIfNecessary(time){
      var timeString = time+'';
      if(timeString.length == 1){
-        if(!timeString.includes('0'))
            return '0'+time;
      }
      return time;
@@ -68,7 +67,6 @@ $( window ).on("load", function() {
        type: 'post',
        data: data,
        success: function(data){
-           console.log( data );
            divComponent.html( data );
         },
         error: function( jqXhr, textStatus, errorThrown ){
@@ -96,8 +94,6 @@ $( window ).on("load", function() {
            type: 'delete',
            success: function(data){
                console.log('deleted row');
-               console.log(data);
-               /*$component.parents('tr').detach();*/
                divComponent.html( data );
             },
             error: function( jqXhr, textStatus, errorThrown ){

@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,23 +20,32 @@ public class Inventory extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
     @SequenceGenerator(name="inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize=50)
     private Long inventoryId;
+
+    @NotNull
     @ManyToOne
     private Medicine medicine;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "INVOICE_ID")
     private InvoiceInventory invoice;
 
+    @NotNull
     @ManyToOne
     private Supplier supplier;
+    @NotNull
     private Double quantity;
     private Double price;
     private Double markup;
+    @NotNull
     private Double suppliedCost;
     private Double paidSum;
 
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime suppliedDate;
+
+    @NotNull
     @ManyToOne
     private Pharmacist acceptingPharmacist;
 

@@ -3,12 +3,12 @@
  const $urlLinkListInventory = '/invoices/listInventory'
 
  //Editable key table classes
+ const $tableAddClass = 'table-add';
  const $tableEditClass = 'table-edit';
  const $tableRemoveClass = 'table-remove';
  const $tableSubmitClass = 'table-submit';
  const $tableEditRowClass = 'pt-3-half';
  const $editWarningClass = 'bg-warning'
-
 
  //General ids
  const $tableID = $('#table');
@@ -122,17 +122,24 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     selectSuppliers($(this).parents("tr"), supplierId);
  });
 
- $('.table-add').on('click', 'i', () => {
+ $tableID.on('click', '.'+$tableAddClass, () => {
     addNewTr(null);
  });
 
  $tableID.on('click', '.'+$tableRemoveClass, function () {
-     event.preventDefault();
-     const $row = $(this).parents('tr');
-     $removeButton = $row.find('.'+$tableRemoveClass);
-     var inventoryId = $row.find('input[name=inventoryId]').val();
-     ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId, $tableID);
-     $row.find('input[name=inventoryId]').attr('form',null);
+    event.preventDefault();
+    const $row = $(this).parents('tr');
+    $removeButton = $row.find('.'+$tableRemoveClass);
+    var inventoryId = $row.find('input[name=inventoryId]').val();
+    console.log('inventoryId: '+inventoryId);
+    if(inventoryId == null || inventoryId == ''){
+        $(this).parents('tr').detach();
+    }
+    else {
+       ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId, $tableID);
+    }
+
+    $row.find('input[name=inventoryId]').attr('form',null);
  });
 
  $tableID.on('click', '.table-up', function () {
@@ -182,10 +189,10 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
        var addFormIdTest = $rowLast.find('input[name=inventoryId]').attr('form');
        console.log('addFormIdTest');
        console.log(addFormIdTest);
-       if(addFormIdTest == addFormId){
+      /* if(addFormIdTest == addFormId){
           messagePrompt($addRecordIsInProcessMessage);
          return;
-       }
+       }*/
        $tBody = $('tbody');
        $tBody.append(newTr);
        const $row =$('#table tr:last');
