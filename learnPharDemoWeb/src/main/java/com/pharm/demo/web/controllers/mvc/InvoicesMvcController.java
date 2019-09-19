@@ -161,17 +161,29 @@ public class InvoicesMvcController {
         }
     }
 
-    @ResponseBody
     @DeleteMapping("/inventory/{id}")
-    public void processDeletionForm(@PathVariable("id") Long inventoryId) {
+    public String processDeletionForm(@PathVariable("id") Long inventoryId,
+                                      Model model) {
         LOGGER.info("Delete inventory {1} is called! ", inventoryId);
         Inventory deleteInventory = inventoryService.findById(inventoryId);
 
+        int currentPage = currentInventoryPage;
+        int pageSize = currentInventoryPageSize;
+        Long invoiceId = deleteInventory.getInvoice().getId();
+
         InvoiceInventory invoiceInventory = deleteInventory.getInvoice();
         invoiceInventory.getInventories().remove(deleteInventory);
-
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
+
+        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
+        model.addAttribute("totalPaidNum", deleteInventory.getInvoice().getTotalPaidNum());
+        model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
+        int totalPages = invoiceInventoryPage.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+
+        return VIEWS_INVOICE_INVENTORY_EDITABLE_TABLE;
     }
 
     @PostMapping("/inventory/new")

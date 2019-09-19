@@ -131,7 +131,7 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
      const $row = $(this).parents('tr');
      $removeButton = $row.find('.'+$tableRemoveClass);
      var inventoryId = $row.find('input[name=inventoryId]').val();
-     ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId,$(this));
+     ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId, $tableID);
      $row.find('input[name=inventoryId]').attr('form',null);
  });
 
@@ -242,8 +242,8 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
   }
 
   $('#pagination-demo').twbsPagination({
-      totalPages: $totalPages,
-      visiblePages: $totalPages%5,
+      totalPages: $totalPages == 0 ? 1 : $totalPages,
+      visiblePages: $totalPages == 0 ? 1 : $totalPages%5,
       next: $nextPaginationMessage,
       prev: $prevPaginationMessage,
       first: $firstPaginationMessage,

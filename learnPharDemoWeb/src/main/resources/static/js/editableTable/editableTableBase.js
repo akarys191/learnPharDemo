@@ -90,14 +90,15 @@ $( window ).on("load", function() {
        });
       }
 
-    function ajaxRequestDelete(urlLink, $component){
+    function ajaxRequestDelete(urlLink, divComponent){
         $.ajax({
            url: urlLink,
            type: 'delete',
            success: function(data){
                console.log('deleted row');
                console.log(data);
-               $component.parents('tr').detach();
+               /*$component.parents('tr').detach();*/
+               divComponent.html( data );
             },
             error: function( jqXhr, textStatus, errorThrown ){
                console.log(textStatus);
