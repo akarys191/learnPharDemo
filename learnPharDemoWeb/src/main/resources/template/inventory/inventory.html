@@ -43,7 +43,7 @@
     </tbody>
     </tr>
 </table>
-<div th:if="${inventoryPage.totalPages > 0}" class="pagination"
+<div th:if="${inventoryPage.totalPages > 1}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{/inventory/listInventory(size=${inventoryPage.size}, page=${pageNumber})}"
        th:text=${pageNumber}

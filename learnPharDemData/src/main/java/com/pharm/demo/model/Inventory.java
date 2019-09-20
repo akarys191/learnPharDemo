@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class Inventory extends AbstractEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
     @SequenceGenerator(name="inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize=50)
@@ -25,7 +26,6 @@ public class Inventory extends AbstractEntity {
     @ManyToOne
     private Medicine medicine;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "INVOICE_ID")
     private InvoiceInventory invoice;
@@ -33,10 +33,12 @@ public class Inventory extends AbstractEntity {
     @NotNull
     @ManyToOne
     private Supplier supplier;
+
     @NotNull
     private Double quantity;
     private Double price;
     private Double markup;
+
     @NotNull
     private Double suppliedCost;
     private Double paidSum;

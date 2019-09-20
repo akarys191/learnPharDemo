@@ -27,6 +27,23 @@
  const $lastPaginationMessage = $("#lastPaginationMessage").val();
  const $addRecordIsInProcessMessage = $("#addRecordIsInProcessMessage").val();
 
+ $('#pagination-demo').twbsPagination({
+      totalPages: $totalPages == 0 ? 1 : $totalPages,
+      visiblePages: $totalPages == 0 ? 1 : $totalPages%5,
+      next: $nextPaginationMessage,
+      prev: $prevPaginationMessage,
+      first: $firstPaginationMessage,
+      last: $lastPaginationMessage,
+      initiateStartPageClick: false,
+      onPageClick: function (event, page) {
+        var urlLink = $urlLinkListInventory+'?page='+page+'&invoiceId='+$invoiceId;
+        //ajaxRequestGet(urlLink, $tableID);
+        console.log('urlLink');
+        console.log(urlLink);
+        $tableID.load(urlLink);
+      }
+ });
+
  var editFormNumber = 0;
  var editFormId = 'edit_form'
  var addFormId = 'add_form'
@@ -189,10 +206,10 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
        var addFormIdTest = $rowLast.find('input[name=inventoryId]').attr('form');
        console.log('addFormIdTest');
        console.log(addFormIdTest);
-      /* if(addFormIdTest == addFormId){
+       if(addFormIdTest == addFormId){
           messagePrompt($addRecordIsInProcessMessage);
          return;
-       }*/
+       }
        $tBody = $('tbody');
        $tBody.append(newTr);
        const $row =$('#table tr:last');
@@ -247,16 +264,3 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
          $submitButton.attr('form',addFormId);
          selectSuppliers($('#table tr:last'), null);
   }
-
-  $('#pagination-demo').twbsPagination({
-      totalPages: $totalPages == 0 ? 1 : $totalPages,
-      visiblePages: $totalPages == 0 ? 1 : $totalPages%5,
-      next: $nextPaginationMessage,
-      prev: $prevPaginationMessage,
-      first: $firstPaginationMessage,
-      last: $lastPaginationMessage,
-      onPageClick: function (event, page) {
-        var urlLink = $urlLinkListInventory+'?page='+page+'&invoiceId='+$invoiceId;
-        ajaxRequestGet(urlLink, $tableID);
-      }
-   });

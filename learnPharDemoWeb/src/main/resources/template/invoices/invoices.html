@@ -31,7 +31,7 @@
     </tbody>
     </tr>
 </table>
-<div th:if="${invoicePage.totalPages > 0}" class="pagination"
+<div th:if="${invoicePage.totalPages > 1}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{/invoices/listInvoices(size=${invoicePage.size}, page=${pageNumber})}"
        th:text=${pageNumber}
