@@ -1,6 +1,6 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class InventoryMvcController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(50);
 
-        Page<Inventory> inventoryPage = inventoryService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<InvoiceInventoryItem> inventoryPage = inventoryService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
 
         model.addAttribute("inventoryPage", inventoryPage);
 
@@ -81,17 +81,17 @@ public class InventoryMvcController {
     @GetMapping({"/new"})
     public String getNewInventory(Model model) {
         model.addAttribute("inventories", inventoryService.findAll());
-        model.addAttribute("inventory", new Inventory());
+        model.addAttribute("inventory", new InvoiceInventoryItem());
         return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
 
     @PostMapping("/new")
-    public String processCreationForm(@Valid Inventory inventory, BindingResult result) {
+    public String processCreationForm(@Valid InvoiceInventoryItem inventory, BindingResult result) {
         LOGGER.info("Post new is called! ");
         if (result.hasErrors()) {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
         } else {
-            Inventory savedInventory = inventoryService.save(inventory);
+            InvoiceInventoryItem savedInventory = inventoryService.save(inventory);
             return "redirect:/inventory/" + savedInventory.getInventoryId();
         }
 
@@ -105,14 +105,14 @@ public class InventoryMvcController {
 
 
     @PostMapping("/{inventoryId}/edit")
-    public String processUpdateInventoryForm(@Valid Inventory inventory, BindingResult result, @PathVariable("inventoryId") Long inventoryId) {
+    public String processUpdateInventoryForm(@Valid InvoiceInventoryItem inventory, BindingResult result, @PathVariable("inventoryId") Long inventoryId) {
         LOGGER.info("Post {inventoryId}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
         } else {
             inventory.setInventoryId(inventoryId);
-            Inventory savedInventory = inventoryService.save(inventory);
+            InvoiceInventoryItem savedInventory = inventoryService.save(inventory);
             return "redirect:/inventory/" + savedInventory.getInventoryId();
         }
     }

@@ -21,3 +21,10 @@ function messagePrompt(msg){
            }).css({'font-weight' : 'bold',  'color': '#F00', 'font-size': '22px', 'font-weight' : 'bold'} );;
       });
 }
+
+function calculatePrice(markupPercentage, suppliedCost){
+    var markupPercentageNum = parseFloat(markupPercentage);
+    var suppliedCostNum = parseFloat(suppliedCost);
+    return ((markupPercentageNum*(0.01)*suppliedCostNum)+suppliedCostNum);
+}
+

@@ -58,7 +58,24 @@ $(document).ready(function() {
                               messagePrompt($medicineDoesNotExistMessage);
                            }
                        });
-                      }
+             } else if(event.target.id.includes("markupPercentageInput") || event.target.id.includes("suppliedCostInput")){
+                   event.preventDefault();
+                   var number = $('#'+event.target.id).attr('number');
+                   var suppliedCostInput = $("#suppliedCostInput"+number).val();
+                   console.log('suppliedCostInput'+number);
+                   console.log(suppliedCostInput);
+                   var markupPercentageInput = $("#markupPercentageInput"+number).val();
+                   console.log('markupPercentageInput'+number);
+                   console.log(markupPercentageInput);
+                   if(suppliedCostInput==null || suppliedCostInput == ''){
+                         messagePrompt($suppliedCostInputEmptyMessage);
+                         return ;
+                   } else if(markupPercentageInput==null || markupPercentageInput == ''){
+                         messagePrompt($markupPercentageInputEmptyMessage);
+                         return ;
+                    }
+                   $("#priceInput"+number).val(calculatePrice(markupPercentageInput, suppliedCostInput));
+             }
        return false;
     }
   });

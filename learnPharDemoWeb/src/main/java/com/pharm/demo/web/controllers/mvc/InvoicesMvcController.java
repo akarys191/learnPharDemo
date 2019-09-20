@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.model.Inventory;
 import com.pharm.demo.model.InvoiceInventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InventoryService;
 import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
@@ -58,10 +58,11 @@ public class InvoicesMvcController {
         int pageSize = size.orElse(currentInventoryPageSize);
         currentInventoryPage = currentPage;
         InvoiceInventory invoiceInventory = invoiceService.findById(invoiceId);
-        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         int totalPages = invoiceInventoryPage.getTotalPages();
         model.addAttribute("totalPages", totalPages);
+        model.addAttribute("markupPercentage", InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE);
         model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
         model.addAttribute("totalPaidNum", invoiceInventory.getTotalPaidNum());
 
@@ -100,12 +101,13 @@ public class InvoicesMvcController {
         int pageSize = currentInventoryPageSize;
 
         InvoiceInventory invoiceInventory = invoiceService.findById(id);
-        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), id);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), id);
 
         int totalPages = invoiceInventoryPage.getTotalPages();
         ModelAndView mav = new ModelAndView(VIEWS_INVOICE_CREATE_OR_UPDATE_FORM);
         mav.addObject("totalPages", totalPages);
         mav.addObject("invoiceInventoryPage", invoiceInventoryPage);
+        mav.addObject("markupPercentage", InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE);
         mav.addObject("invoice", invoiceInventory);
         mav.addObject("totalPaidSum", invoiceService.getTotalPaidSum(invoiceInventory.getId()));
         mav.addObject("totalPaidNum", invoiceInventory.getTotalPaidNum());
@@ -116,9 +118,10 @@ public class InvoicesMvcController {
     public String getNewInvoice(Model model) {
         InvoiceInventory invoiceInventory = new InvoiceInventory();
         invoiceInventory.setInventories(new ArrayList<>());
-        Page<Inventory> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
+        Page<InvoiceInventoryItem> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("invoice", invoiceInventory);
+        model.addAttribute("markupPercentage", InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE);
         model.addAttribute("totalPaidSum", 0);
         model.addAttribute("totalPaidNum", invoiceInventory.getTotalPaidNum());
         return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
@@ -126,7 +129,7 @@ public class InvoicesMvcController {
 
     @GetMapping({"/inventory/new"})
     public String getNewInvoiceInventory(Model model) {
-        Inventory inventory = new Inventory();
+        InvoiceInventoryItem inventory = new InvoiceInventoryItem();
         model.addAttribute("inventory", inventory);
         return VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
@@ -144,7 +147,7 @@ public class InvoicesMvcController {
     }
 
     @PostMapping("/inventory")
-    public String processCreationForm(@Valid Inventory inventory,
+    public String processCreationForm(@Valid InvoiceInventoryItem inventory,
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model, BindingResult result) {
         LOGGER.info("Post inventory {1} is called! ", inventory.getInventoryId());
@@ -165,9 +168,10 @@ public class InvoicesMvcController {
             if (invoiceId == null) {
                 invoiceId = invoiceInventory.getId();
             }
-            Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+            Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
             model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
             model.addAttribute("totalPaidNum", inventory.getInvoice().getTotalPaidNum());
+            model.addAttribute("markupPercentage", inventory.getMarkupPercentage());
             model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
 
             return VIEWS_INVOICE_INVENTORY_EDITABLE_TABLE;
@@ -179,7 +183,7 @@ public class InvoicesMvcController {
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model) {
         LOGGER.info("Delete inventory {1} is called! ", inventoryId);
-        Inventory deleteInventory = inventoryService.findById(inventoryId);
+        InvoiceInventoryItem deleteInventory = inventoryService.findById(inventoryId);
 
         int currentPage = currentInventoryPage;
         int pageSize = currentInventoryPageSize;
@@ -188,7 +192,7 @@ public class InvoicesMvcController {
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
 
-        Page<Inventory> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
         model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
         model.addAttribute("totalPaidNum", deleteInventory.getInvoice().getTotalPaidNum());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
@@ -199,7 +203,7 @@ public class InvoicesMvcController {
     }
 
     @PostMapping("/inventory/new")
-    public String processCreationInventoryOldForm(@Valid Inventory inventory,
+    public String processCreationInventoryOldForm(@Valid InvoiceInventoryItem inventory,
                                                   @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                                   Model model, BindingResult result) {
         LOGGER.info("Post new is called! ");
@@ -236,7 +240,7 @@ public class InvoicesMvcController {
     }
 
     @PostMapping("/editInventory/{index}")
-    public String processUpdateInvoiceInventoryForm(@Valid Inventory inventory,
+    public String processUpdateInvoiceInventoryForm(@Valid InvoiceInventoryItem inventory,
                                                     @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                                     BindingResult result, @PathVariable("index") Integer index) {
         LOGGER.info("Post {id}/editInventory is called!");

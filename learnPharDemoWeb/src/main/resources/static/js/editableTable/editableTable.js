@@ -17,6 +17,7 @@
 // Global variables
  const $invoiceId = $('#invoiceId').val();
  const $totalPages = $('#totalPages').val();
+ const $markupPercentage = $('#markupPercentage').val();
 
 
  $('#pagination-inventory').twbsPagination({
@@ -43,6 +44,7 @@ const newTr = `
     <td class="pt-3-half" ></td>
     <td class="pt-3-half"></select>
     </td>
+    <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
@@ -89,6 +91,9 @@ const newTr = `
         var medicineName = 'medicineName'+0;
         var medicineId = 'medicineId'+0;
         var medicineIdForm = 'medicineId'+0;
+        var priceInputId = 'priceInput'+0;
+        var markupPercentageInputId = 'markupPercentageInput'+0;
+        var suppliedCostInputId = 'suppliedCostInput'+0;
         var currentIsoDate = getIsoDate(new Date());
         console.log('currentIsoDate: '+currentIsoDate);
         $row.find("td:eq(1)").removeClass($editWarningClass);
@@ -100,24 +105,28 @@ const newTr = `
         }
         $row.find("td:eq(1)").text(invoiceId);
         $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
-        $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+addFormId+'"/>');
-        $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+addFormId+'"/>');
-        $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+addFormId+'"/>');
-        $row.find("td:eq(5)").children('input').val(currentIsoDate);
-        $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
-        var $rowCol7 =  $row.find("td:eq(7)");
+        $row.find("td:eq(3)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+addFormId+'"/>');
+        $row.find("td:eq(4)").html('<input id="'+markupPercentageInputId+'" class="tableInput" name="markupPercentage" form="'+addFormId+'"/>');
+        $row.find("td:eq(4)").children('input').val($markupPercentage);
+        $row.find("td:eq(4)").children('input').attr('number',0);
+        $row.find("td:eq(5)").html('<input id="'+suppliedCostInputId+'" class="tableInput" name="suppliedCost" form="'+addFormId+'"/>');
+        $row.find("td:eq(5)").children('input').attr('number',0);
+        $row.find("td:eq(6)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+addFormId+'"/>');
+        $row.find("td:eq(6)").children('input').val(currentIsoDate);
+        $row.find("td:eq(7)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
+        var $rowCol8 =  $row.find("td:eq(8)");
         if(acceptingPharmacistRef.roles.includes("ADMIN")){
             console.log('acceptingPharmacistRef');
             console.log(acceptingPharmacistRef);
-            $rowCol7.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
-            selectPharmacists($rowCol7.parents("tr"), acceptingPharmacistRef.id);
+            $rowCol8.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
+            selectPharmacists($rowCol8.parents("tr"), acceptingPharmacistRef.id);
          } else {
-            $rowCol7.removeClass($editWarningClass);
-            $rowCol7.text(acceptingPharmacistRef.name);
-            $rowCol7.append('<input id="'+medicineId+'" type="hidden" name="acceptingPharmacist" form="'+addFormId+'"/>');
-            $rowCol7.children('input').val(acceptingPharmacistRef.id);
+            $rowCol8.removeClass($editWarningClass);
+            $rowCol8.text(acceptingPharmacistRef.name);
+            $rowCol8.append('<input id="'+medicineId+'" type="hidden" name="acceptingPharmacist" form="'+addFormId+'"/>');
+            $rowCol8.children('input').val(acceptingPharmacistRef.id);
          }
-         $row.find("td:eq(8)").children('input').attr('form',''+addFormId);
+         $row.find("td:eq(9)").children('input').attr('form',''+addFormId);
          $row.find('input[name=inventoryId]').attr('form',addFormId)
          $DIVCARD.append('<input type="hidden" name="invoice" form="'+addFormId+'" value="'+invoiceId+'"/>');
          $submitButton.attr('form',addFormId);
@@ -171,22 +180,29 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     var medicineNumber = editFormNumber+1;
     var medicineNameId = 'medicineName'+medicineNumber;
     var medicineIdId = 'medicineId'+medicineNumber ;
+    var markupPercentageInputId = 'markupPercentageInput'+medicineNumber ;
+    var priceInputId = 'priceInput'+medicineNumber ;
+    var suppliedCostInputId = 'suppliedCostInput'+medicineNumber ;
     $row.find("td:eq(0)").html('<input id="'+medicineNameId+'" medicineIdForm="'+medicineIdId+'" class="tableInput"/>');
     $row.find("td:eq(0)").append('<input id="'+medicineIdId+'" type="hidden" name="medicine" form="'+editFormId+'"/>');
     $row.find("td:eq(0)").children('input[id='+medicineNameId+']').val(medicineName);
     $row.find("td:eq(0)").children('input[id='+medicineIdId+']').val(medicineId);
     $row.find("td:eq(1)").text(invoiceId);
     $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+editFormId+'" class="tableSelect"></select>');
-    $row.find("td:eq(3)").html('<input class="tableInput" name="price" form="'+editFormId+'"/>');
+    $row.find("td:eq(3)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+editFormId+'"/>');
     $row.find("td:eq(3)").children('input').val(price);
-    $row.find("td:eq(4)").html('<input class="tableInput" name="suppliedCost" form="'+editFormId+'"/>');
-    $row.find("td:eq(4)").children('input').val(suppliedCost);
-    $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+editFormId+'"/>');
-    $row.find("td:eq(5)").children('input').val(dateLocal);
-    $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="quantity" form="'+editFormId+'"/>');
-    $row.find("td:eq(6)").children('input').val(quantity);
-    $row.find("td:eq(7)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+editFormId+'" class="tableSelect"></select>');
-    $row.find("td:eq(8)").children('input').attr('form',''+editFormId);
+    $row.find("td:eq(4)").html('<input id="'+markupPercentageInputId+'" class="tableInput" name="markupPercentage" form="'+editFormId+'"/>');
+    $row.find("td:eq(4)").children('input').val($markupPercentage);
+    $row.find("td:eq(4)").children('input').attr('number',medicineNumber);
+    $row.find("td:eq(5)").html('<input id="'+suppliedCostInputId+'" class="tableInput" name="suppliedCost" form="'+editFormId+'"/>');
+    $row.find("td:eq(5)").children('input').val(suppliedCost);
+    $row.find("td:eq(5)").children('input').attr('number',medicineNumber);
+    $row.find("td:eq(6)").html('<input class="tableInput" type="datetime-local" name="suppliedDate" form="'+editFormId+'"/>');
+    $row.find("td:eq(6)").children('input').val(dateLocal);
+    $row.find("td:eq(7)").html('<input class="tableInput" type="text" name="quantity" form="'+editFormId+'"/>');
+    $row.find("td:eq(7)").children('input').val(quantity);
+    $row.find("td:eq(8)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(9)").children('input').attr('form',''+editFormId);
     $submitButton.attr('form',editFormId);
 
     selectPharmacists($(this).parents("tr"), pharmacistId);

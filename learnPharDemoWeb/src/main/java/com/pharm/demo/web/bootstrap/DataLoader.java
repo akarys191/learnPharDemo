@@ -160,12 +160,12 @@ public class DataLoader implements CommandLineRunner {
             user.setFirstName("admin");
             user.setLastName("admin");
 
-            Inventory inventory = new Inventory(medicine,
-                    supplier2, 100.0, Inventory.DEFAULT_MARKUP, calculatePrice(100.0, Inventory.DEFAULT_MARKUP), 100.0, LocalDateTime.now(), pharmacist);
-            Inventory inventory2 = new Inventory(medicine,
-                    supplier3, 10.0, Inventory.DEFAULT_MARKUP, calculatePrice(200.0, Inventory.DEFAULT_MARKUP), 200.0, LocalDateTime.now(), pharmacist2);
-            Inventory inventory3 = new Inventory(medicine,
-                    supplier3, 1.0, Inventory.DEFAULT_MARKUP, calculatePrice(300.0, Inventory.DEFAULT_MARKUP), 300.0, LocalDateTime.now(), pharmacist3);
+            InvoiceInventoryItem inventory = new InvoiceInventoryItem(medicine,
+                    supplier2, 100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 100.0, LocalDateTime.now(), pharmacist);
+            InvoiceInventoryItem inventory2 = new InvoiceInventoryItem(medicine,
+                    supplier3, 10.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(200.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 200.0, LocalDateTime.now(), pharmacist2);
+            InvoiceInventoryItem inventory3 = new InvoiceInventoryItem(medicine,
+                    supplier3, 1.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(300.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 300.0, LocalDateTime.now(), pharmacist3);
 
             InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(inventory));
             InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(inventory2));

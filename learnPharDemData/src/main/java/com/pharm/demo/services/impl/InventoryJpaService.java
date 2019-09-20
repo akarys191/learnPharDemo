@@ -1,6 +1,6 @@
 package com.pharm.demo.services.impl;
 
-import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.repositories.InventoryRepository;
 import com.pharm.demo.services.InventoryService;
 import org.slf4j.Logger;
@@ -28,35 +28,35 @@ public class InventoryJpaService implements InventoryService {
     }
 
     @Override
-    public Page<Inventory> findPaginated(Pageable pageable) {
+    public Page<InvoiceInventoryItem> findPaginated(Pageable pageable) {
         return this.inventoryRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Inventory> findInvoiceInventoryPaginated(Pageable pageable, Long invoiceId) {
+    public Page<InvoiceInventoryItem> findInvoiceInventoryPaginated(Pageable pageable, Long invoiceId) {
         return this.inventoryRepository.findInvoiceInventoryPaginated(pageable, invoiceId);
     }
 
     @Override
-    public Inventory findById(Long aLong) {
+    public InvoiceInventoryItem findById(Long aLong) {
         return this.inventoryRepository.findById(aLong).orElse(null);
     }
 
     @Override
-    public Inventory save(Inventory object) {
+    public InvoiceInventoryItem save(InvoiceInventoryItem object) {
         return inventoryRepository.save(object);
     }
 
     @Override
-    public Set<Inventory> findAll() {
+    public Set<InvoiceInventoryItem> findAll() {
         LOGGER.info("ALL inventory  in JPA found@@@@@@@@ ");
-        Set<Inventory> inventorySet = new HashSet<>();
+        Set<InvoiceInventoryItem> inventorySet = new HashSet<>();
         inventoryRepository.findAll().forEach(inventorySet::add);
         return inventorySet;
     }
 
     @Override
-    public void delete(Inventory object) {
+    public void delete(InvoiceInventoryItem object) {
         inventoryRepository.delete(object);
     }
 

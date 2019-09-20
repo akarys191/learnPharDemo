@@ -1,11 +1,11 @@
 package com.pharm.demo.services;
 
-import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface InventoryService extends CrudService<Inventory, Long> {
-    Page<Inventory> findPaginated(Pageable pageable);
+public interface InventoryService extends CrudService<InvoiceInventoryItem, Long> {
+    Page<InvoiceInventoryItem> findPaginated(Pageable pageable);
 
-    Page<Inventory> findInvoiceInventoryPaginated(Pageable pageable, Long invoiceId);
+    Page<InvoiceInventoryItem> findInvoiceInventoryPaginated(Pageable pageable, Long invoiceId);
 }

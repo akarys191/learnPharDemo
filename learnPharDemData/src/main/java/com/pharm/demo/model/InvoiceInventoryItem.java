@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @ToString
-public class Inventory extends AbstractEntity {
+public class InvoiceInventoryItem extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
-    @SequenceGenerator(name="inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize=50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_inventory_item_id_generator")
+    @SequenceGenerator(name = "invoice_inventory_item_id_generator", sequenceName = "invoice_inventory_item_id_seq", allocationSize = 50)
     private Long inventoryId;
 
     @NotNull
@@ -37,7 +37,7 @@ public class Inventory extends AbstractEntity {
     @NotNull
     private Double quantity;
     private Double price;
-    private Double markup;
+    private Double markupPercentage;
 
     @NotNull
     private Double suppliedCost;
@@ -51,15 +51,15 @@ public class Inventory extends AbstractEntity {
     @ManyToOne
     private Pharmacist acceptingPharmacist;
 
-    public static Double DEFAULT_MARKUP = 0.2;
+    public static Double DEFAULT_MARKUP_PERCENTAGE = 25.0;
 
-    public Inventory(Medicine medicine, Supplier supplier, Double quantity,
-                     Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
+    public InvoiceInventoryItem(Medicine medicine, Supplier supplier, Double quantity,
+                                Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
         this.medicine = medicine;
 
         this.supplier = supplier;
         this.quantity = quantity;
-        this.markup = markup;
+        this.markupPercentage = markup;
         this.price = price;
         this.suppliedCost = suppliedCost;
         this.suppliedDate = suppliedDate;

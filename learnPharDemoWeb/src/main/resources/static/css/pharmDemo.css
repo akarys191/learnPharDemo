@@ -96,12 +96,15 @@ a:active {
 h1{
   margin-bottom: 1.25em;
 }
-#pagination-demo{
-  display: inline-block;
+#pagination-inventory{
+  display: inline-flex;
   margin-bottom: 1.75em;
 }
 #pagination-demo li{
   display: inline-block;
+}
+div.card {
+    width: fit-content;
 }
 
 .page-content{
