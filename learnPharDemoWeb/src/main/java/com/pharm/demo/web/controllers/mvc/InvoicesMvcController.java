@@ -176,6 +176,7 @@ public class InvoicesMvcController {
 
     @DeleteMapping("/inventory/{id}")
     public String processDeletionForm(@PathVariable("id") Long inventoryId,
+                                      @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model) {
         LOGGER.info("Delete inventory {1} is called! ", inventoryId);
         Inventory deleteInventory = inventoryService.findById(inventoryId);
@@ -183,9 +184,7 @@ public class InvoicesMvcController {
         int currentPage = currentInventoryPage;
         int pageSize = currentInventoryPageSize;
         Long invoiceId = deleteInventory.getInvoice().getId();
-
-        InvoiceInventory invoiceInventory = deleteInventory.getInvoice();
-        invoiceInventory.getInventories().remove(deleteInventory);
+        invoiceInventory.getInventories().removeIf(inventory -> inventory.getInventoryId().equals(inventoryId));
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
 

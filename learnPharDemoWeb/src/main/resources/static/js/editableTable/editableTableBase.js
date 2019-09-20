@@ -1,11 +1,3 @@
- //key get Urls
- const $medicineBarcodeUrl =  "/medicines/findByBarcode";
- const $allPharmacistsUrl = "/rest/pharmacists/all";
- const $acceptingPharmUserUrl = "/rest/pharmacists/currentPharmUser";
- const $allSuppliersUrl = "/rest/suppliers/all";
- const $postInvoiceInventoryUrl = "/invoices/inventory"
-
-
 //Catalogues
 var pharmacistsRef= {json : null };
 var suppliersRef={json : null };
@@ -18,7 +10,6 @@ $( window ).on("load", function() {
     selectSuppliers(null, suppliersRef, null);
     acceptingPharmacistRef = syncAjaxRequest($acceptingPharmUserUrl, {});
 });
-
 
 
   function getIsoDate(date){

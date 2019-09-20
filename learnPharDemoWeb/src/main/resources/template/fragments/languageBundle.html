@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<body>
+<div>
+    <div th:fragment="languageGeneral" th:remove="tag">
+        <input type="hidden" id="medicineAlreadyExistMessage" th:value="#{medicineAlreadyExistMessage}"/>
+        <input type="hidden" id="medicineDoesNotExistMessage" th:value="#{medicineDoesNotExistMessage}"/>
+    </div>
+    <div th:fragment="languageEditableTable" th:remove="tag">
+        <input type="hidden" id="nextPaginationMessage" th:value="#{nextMessage}"/>
+        <input type="hidden" id="prevPaginationMessage" th:value="#{prevMessage}"/>
+        <input type="hidden" id="firstPaginationMessage" th:value="#{firstMessage}"/>
+        <input type="hidden" id="lastPaginationMessage" th:value="#{lastMessage}"/>
+        <input type="hidden" id="addRecordIsInProcessMessage" th:value="#{addRecordIsInProcessMessage}"/>
+    </div>
+</div>
+</body>
+</html>

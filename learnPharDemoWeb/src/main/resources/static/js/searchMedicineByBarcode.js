@@ -16,7 +16,7 @@ $(document).ready(function() {
                        $("#medicineIdInput").val(data.id);
                   },
                   error:function(data) {
-                     alert(data+' не найдено в базе ');
+                     messagePrompt(data+': '+$medicineDoesNotExistMessage);
                   }
           });
           } else if(event.target.id == "barCode"){
@@ -27,11 +27,13 @@ $(document).ready(function() {
                       url:$medicineBarcodeUrl,
                       data: {term: val},
                       success:function(data) {
-                              messagePrompt('Такое лекарство уже существует!');
+                          messagePrompt($medicineAlreadyExistMessage);
+                          $("#addMedicineBtn").attr("disabled", true);
                       },
                       error:function(data) {
                             $("#barCode").val(val);
-                             console.log('Лекарство не найдено')
+                            $("#addMedicineBtn").attr("disabled", false);
+                            console.log($medicineDoesNotExistMessage)
                       }
                   });
           } else if(event.target.id.lastIndexOf("medicineName") == 0){
@@ -46,14 +48,14 @@ $(document).ready(function() {
                        url:$medicineBarcodeUrl,
                        data: {term: barCodeMedicineVal},
                            success:function(data) {
-                               console.log(data);
-                               barCodeMedicine.val(data.name);
-                               barCodeMedicineId.val(data.id);
+                              console.log(data);
+                              barCodeMedicine.val(data.name);
+                              barCodeMedicineId.val(data.id);
                            },
                            error:function(error) {
-                               console.log(error);
-                               barCodeMedicine.val('Не найдено!');
-                               messagePrompt('Такая лекарства не найдено!');
+                              console.log(error);
+                              barCodeMedicine.val($medicineDoesNotExistMessage);
+                              messagePrompt($medicineDoesNotExistMessage);
                            }
                        });
                       }

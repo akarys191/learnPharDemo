@@ -6,16 +6,8 @@
     <title>Learn Pharm Demo</title>
 </head>
 
-<!--Language bundles-->
 
 <body id="editableTableBody" class="editableTableBody">
-<!--Language messages for this page-->
-<input type="hidden" id="nextPaginationMessage" th:value="#{nextMessage}"/>
-<input type="hidden" id="prevPaginationMessage" th:value="#{prevMessage}"/>
-<input type="hidden" id="firstPaginationMessage" th:value="#{firstMessage}"/>
-<input type="hidden" id="lastPaginationMessage" th:value="#{lastMessage}"/>
-<input type="hidden" id="addRecordIsInProcessMessage" th:value="#{addRecordIsInProcessMessage}"/>
-
 <!-- Editable table -->
 <div id="cardDiv" class="card">
     <form method="POST" id="edit_form"></form>
@@ -99,14 +91,14 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <ul id="pagination-demo" class="pagination-lg pull-right"></ul>
+                <ul id="pagination-inventory" class="pagination-lg pull-right"></ul>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
 <script type="text/javascript" src="/js/editableTable/editableTable.js"></script>
 <script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
-<script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
 <script type="text/javascript" src="/js/searchMedicineByBarcode.js"></script>
 </body>
 </html>
