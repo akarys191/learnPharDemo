@@ -2,7 +2,7 @@ package com.pharm.demo.services.impl;
 
 import com.pharm.demo.model.Inventory;
 import com.pharm.demo.repositories.InventoryRepository;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InventoryFacadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -17,13 +17,14 @@ import java.util.Set;
 @Service
 @Profile("springdatajpa")
 @Transactional
-public class InventoryJpaService implements InventoryService {
+public class InventoryFacadeJpaService implements InventoryFacadeService {
+
 
     private final InventoryRepository inventoryRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    public InventoryJpaService(InventoryRepository inventoryRepository) {
+    public InventoryFacadeJpaService(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
 

@@ -19,7 +19,7 @@ import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
 public class DataLoader implements CommandLineRunner {
 
     private final InvoiceInventoryService invoiceInventoryService;
-    private final InventoryService inventoryService;
+    private final InvoiceInventoryItemService inventoryService;
     private  final SupplierService supplierService;
     private  final MedicineService medicineService;
     private  final PharmacistService pharmacistService;
@@ -34,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
 
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
-                      CategoryMedRepository categoryMedRepository, InventoryService inventoryService,
+                      CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService inventoryService,
                       CountryService countryService, ManufacturerService manufacturerService,
                       InvoiceInventoryService invoiceInventoryService) {
         this.inventoryService = inventoryService;

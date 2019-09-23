@@ -18,6 +18,9 @@ public class Sales extends AbstractEntity {
     private Medicine medicine;
     @ManyToOne
     private Customer customer;
+    @ManyToOne
+    private Inventory inventory;
+
     private Double price;
     private Double soldSum;
     private Integer quantity;

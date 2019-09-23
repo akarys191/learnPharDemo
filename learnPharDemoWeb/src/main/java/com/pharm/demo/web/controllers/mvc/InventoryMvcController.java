@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InvoiceInventoryItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,14 +21,14 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/inventory")
 public class InventoryMvcController {
-    private final InventoryService inventoryService;
+    private final InvoiceInventoryItemService inventoryService;
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private static final String VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM = "inventory/createOrUpdateInventory";
 
-    public InventoryMvcController(InventoryService inventoryService) {
+    public InventoryMvcController(InvoiceInventoryItemService inventoryService) {
         this.inventoryService = inventoryService;
     }
 

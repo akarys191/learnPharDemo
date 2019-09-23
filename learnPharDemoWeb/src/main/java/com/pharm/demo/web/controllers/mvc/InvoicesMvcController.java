@@ -2,7 +2,7 @@ package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InvoiceInventoryItemService;
 import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.util.stream.IntStream;
 public class InvoicesMvcController {
 
     private final InvoiceInventoryService invoiceService;
-    private final InventoryService inventoryService;
+    private final InvoiceInventoryItemService inventoryService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoice";
@@ -36,7 +36,8 @@ public class InvoicesMvcController {
     private static final String VIEWS_INVOICE_INVENTORY_EDITABLE_TABLE = VIEWS_INVOICE_CREATE_OR_UPDATE_FORM + "::editableTable";
     private static int currentInventoryPage = 1;
     private static int currentInventoryPageSize = 50;
-    public InvoicesMvcController(InvoiceInventoryService invoiceService, InventoryService inventoryService) {
+
+    public InvoicesMvcController(InvoiceInventoryService invoiceService, InvoiceInventoryItemService inventoryService) {
         this.invoiceService = invoiceService;
         this.inventoryService = inventoryService;
     }
@@ -58,7 +59,7 @@ public class InvoicesMvcController {
         int pageSize = size.orElse(currentInventoryPageSize);
         currentInventoryPage = currentPage;
         InvoiceInventory invoiceInventory = invoiceService.findById(invoiceId);
-        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         int totalPages = invoiceInventoryPage.getTotalPages();
         model.addAttribute("totalPages", totalPages);
@@ -101,7 +102,7 @@ public class InvoicesMvcController {
         int pageSize = currentInventoryPageSize;
 
         InvoiceInventory invoiceInventory = invoiceService.findById(id);
-        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), id);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentPage - 1, pageSize), id);
 
         int totalPages = invoiceInventoryPage.getTotalPages();
         ModelAndView mav = new ModelAndView(VIEWS_INVOICE_CREATE_OR_UPDATE_FORM);
@@ -168,7 +169,7 @@ public class InvoicesMvcController {
             if (invoiceId == null) {
                 invoiceId = invoiceInventory.getId();
             }
-            Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+            Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
             model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
             model.addAttribute("totalPaidNum", inventory.getInvoice().getTotalPaidNum());
             model.addAttribute("markupPercentage", inventory.getMarkupPercentage());
@@ -192,7 +193,7 @@ public class InvoicesMvcController {
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
 
-        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
+        Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentPage - 1, pageSize), invoiceId);
         model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceId));
         model.addAttribute("totalPaidNum", deleteInventory.getInvoice().getTotalPaidNum());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);

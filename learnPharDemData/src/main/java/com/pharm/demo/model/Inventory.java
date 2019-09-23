@@ -1,18 +1,15 @@
 package com.pharm.demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Inventory extends AbstractEntity {
 
@@ -30,36 +27,20 @@ public class Inventory extends AbstractEntity {
     private InvoiceInventoryItem invoiceInventoryItem;
 
     @NotNull
-    private Double totalQuantity;
+    private Double totalActiveQuantity;
 
     @NotNull
-    private Double totalCost;
+    private Double totalBoughtQuantity;
 
     @NotNull
-    private Double totalPaidSum;
+    private Double totalSoldQuantity;
 
     @NotNull
-    @ManyToOne
-    private Pharmacist acceptingPharmacist;
+    private Double totalBoughtCost;
 
-    public static Double DEFAULT_MARKUP_PERCENTAGE = 25.0;
+    @NotNull
+    private Double totalActiveCost;
 
-    public Inventory(Medicine medicine, Supplier supplier, Double quantity,
-                     Double markup, Double price, Double suppliedCost, LocalDateTime suppliedDate, Pharmacist acceptingPharmacist) {
-        this.medicine = medicine;
-        this.totalQuantity = quantity;
-        this.totalCost = suppliedCost;
-        this.acceptingPharmacist = acceptingPharmacist;
-        this.totalPaidSum = this.totalQuantity * this.totalCost;
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void setTotalPaidSum() {
-        this.totalPaidSum = this.totalQuantity * this.totalCost;
-    }
-
-    public Double getTotalPaidSum() {
-        return this.totalPaidSum;
-    }
+    @NotNull
+    private Double totalSoldSum;
 }
