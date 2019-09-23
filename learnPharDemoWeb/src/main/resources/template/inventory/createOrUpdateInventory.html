@@ -9,7 +9,8 @@
 
     <div class="form-group has-feedback">
         <input
-                type="hidden" name="inventoryId" th:field="*{inventoryId}" th:value="${inventoryId}"/>
+                type="hidden" name="invoiceInventoryItemId" th:field="*{invoiceInventoryItemId}"
+                th:value="${invoiceInventoryItemId}"/>
         <input
                 id="medicineIdInput" type="hidden" name="medicine" th:field="*{medicine}" value=""/>
         <select
@@ -40,7 +41,7 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button
-                    th:with="text=${inventory.inventoryId==null} ? 'Add inventory' : 'Update inventory'"
+                    th:with="text=${inventory.invoiceInventoryItemId==null} ? 'Add inventory' : 'Update inventory'"
                     class="btn btn-default" type="submit" th:text="${text}">Add
                 Inventory
             </button>

@@ -69,18 +69,18 @@ public class InventoryMvcController {
         return "inventory/inventory";
     }
 
-    @GetMapping("/{inventoryId}")
-    public ModelAndView showInventory(@PathVariable("inventoryId") Long inventoryId) {
-        LOGGER.info("Get /inventoryId is called! " + inventoryId);
+    @GetMapping("/{invoiceInventoryItemId}")
+    public ModelAndView showInventory(@PathVariable("invoiceInventoryItemId") Long invoiceInventoryItemId) {
+        LOGGER.info("Get /invoiceInventoryItemId is called! " + invoiceInventoryItemId);
 
         ModelAndView mav = new ModelAndView("inventory/inventoryDetails");
-        mav.addObject(inventoryService.findById(inventoryId));
+        mav.addObject(inventoryService.findById(invoiceInventoryItemId));
         return mav;
     }
 
     @GetMapping({"/new"})
     public String getNewInventory(Model model) {
-        model.addAttribute("inventories", inventoryService.findAll());
+        model.addAttribute("invoiceInventoryItems", inventoryService.findAll());
         model.addAttribute("inventory", new InvoiceInventoryItem());
         return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
@@ -92,28 +92,28 @@ public class InventoryMvcController {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
         } else {
             InvoiceInventoryItem savedInventory = inventoryService.save(inventory);
-            return "redirect:/inventory/" + savedInventory.getInventoryId();
+            return "redirect:/inventory/" + savedInventory.getInvoiceInventoryItemId();
         }
 
     }
 
-    @GetMapping("/{inventoryId}/edit")
-    public String initUpdateInventoryForm(@PathVariable("inventoryId") Long inventoryId, Model model) {
-        model.addAttribute("inventory", inventoryService.findById(inventoryId));
+    @GetMapping("/{invoiceInventoryItemId}/edit")
+    public String initUpdateInventoryForm(@PathVariable("invoiceInventoryItemId") Long invoiceInventoryItemId, Model model) {
+        model.addAttribute("inventory", inventoryService.findById(invoiceInventoryItemId));
         return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
 
 
-    @PostMapping("/{inventoryId}/edit")
-    public String processUpdateInventoryForm(@Valid InvoiceInventoryItem inventory, BindingResult result, @PathVariable("inventoryId") Long inventoryId) {
-        LOGGER.info("Post {inventoryId}/edit is called! ");
+    @PostMapping("/{invoiceInventoryItemId}/edit")
+    public String processUpdateInventoryForm(@Valid InvoiceInventoryItem inventory, BindingResult result, @PathVariable("invoiceInventoryItemId") Long invoiceInventoryItemId) {
+        LOGGER.info("Post {invoiceInventoryItemId}/edit is called! ");
 
         if (result.hasErrors()) {
             return VIEWS_INVENTORY_CREATE_OR_UPDATE_FORM;
         } else {
-            inventory.setInventoryId(inventoryId);
+            inventory.setInvoiceInventoryItemId(invoiceInventoryItemId);
             InvoiceInventoryItem savedInventory = inventoryService.save(inventory);
-            return "redirect:/inventory/" + savedInventory.getInventoryId();
+            return "redirect:/inventory/" + savedInventory.getInvoiceInventoryItemId();
         }
     }
 }

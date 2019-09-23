@@ -51,7 +51,7 @@ const newTr = `
     <td class="pt-3-half"></td>
     <td class="pt-3-half"></td>
     <td class="pt-3-half">
-    <input type="hidden" name="inventoryId"/>
+    <input type="hidden" name="invoiceInventoryItemId"/>
     <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up" aria-hidden="true"></i></a></span>
     <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down" aria-hidden="true"></i></a></span>
   </td>
@@ -64,7 +64,7 @@ const newTr = `
 
   function addNewTr(medicine){
        const $rowLast =$('#table tr:last');
-       var addFormIdTest = $rowLast.find('input[name=inventoryId]').attr('form');
+       var addFormIdTest = $rowLast.find('input[name=invoiceInventoryItemId]').attr('form');
        console.log('addFormIdTest');
        console.log(addFormIdTest);
        if(addFormIdTest == addFormId){
@@ -127,7 +127,7 @@ const newTr = `
             $rowCol8.children('input').val(acceptingPharmacistRef.id);
          }
          $row.find("td:eq(9)").children('input').attr('form',''+addFormId);
-         $row.find('input[name=inventoryId]').attr('form',addFormId)
+         $row.find('input[name=invoiceInventoryItemId]').attr('form',addFormId)
          $DIVCARD.append('<input type="hidden" name="invoice" form="'+addFormId+'" value="'+invoiceId+'"/>');
          $submitButton.attr('form',addFormId);
          selectSuppliers($('#table tr:last'), null);
@@ -217,16 +217,16 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     event.preventDefault();
     const $row = $(this).parents('tr');
     $removeButton = $row.find('.'+$tableRemoveClass);
-    var inventoryId = $row.find('input[name=inventoryId]').val();
-    console.log('inventoryId: '+inventoryId);
-    if(inventoryId == null || inventoryId == ''){
+    var invoiceInventoryItemId = $row.find('input[name=invoiceInventoryItemId]').val();
+    console.log('invoiceInventoryItemId: '+invoiceInventoryItemId);
+    if(invoiceInventoryItemId == null || invoiceInventoryItemId == ''){
         $(this).parents('tr').detach();
     }
     else {
-       ajaxRequestDelete($postInvoiceInventoryUrl+"/"+inventoryId, $tableID);
+       ajaxRequestDelete($postInvoiceInventoryUrl+"/"+invoiceInventoryItemId, $tableID);
     }
 
-    $row.find('input[name=inventoryId]').attr('form',null);
+    $row.find('input[name=invoiceInventoryItemId]').attr('form',null);
  });
 
  $tableID.on('click', '.table-up', function () {

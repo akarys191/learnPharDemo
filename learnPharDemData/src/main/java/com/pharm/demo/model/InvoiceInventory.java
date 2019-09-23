@@ -24,10 +24,10 @@ public class InvoiceInventory extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "invoice",
             cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<InvoiceInventoryItem> inventories;
+    private List<InvoiceInventoryItem> invoiceInventoryItems;
 
     public int getTotalPaidNum() {
-        return inventories.size();
+        return invoiceInventoryItems.size();
     }
 
 }

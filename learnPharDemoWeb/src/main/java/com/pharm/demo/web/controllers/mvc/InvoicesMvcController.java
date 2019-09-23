@@ -117,7 +117,7 @@ public class InvoicesMvcController {
     @GetMapping({"/new"})
     public String getNewInvoice(Model model) {
         InvoiceInventory invoiceInventory = new InvoiceInventory();
-        invoiceInventory.setInventories(new ArrayList<>());
+        invoiceInventory.setInvoiceInventoryItems(new ArrayList<>());
         Page<InvoiceInventoryItem> invoiceInventoryPage = new PageImpl<>(new ArrayList<>());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("invoice", invoiceInventory);
@@ -150,7 +150,7 @@ public class InvoicesMvcController {
     public String processCreationForm(@Valid InvoiceInventoryItem inventory,
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model, BindingResult result) {
-        LOGGER.info("Post inventory {1} is called! ", inventory.getInventoryId());
+        LOGGER.info("Post inventory {1} is called! ", inventory.getInvoiceInventoryItemId());
         //InvoiceInventory invoiceInventory = inventory.getInvoice();
         int currentPage = currentInventoryPage;
         int pageSize = currentInventoryPageSize;
@@ -159,8 +159,8 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-            if (inventory.getInventoryId() == null && !invoiceInventory.getInventories().contains(inventory)) {
-                invoiceInventory.getInventories().add(inventory);
+            if (inventory.getInvoiceInventoryItemId() == null && !invoiceInventory.getInvoiceInventoryItems().contains(inventory)) {
+                invoiceInventory.getInvoiceInventoryItems().add(inventory);
                 inventory.setInvoice(invoiceInventory);
             }
             invoiceService.save(invoiceInventory);
@@ -179,16 +179,16 @@ public class InvoicesMvcController {
     }
 
     @DeleteMapping("/inventory/{id}")
-    public String processDeletionForm(@PathVariable("id") Long inventoryId,
+    public String processDeletionForm(@PathVariable("id") Long invoiceInventoryItemId,
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model) {
-        LOGGER.info("Delete inventory {1} is called! ", inventoryId);
-        InvoiceInventoryItem deleteInventory = inventoryService.findById(inventoryId);
+        LOGGER.info("Delete inventory {1} is called! ", invoiceInventoryItemId);
+        InvoiceInventoryItem deleteInventory = inventoryService.findById(invoiceInventoryItemId);
 
         int currentPage = currentInventoryPage;
         int pageSize = currentInventoryPageSize;
         Long invoiceId = deleteInventory.getInvoice().getId();
-        invoiceInventory.getInventories().removeIf(inventory -> inventory.getInventoryId().equals(inventoryId));
+        invoiceInventory.getInvoiceInventoryItems().removeIf(inventory -> inventory.getInvoiceInventoryItemId().equals(invoiceInventoryItemId));
         inventoryService.delete(deleteInventory);
         invoiceService.save(invoiceInventory);
 
@@ -212,7 +212,7 @@ public class InvoicesMvcController {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
 
-            invoiceInventory.getInventories().add(inventory);
+            invoiceInventory.getInvoiceInventoryItems().add(inventory);
             inventory.setInvoice(invoiceInventory);
 
             invoiceService.save(invoiceInventory);
@@ -235,7 +235,7 @@ public class InvoicesMvcController {
     public String initUpdateInvoiceInventoryForm(@PathVariable("index") Integer index,
                                                  @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                                  Model model) {
-        model.addAttribute("inventory", invoiceInventory.getInventories().get(index));
+        model.addAttribute("inventory", invoiceInventory.getInvoiceInventoryItems().get(index));
         return VIEWS_INVOICE_INVENTORY_CREATE_OR_UPDATE_FORM;
     }
 
@@ -248,7 +248,7 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-            invoiceInventory.getInventories().set(index, inventory);
+            invoiceInventory.getInvoiceInventoryItems().set(index, inventory);
             invoiceService.save(invoiceInventory);
             return "redirect:/invoices/" + invoiceInventory.getId() + "/edit";
         }

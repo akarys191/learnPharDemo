@@ -20,7 +20,7 @@ public class InvoiceInventoryItem extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_inventory_item_id_generator")
     @SequenceGenerator(name = "invoice_inventory_item_id_generator", sequenceName = "invoice_inventory_item_id_seq", allocationSize = 50)
-    private Long inventoryId;
+    private Long invoiceInventoryItemId;
 
     @NotNull
     @ManyToOne
@@ -29,6 +29,10 @@ public class InvoiceInventoryItem extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "INVOICE_ID")
     private InvoiceInventory invoice;
+
+    @ManyToOne
+    @JoinColumn(name = "INVOICE_INVENTORY_ITEM_ID")
+    private Inventory inventory;
 
     @NotNull
     @ManyToOne
