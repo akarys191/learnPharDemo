@@ -9,4 +9,10 @@ import org.springframework.data.repository.query.Param;
 public interface InventoryRepository extends PagingAndSortingRepository<Inventory, Long> {
     @Query("SELECT inv FROM Inventory inv WHERE inv.inventoryId =:inventoryId")
     Page<Inventory> findInventoryPaginated(Pageable pageable, @Param("inventoryId") Long inventoryId);
+
+    @Query("SELECT max(inv.id) FROM Inventory")
+    Long findMaxInventoryId();
+
+    @Query("SELECT inv FROM Inventory inv WHERE inv.inventoryId =:inventoryId and inv.medicine.id=:medicineId")
+    Inventory findInventoryByMedicine(@Param("inventoryId") Long inventoryId, @Param("inventoryId") Long medicineId);
 }

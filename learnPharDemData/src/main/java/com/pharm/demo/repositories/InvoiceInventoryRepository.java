@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface InvoiceInventoryRepository extends PagingAndSortingRepository<InvoiceInventory, Long> {
-    @Query("SELECT sum(inv.totalPaidSum) FROM InvoiceInventory inInv left join inInv.invoiceInventoryItems inv WHERE inInv.id=:invoiceId")
+    @Query("SELECT sum(inv.paidSum) FROM InvoiceInventory inInv left join inInv.invoiceInventoryItems inv WHERE inInv.id=:invoiceId")
     public Double getTotalPaidSum(@Param("invoiceId") Long invoiceId);
 }

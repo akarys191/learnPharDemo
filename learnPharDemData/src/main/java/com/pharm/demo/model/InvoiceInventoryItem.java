@@ -31,7 +31,7 @@ public class InvoiceInventoryItem extends AbstractEntity {
     private InvoiceInventory invoice;
 
     @ManyToOne
-    @JoinColumn(name = "INVOICE_INVENTORY_ITEM_ID")
+    @JoinColumn(name = "INVENTORY_ID")
     private Inventory inventory;
 
     @NotNull

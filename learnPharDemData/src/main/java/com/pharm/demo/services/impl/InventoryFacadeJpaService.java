@@ -1,68 +1,62 @@
 package com.pharm.demo.services.impl;
 
 import com.pharm.demo.model.Inventory;
-import com.pharm.demo.repositories.InventoryRepository;
-import com.pharm.demo.services.InventoryFacadeService;
+import com.pharm.demo.model.InvoiceInventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
+import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InvoiceInventoryFacadeService;
+import com.pharm.demo.services.InvoiceInventoryItemService;
+import com.pharm.demo.services.InvoiceInventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @Profile("springdatajpa")
 @Transactional
-public class InventoryFacadeJpaService implements InventoryFacadeService {
+public class InventoryFacadeJpaService implements InvoiceInventoryFacadeService {
 
 
-    private final InventoryRepository inventoryRepository;
+    private final InventoryService inventoryService;
+    private final InvoiceInventoryItemService invoiceInventoryItemService;
+    private final InvoiceInventoryService invoiceInventoryService;
+
+    private Long currentInventoryId;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    public InventoryFacadeJpaService(InventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    public InventoryFacadeJpaService(InventoryService inventoryService, InvoiceInventoryItemService invoiceInventoryItemService,
+                                     InvoiceInventoryService invoiceInventoryService) {
+        this.inventoryService = inventoryService;
+        this.invoiceInventoryItemService = invoiceInventoryItemService;
+        this.invoiceInventoryService = invoiceInventoryService;
     }
 
     @Override
-    public Page<Inventory> findPaginated(Pageable pageable) {
-        return this.inventoryRepository.findAll(pageable);
+    public void saveInventory(InvoiceInventory invoiceInventory, InvoiceInventoryItem invoiceInventoryItem) {
+        if (invoiceInventoryItem.getInvoiceInventoryItemId() == null && !invoiceInventory.getInvoiceInventoryItems().contains(invoiceInventoryItem)) {
+            invoiceInventory.getInvoiceInventoryItems().add(invoiceInventoryItem);
+            invoiceInventoryItem.setInvoice(invoiceInventory);
+            Inventory currentInventoryMedicine = (getCurrentInventoryByMedicine(invoiceInventoryItem));
+            invoiceInventoryItem.setInventory(currentInventoryMedicine);
+        }
+        invoiceInventoryService.save(invoiceInventory);
+        invoiceInventoryItemService.save(invoiceInventoryItem);
     }
 
     @Override
-    public Page<Inventory> findInventoryPaginated(Pageable pageable, Long invoiceId) {
-        return this.inventoryRepository.findInventoryPaginated(pageable, invoiceId);
+    public void deleteInventory(InvoiceInventory invoiceInventory, InvoiceInventoryItem deleteInventory) {
+        invoiceInventory.getInvoiceInventoryItems().removeIf(inventory -> inventory.getInvoiceInventoryItemId().equals(deleteInventory.getInvoiceInventoryItemId()));
+        invoiceInventoryItemService.delete(deleteInventory);
+        invoiceInventoryService.save(invoiceInventory);
     }
 
-    @Override
-    public Inventory findById(Long aLong) {
-        return this.inventoryRepository.findById(aLong).orElse(null);
-    }
-
-    @Override
-    public Inventory save(Inventory object) {
-        return inventoryRepository.save(object);
-    }
-
-    @Override
-    public Set<Inventory> findAll() {
-        LOGGER.info("ALL inventory  in JPA found@@@@@@@@ ");
-        Set<Inventory> inventorySet = new HashSet<>();
-        inventoryRepository.findAll().forEach(inventorySet::add);
-        return inventorySet;
-    }
-
-    @Override
-    public void delete(Inventory object) {
-        inventoryRepository.delete(object);
-    }
-
-    @Override
-    public void deleteById(Long aLong) {
-        inventoryRepository.deleteById(aLong);
+    private Inventory getCurrentInventoryByMedicine(InvoiceInventoryItem invoiceInventoryItem) {
+        if (currentInventoryId == null) {
+            currentInventoryId = inventoryService.latestInventoryId();
+        }
+        return inventoryService.findInventoryByMedicine(currentInventoryId, invoiceInventoryItem.getMedicine().getId());
     }
 }

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class Inventory extends AbstractEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory",
             cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private InvoiceInventoryItem invoiceInventoryItem;
+    private List<InvoiceInventoryItem> invoiceInventoryItems;
 
     @NotNull
     private Double totalActiveQuantity;

@@ -64,4 +64,15 @@ public class InventoryJpaService implements InventoryService {
     public void deleteById(Long aLong) {
         inventoryRepository.deleteById(aLong);
     }
+
+    @Override
+    public Long latestInventoryId() {
+        return inventoryRepository.findMaxInventoryId();
+    }
+
+    @Override
+    public Inventory findInventoryByMedicine(Long inventoryId, Long medicineId) {
+        return inventoryRepository.findInventoryByMedicine(inventoryId, medicineId);
+    }
+
 }
