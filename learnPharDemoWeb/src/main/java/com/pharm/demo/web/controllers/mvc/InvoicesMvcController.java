@@ -2,9 +2,9 @@ package com.pharm.demo.web.controllers.mvc;
 
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.services.InvoiceInventoryFacadeService;
 import com.pharm.demo.services.InvoiceInventoryItemService;
 import com.pharm.demo.services.InvoiceInventoryService;
+import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class InvoicesMvcController {
 
     private final InvoiceInventoryService invoiceService;
     private final InvoiceInventoryItemService inventoryService;
-    private final InvoiceInventoryFacadeService invoiceInventoryFacadeService;
+    private final InvoiceInventoryProcessor invoiceInventoryProcessor;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private static final String VIEWS_INVOICE_CREATE_OR_UPDATE_FORM = "invoices/createOrUpdateInvoice";
@@ -38,10 +38,10 @@ public class InvoicesMvcController {
     private static int currentInventoryPageSize = 50;
 
     public InvoicesMvcController(InvoiceInventoryService invoiceService, InvoiceInventoryItemService inventoryService,
-                                 InvoiceInventoryFacadeService invoiceInventoryFacadeService) {
+                                 InvoiceInventoryProcessor invoiceInventoryProcessor) {
         this.invoiceService = invoiceService;
         this.inventoryService = inventoryService;
-        this.invoiceInventoryFacadeService = invoiceInventoryFacadeService;
+        this.invoiceInventoryProcessor = invoiceInventoryProcessor;
     }
 
     @RequestMapping(value = "/listInventory", method = RequestMethod.GET)
@@ -120,7 +120,7 @@ public class InvoicesMvcController {
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
-            invoiceInventoryFacadeService.saveInventory(invoiceInventory, inventory);
+            invoiceInventoryProcessor.processSaveInventory(invoiceInventory, inventory);
             Long invoiceId = invoiceInventory.getId();
             Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentInventoryPage - 1, currentInventoryPageSize), invoiceId);
             model.addAttribute("markupPercentage", inventory.getMarkupPercentage());
@@ -135,7 +135,7 @@ public class InvoicesMvcController {
                                       Model model) {
         LOGGER.info("Delete inventory {1} is called! ", invoiceInventoryItemId);
         InvoiceInventoryItem deleteInventory = inventoryService.findById(invoiceInventoryItemId);
-        invoiceInventoryFacadeService.deleteInventory(invoiceInventory, deleteInventory);
+        invoiceInventoryProcessor.processDeleteInventory(invoiceInventory, deleteInventory);
         Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentInventoryPage - 1, currentInventoryPageSize), invoiceInventory.getId());
         setInvoiceInventoryPageAttributesToModel(invoiceInventoryPage, model, invoiceInventory);
         return VIEWS_INVOICE_INVENTORY_EDITABLE_TABLE;

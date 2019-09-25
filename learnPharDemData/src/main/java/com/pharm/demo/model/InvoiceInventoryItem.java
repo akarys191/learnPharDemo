@@ -78,6 +78,6 @@ public class InvoiceInventoryItem extends AbstractEntity {
     }
 
     public Double getPaidSum() {
-        return this.paidSum;
+        return this.quantity * this.suppliedCost;
     }
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+//TODO make link to type of payment
 public class Sales extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_id_generator")
@@ -23,8 +24,18 @@ public class Sales extends AbstractEntity {
 
     private Double price;
     private Double soldSum;
-    private Integer quantity;
+    private Double quantity;
     private LocalDateTime soldDate;
     @ManyToOne
     private Pharmacist sellingPharmacist;
+
+    @PrePersist
+    @PreUpdate
+    public void setSoldSum() {
+        this.soldSum = this.price * this.quantity;
+    }
+
+    public Double getSoldSum() {
+        return this.price * this.quantity;
+    }
 }

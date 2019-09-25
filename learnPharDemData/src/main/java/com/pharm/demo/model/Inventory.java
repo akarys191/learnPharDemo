@@ -23,25 +23,32 @@ public class Inventory extends AbstractEntity {
     @ManyToOne
     private Medicine medicine;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory",
-            cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<InvoiceInventoryItem> invoiceInventoryItems;
 
-    @NotNull
-    private Double totalActiveQuantity;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
+    private List<Sales> sales;
 
-    @NotNull
-    private Double totalBoughtQuantity;
+    private Double totalBoughtQuantity = 0.0;
+    private Double totalSoldQuantity = 0.0;
 
-    @NotNull
-    private Double totalSoldQuantity;
+    private Double totalBoughtCost = 0.0;
+    private Double totalSoldCost = 0.0;
 
-    @NotNull
-    private Double totalBoughtCost;
+    private Double totalBoughtPriceSum = 0.0;
+    private Double totalSoldPriceSum = 0.0;
 
-    @NotNull
-    private Double totalActiveCost;
 
-    @NotNull
-    private Double totalSoldSum;
+    private Double totalActiveQuantity = 0.0;
+    private Double totalActiveCost = 0.0;
+    private Double totalActivePriceSum = 0.0;
+
+    @PrePersist
+    @PreUpdate
+    public void setTotalActive() {
+        this.totalActiveQuantity = this.totalBoughtQuantity - this.totalSoldQuantity;
+        this.totalActiveCost = this.totalBoughtCost - this.totalSoldCost;
+        this.totalActivePriceSum = this.totalBoughtPriceSum - this.totalSoldPriceSum;
+    }
+
 }
