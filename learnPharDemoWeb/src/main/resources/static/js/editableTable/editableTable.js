@@ -170,12 +170,13 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     $row.find("td:eq(1)").removeClass($editWarningClass);
 	var medicineId = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineId]').val();
 	var medicineName = $(this).parents("tr").find("td:eq(0)").children('input[id=medicineName]').val();
-	var pharmacistId = $(this).parents("tr").find("td:eq(7)").children('input').val();
+	var pharmacistId = $(this).parents("tr").find("td:eq(8)").children('input').val();
 	var supplierId = $(this).parents("tr").find("td:eq(2)").children('input').val();
 	var price = $(this).parents("tr").find("td:eq(3)").text();
-	var suppliedCost = $(this).parents("tr").find("td:eq(4)").text();
-	var dateLocal = $(this).parents("tr").find("td:eq(5)").text();
-	var quantity = $(this).parents("tr").find("td:eq(6)").text();
+	var markupPercentage = $(this).parents("tr").find("td:eq(4)").text();
+	var suppliedCost = $(this).parents("tr").find("td:eq(5)").text();
+	var dateLocal = $(this).parents("tr").find("td:eq(6)").text();
+	var quantity = $(this).parents("tr").find("td:eq(7)").text();
     console.log("dateLocal: "+dateLocal);
     var medicineNumber = editFormNumber+1;
     var medicineNameId = 'medicineName'+medicineNumber;
@@ -192,7 +193,7 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     $row.find("td:eq(3)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+editFormId+'"/>');
     $row.find("td:eq(3)").children('input').val(price);
     $row.find("td:eq(4)").html('<input id="'+markupPercentageInputId+'" class="tableInput" name="markupPercentage" form="'+editFormId+'"/>');
-    $row.find("td:eq(4)").children('input').val($markupPercentage);
+    $row.find("td:eq(4)").children('input').val(markupPercentage);
     $row.find("td:eq(4)").children('input').attr('number',medicineNumber);
     $row.find("td:eq(5)").html('<input id="'+suppliedCostInputId+'" class="tableInput" name="suppliedCost" form="'+editFormId+'"/>');
     $row.find("td:eq(5)").children('input').val(suppliedCost);

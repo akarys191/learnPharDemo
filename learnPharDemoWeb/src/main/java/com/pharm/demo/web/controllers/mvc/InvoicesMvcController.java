@@ -1,5 +1,6 @@
 package com.pharm.demo.web.controllers.mvc;
 
+import com.pharm.demo.dto.InventoryItemSumsDTO;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InvoiceInventoryItemService;
@@ -142,8 +143,10 @@ public class InvoicesMvcController {
     }
 
     private void setInvoiceInventoryPageAttributesToModel(Page invoiceInventoryPage, Model model, InvoiceInventory invoiceInventory) {
+        InventoryItemSumsDTO inventoryItemSumsDTO = invoiceService.getTotalPaidPriceSum(invoiceInventory.getId());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
-        model.addAttribute("totalPaidSum", invoiceService.getTotalPaidSum(invoiceInventory.getId()));
+        model.addAttribute("totalPaidSum", inventoryItemSumsDTO.getSumOfPaidSums());
+        model.addAttribute("totalPriceSum", inventoryItemSumsDTO.getSumOfPricesSums());
         model.addAttribute("totalPaidNum", invoiceInventory.getTotalPaidNum());
         model.addAttribute("totalPages", invoiceInventoryPage.getTotalPages());
     }

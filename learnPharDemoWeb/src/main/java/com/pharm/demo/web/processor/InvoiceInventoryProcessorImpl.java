@@ -66,7 +66,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
         invoiceInventoryItem.setInventory(currentInventory);
         currentInventory.setTotalBoughtCost(addInventoryValue(currentInventory.getTotalBoughtCost(), invoiceInventoryItem.getPaidSum()));
         currentInventory.setTotalBoughtQuantity(addInventoryValue(currentInventory.getTotalBoughtQuantity(), invoiceInventoryItem.getQuantity()));
-        currentInventory.setTotalBoughtPriceSum(addInventoryValue(currentInventory.getTotalBoughtPriceSum(), invoiceInventoryItem.getPrice()));
+        currentInventory.setTotalBoughtPriceSum(addInventoryValue(currentInventory.getTotalBoughtPriceSum(), invoiceInventoryItem.getPriceSum()));
     }
 
     private void editInventory(InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {
@@ -79,8 +79,8 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
             currentInventory.setTotalBoughtQuantity(recalculateTotal(existingInvoiceInventoryItem.getQuantity(), invoiceInventoryItem.getQuantity(),
                     currentInventory.getTotalBoughtQuantity()));
         }
-        if (isOldValueChanged(existingInvoiceInventoryItem.getPrice(), invoiceInventoryItem.getPrice())) {
-            currentInventory.setTotalBoughtPriceSum(recalculateTotal(existingInvoiceInventoryItem.getPrice(), invoiceInventoryItem.getPrice(),
+        if (isOldValueChanged(existingInvoiceInventoryItem.getPriceSum(), invoiceInventoryItem.getPriceSum())) {
+            currentInventory.setTotalBoughtPriceSum(recalculateTotal(existingInvoiceInventoryItem.getPriceSum(), invoiceInventoryItem.getPriceSum(),
                     currentInventory.getTotalBoughtPriceSum()));
         }
     }

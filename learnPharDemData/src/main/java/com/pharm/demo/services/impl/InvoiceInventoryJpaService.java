@@ -1,5 +1,6 @@
 package com.pharm.demo.services.impl;
 
+import com.pharm.demo.dto.InventoryItemSumsDTO;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.repositories.InvoiceInventoryRepository;
 import com.pharm.demo.services.InvoiceInventoryService;
@@ -32,8 +33,8 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     }
 
     @Override
-    public Double getTotalPaidSum(Long invoiceId) {
-        return Optional.ofNullable(invoiceInventoryRepository.getTotalPaidSum(invoiceId)).orElse(0.0);
+    public InventoryItemSumsDTO getTotalPaidPriceSum(Long invoiceId) {
+        return Optional.ofNullable(invoiceInventoryRepository.getTotalPaidPriceSum(invoiceId)).orElse(new InventoryItemSumsDTO());
     }
 
     @Override

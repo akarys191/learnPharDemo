@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InventoryItemSumsDTO {
-    private Double sumOfPaidSums = 0.0;
-    private Double sumOfPricesSums = 0.0;
+public class InventoryItemTotalSumsDTO {
+    private Double totalSumOfPaidSums = 0.0;
+    private Double totalSumOfQuantity = 0.0;
+    private Double totalSumOfPricesSums = 0.0;
 }

@@ -18,8 +18,9 @@ import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
 @Component
 public class DataLoader implements CommandLineRunner {
 
+    private final InventoryService inventoryService;
     private final InvoiceInventoryService invoiceInventoryService;
-    private final InvoiceInventoryItemService inventoryService;
+    private final InvoiceInventoryItemService invoiceInventoryItemService;
     private  final SupplierService supplierService;
     private  final MedicineService medicineService;
     private  final PharmacistService pharmacistService;
@@ -34,10 +35,10 @@ public class DataLoader implements CommandLineRunner {
 
     public DataLoader(SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
-                      CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService inventoryService,
+                      CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService invoiceInventoryItemService,
                       CountryService countryService, ManufacturerService manufacturerService,
-                      InvoiceInventoryService invoiceInventoryService) {
-        this.inventoryService = inventoryService;
+                      InvoiceInventoryService invoiceInventoryService, InventoryService inventoryService) {
+        this.invoiceInventoryItemService = invoiceInventoryItemService;
         this.invoiceInventoryService = invoiceInventoryService;
         this.supplierService = supplierService;
         this.medicineService = medicineService;
@@ -46,6 +47,7 @@ public class DataLoader implements CommandLineRunner {
         this.categoryMedRepository = categoryMedRepository;
         this.manufacturerService = manufacturerService;
         this.countryService = countryService;
+        this.inventoryService = inventoryService;
     }
 
     @Override
@@ -160,19 +162,23 @@ public class DataLoader implements CommandLineRunner {
             user.setFirstName("admin");
             user.setLastName("admin");
 
-            InvoiceInventoryItem inventory = new InvoiceInventoryItem(medicine,
+            Inventory inventory = new Inventory();
+            inventory.setMedicine(medicine);
+            inventoryService.save(inventory);
+
+            InvoiceInventoryItem invoiceInventoryItem = new InvoiceInventoryItem(medicine,
                     supplier2, 100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 100.0, LocalDateTime.now(), pharmacist);
-            InvoiceInventoryItem inventory2 = new InvoiceInventoryItem(medicine,
+            InvoiceInventoryItem invoiceInventoryItem1 = new InvoiceInventoryItem(medicine,
                     supplier3, 10.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(200.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 200.0, LocalDateTime.now(), pharmacist2);
-            InvoiceInventoryItem inventory3 = new InvoiceInventoryItem(medicine,
+            InvoiceInventoryItem invoiceInventoryItem2 = new InvoiceInventoryItem(medicine,
                     supplier3, 1.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(300.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 300.0, LocalDateTime.now(), pharmacist3);
 
-            InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(inventory));
-            InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(inventory2));
-            InvoiceInventory invoice3 = new InvoiceInventory(null, supplier4, Arrays.asList(inventory3));
-            inventory.setInvoice(invoice);
-            inventory2.setInvoice(invoice2);
-            inventory3.setInvoice(invoice3);
+            InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(invoiceInventoryItem));
+            InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(invoiceInventoryItem1));
+            InvoiceInventory invoice3 = new InvoiceInventory(null, supplier4, Arrays.asList(invoiceInventoryItem2));
+            invoiceInventoryItem.setInvoice(invoice);
+            invoiceInventoryItem1.setInvoice(invoice2);
+            invoiceInventoryItem2.setInvoice(invoice3);
 
             invoiceInventoryService.save(invoice);
             invoiceInventoryService.save(invoice2);
@@ -189,7 +195,7 @@ public class DataLoader implements CommandLineRunner {
         LOGGER.info(" Is pharmacist user: " + pharmUserService.findByUserName("" +
                 ""));
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
-        LOGGER.info(" Siz of inventory: " + inventoryService.findAll().size());
+        LOGGER.info(" Siz of inventory: " + invoiceInventoryItemService.findAll().size());
         LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());
         LOGGER.info(" Siz of medicines: " + medicineService.findAll().size());
         LOGGER.info(" Siz of suppliers: " + supplierService.findAll().size());

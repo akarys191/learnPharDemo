@@ -3,7 +3,6 @@ package com.pharm.demo.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @NoArgsConstructor
-@ToString
 public class InvoiceInventoryItem extends AbstractEntity {
 
     @Id
@@ -46,6 +44,7 @@ public class InvoiceInventoryItem extends AbstractEntity {
     @NotNull
     private Double suppliedCost;
     private Double paidSum;
+    private Double priceSum;
 
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -69,15 +68,21 @@ public class InvoiceInventoryItem extends AbstractEntity {
         this.suppliedDate = suppliedDate;
         this.acceptingPharmacist = acceptingPharmacist;
         this.paidSum = this.quantity * this.suppliedCost;
+        this.priceSum = this.quantity * this.price;
     }
 
     @PrePersist
     @PreUpdate
-    public void setPaidSum() {
+    public void setPaidAndPriceSum() {
         this.paidSum = this.quantity * this.suppliedCost;
+        this.priceSum = this.quantity * this.price;
     }
 
     public Double getPaidSum() {
         return this.quantity * this.suppliedCost;
+    }
+
+    public Double getPriceSum() {
+        return this.price * this.quantity;
     }
 }
