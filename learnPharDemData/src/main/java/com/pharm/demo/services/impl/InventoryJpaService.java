@@ -1,6 +1,7 @@
 package com.pharm.demo.services.impl;
 
 import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.repositories.InventoryRepository;
 import com.pharm.demo.services.InventoryService;
 import org.slf4j.Logger;
@@ -33,8 +34,8 @@ public class InventoryJpaService implements InventoryService {
     }
 
     @Override
-    public Page<Inventory> findInventoryPaginated(Pageable pageable, Long invoiceId) {
-        return this.inventoryRepository.findInventoryPaginated(pageable, invoiceId);
+    public Page<InvoiceInventoryItem> findInvoiceInventoryItemsByInventoryIdPaginated(Pageable pageable, Long invoiceId) {
+        return this.inventoryRepository.findInvoiceInventoryItemsPaginated(pageable, invoiceId);
     }
 
     @Override
@@ -66,13 +67,13 @@ public class InventoryJpaService implements InventoryService {
     }
 
     @Override
-    public Long latestInventoryId() {
-        return inventoryRepository.findMaxInventoryId();
+    public Long latestInventoryVersionNumber() {
+        return inventoryRepository.findMaxInventoryVersionNumber();
     }
 
     @Override
-    public Inventory findInventoryByMedicine(Long inventoryId, Long medicineId) {
-        return inventoryRepository.findInventoryByMedicine(inventoryId, medicineId);
+    public Inventory findInventoryByVersionNumberAndMedicine(Long inventoryVersionNumber, Long medicineId) {
+        return inventoryRepository.findInventoryByMedicine(inventoryVersionNumber, medicineId);
     }
 
 }

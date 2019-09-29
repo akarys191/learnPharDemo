@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -19,6 +20,8 @@ public class Inventory extends AbstractEntity {
     @SequenceGenerator(name = "inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize = 50)
     private Long inventoryId;
 
+    private Long inventoryVersionNumber;
+
     @NotNull
     @ManyToOne
     private Medicine medicine;
@@ -30,6 +33,7 @@ public class Inventory extends AbstractEntity {
     private List<Sales> sales;
 
     private Double totalBoughtQuantity = 0.0;
+
     private Double totalSoldQuantity = 0.0;
 
     private Double totalBoughtCost = 0.0;
@@ -51,4 +55,11 @@ public class Inventory extends AbstractEntity {
         this.totalActivePriceSum = this.totalBoughtPriceSum - this.totalSoldPriceSum;
     }
 
+    public Integer getInvoiceInventoryItemsSize() {
+        return Optional.ofNullable(invoiceInventoryItems).map(List::size).orElse(0);
+    }
+
+    public Integer getSalesSize() {
+        return Optional.ofNullable(sales).map(List::size).orElse(0);
+    }
 }

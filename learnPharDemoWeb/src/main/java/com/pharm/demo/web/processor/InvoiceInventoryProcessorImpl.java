@@ -22,7 +22,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     private final InvoiceInventoryItemService invoiceInventoryItemService;
     private final InvoiceInventoryService invoiceInventoryService;
 
-    private Long currentInventoryId;
+    private Long currentInventoryVersionNumber;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -54,10 +54,10 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     }
 
     private Inventory getCurrentInventoryByMedicine(InvoiceInventoryItem invoiceInventoryItem) {
-        if (currentInventoryId == null) {
-            currentInventoryId = inventoryService.latestInventoryId();
+        if (currentInventoryVersionNumber == null) {
+            currentInventoryVersionNumber = inventoryService.latestInventoryVersionNumber();
         }
-        return inventoryService.findInventoryByMedicine(currentInventoryId, invoiceInventoryItem.getMedicine().getId());
+        return inventoryService.findInventoryByVersionNumberAndMedicine(currentInventoryVersionNumber, invoiceInventoryItem.getMedicine().getId());
     }
 
     private void addInventory(InvoiceInventory invoiceInventory, InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {

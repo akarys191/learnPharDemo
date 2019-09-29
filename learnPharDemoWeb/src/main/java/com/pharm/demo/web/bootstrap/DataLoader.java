@@ -163,6 +163,7 @@ public class DataLoader implements CommandLineRunner {
             user.setLastName("admin");
 
             Inventory inventory = new Inventory();
+            inventory.setInventoryVersionNumber(1L);
             inventory.setMedicine(medicine);
             inventoryService.save(inventory);
 

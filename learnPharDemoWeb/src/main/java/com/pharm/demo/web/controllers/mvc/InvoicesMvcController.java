@@ -45,8 +45,8 @@ public class InvoicesMvcController {
         this.invoiceInventoryProcessor = invoiceInventoryProcessor;
     }
 
-    @RequestMapping(value = "/listInventory", method = RequestMethod.GET)
-    public String listInventory(
+    @RequestMapping(value = "/listInvoiceInventoryItems", method = RequestMethod.GET)
+    public String listInvoiceInventoryItems(
             Model model,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size,
