@@ -15,17 +15,27 @@ public class Sales extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sales_id_generator")
     @SequenceGenerator(name="sales_id_generator", sequenceName = "sales_id_seq", allocationSize=50)
     private Long salesId;
+
     @ManyToOne
     private Medicine medicine;
+
     @ManyToOne
     private Customer customer;
+
     @ManyToOne
     private Inventory inventory;
+
+    @ManyToOne
+    private CashRegistry cashRegistry;
+
+    @Enumerated(EnumType.STRING)
+    CashType cashType;
 
     private Double price;
     private Double soldSum;
     private Double quantity;
     private LocalDateTime soldDate;
+
     @ManyToOne
     private Pharmacist sellingPharmacist;
 

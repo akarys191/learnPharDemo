@@ -32,6 +32,10 @@ public class InvoiceInventoryItem extends AbstractEntity {
     @JoinColumn(name = "INVENTORY_ID")
     private Inventory inventory;
 
+    @ManyToOne
+    @JoinColumn(name = "CASH_INVENTORY_ID")
+    private CashInventory cashInventory;
+
     @NotNull
     @ManyToOne
     private Supplier supplier;
