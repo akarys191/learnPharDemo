@@ -53,4 +53,9 @@ public class SalesJpaService implements SalesService {
     public Page<Sales> findPaginated(Pageable pageable) {
         return salesRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Sales> findPaginateByCashRegistry(Pageable pageable, Long cashRegistryId) {
+        return salesRepository.findByCashRegistryId(pageable, cashRegistryId);
+    }
 }

@@ -20,10 +20,10 @@ public class CashInventory extends AbstractEntity {
 
     private Long inventoryVersionNumber;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cashInventory")
     private List<CashRegistry> cashRegistries;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cashInventory")
     private List<InvoiceInventoryItem> boughtInvoiceInventoryItems;
 
     private Double totalCashMoney = 0.0;

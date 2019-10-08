@@ -23,13 +23,11 @@ public class CashRegistry extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cashRegistry")
     private List<Sales> sales;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cashRegistry")
     private List<CashExpense> cashExpenses;
 
-    @OneToMany
-    private List<CardPayment> cardPayments;
-
     @ManyToOne
+    @JoinColumn(name = "CASH_INVENTORY_ID")
     CashInventory cashInventory;
 
     private Double totalCashRegistryMoney = 0.0;

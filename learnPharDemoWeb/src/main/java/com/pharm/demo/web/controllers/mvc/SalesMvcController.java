@@ -35,7 +35,7 @@ public class SalesMvcController {
         this.salesService = salesService;
     }
 
-    @RequestMapping({"/sales/", "/sales", "sales", "sales.html", "sales/"})
+    @RequestMapping({"/sales/", "/sales", "sales", "cashRegistry.html", "sales/"})
     public String listSales(Model model) {
         model.addAttribute("sales", salesService.findAll());
 

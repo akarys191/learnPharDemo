@@ -24,6 +24,5 @@ public class CardPayment extends AbstractEntity {
     private Card card;
 
     @ManyToOne
-    @JoinColumn(name = "CASH_REGISTRY_ID")
-    CashRegistry cashRegistry;
+    Sales sales;
 }
