@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'invoices')}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'cashRegistrys')}"
 >
 <head>
     <meta charset="UTF-8">
@@ -12,10 +13,10 @@
 <div id="cardDiv" class="card">
     <form method="POST" id="edit_form"></form>
     <form method="POST" id="add_form"></form>
-    <input type="hidden" id="invoiceId" name="invoice" th:value="${invoice.id}"/>
-    <input type="hidden" id="totalPages" name="invoice" th:value="${totalPages}"/>
-    <h3 class="card-header text-center font-weight-bold text-uppercase py-4" th:text="#{invoiceInventories}">
-        Invoices</h3>
+    <input type="hidden" id="cashRegistryId" name="cashRegistry" th:value="${cashRegistryId}"/>
+    <input type="hidden" id="totalPages" name="cashRegistry" th:value="${totalPages}"/>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4" th:text="#{cashRegistryInventories}">
+        cashRegistries</h3>
     <div class="card-body">
         <div id="table" class="table-editable" th:fragment="editableTable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
@@ -25,7 +26,6 @@
                 <tr>
                     <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
                     <th style="width: 150px;" th:text="#{customerText}"> Customer</th>
-                    <th style="width: 150px;" th:text="#{inventoryText}"> Inventory</th>
                     <th style="width: 150px;" th:text="#{cashTypeText}"> CashType</th>
                     <th style="width: 150px;" th:text="#{priceText}"> price</th>
                     <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
@@ -37,30 +37,29 @@
                     <th style="width: 150px;"> **</th>
                 </tr>
                 </thead>
-                <!--<tbody>
-                <tr th:each="sales, iStat  : ${cashRegistrySalesPage.content}"
+                <tbody>
+                <tr th:each="salesCashRegistry, iStat  : ${cashRegistrySalesPage.content}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.medicine.name}"></th:block>
-                        <input type="hidden" id="medicineId" th:value="${inventory.medicine.id}"/>
-                        <input type="hidden" id="medicineName" th:value="${inventory.medicine.name}"/>
+                        <th:block th:text="${salesCashRegistry.medicine.name}"></th:block>
+                        <input type="hidden" id="medicineId" th:value="${salesCashRegistry.medicine.id}"/>
+                        <input type="hidden" id="medicineName" th:value="${salesCashRegistry.medicine.name}"/>
                     </td>
-                    <td class="pt-3-half" id="invoiceTd" th:text="${inventory.invoice.id}">invoice</td>
+                    <td class="pt-3-half" id="cashRegistryTd" th:text="${salesCashRegistry.customer.name}">Customer</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.price}">price</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.quantity}">quantity</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.soldSum}">Sold sum</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.cashType}">Cash Type</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.cardPayment}">Card payment</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.soldDate}">suppliedDate</td>
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.supplier.name}"></th:block>
-                        <input type="hidden" id="supplierHiddenId" th:value="${inventory.supplier.id}"/>
+                        <th:block th:text="${salesCashRegistry.sellingPharmacist.name}"></th:block>
+                        <input type="hidden" id="pharmacistHiddenId"
+                               th:value="${salesCashRegistry.acceptingPharmacist.id}"/>
                     </td>
-                    <td class="pt-3-half" th:text="${inventory.price}">price</td>
-                    <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
-                    <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
-                    <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.acceptingPharmacist.name}"></th:block>
-                        <input type="hidden" id="pharmacistHiddenId" th:value="${inventory.acceptingPharmacist.id}"/>
-                    </td>
-                    <td class="pt-3-half">
-                        <input type="hidden" name="inventoryId" th:value="${inventory.inventoryId}"/>
+                        <input type="hidden" name="salesCashRegistryId" th:value="${salesCashRegistry.salesId}"/>
                         <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                                    aria-hidden="true"></i></a></span>
                         <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -79,7 +78,7 @@
                         ><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i></button></span>
                     </td>
                 </tr>
-                </tbody>-->
+                </tbody>
             </table>
             <div>
                 <label style="display: flex;" th:text="#{labelTotalPaidNum} +': '+ ${totalPaidNum}">totalPaidNum</label>
@@ -93,13 +92,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <ul id="pagination-inventory" class="pagination-lg pull-right"></ul>
+                <ul id="pagination-salesCashRegistry" class="pagination-lg pull-right"></ul>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
-<script type="text/javascript" src="/js/editableTable/editableTable.js"></script>
+<script type="text/javascript" src="/js/editableTable/editableTableCashRegistry.js"></script>
 <script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
 <script type="text/javascript" src="/js/detectEnterCustomAction.js"></script>
 </body>

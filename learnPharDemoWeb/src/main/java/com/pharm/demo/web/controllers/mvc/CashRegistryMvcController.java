@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -56,8 +57,13 @@ public class CashRegistryMvcController {
         int pageSize = size.orElse(currentCashRegistrySalesPageSize);
 
         currentCashRegistrySalesPage = currentPage;
+
+        if (Objects.isNull(cashRegistryId)) {
+
+        }
         Page<Sales> cashRegistrySalesPage = salesService.findPaginateByCashRegistry(PageRequest.of(currentPage - 1, pageSize), cashRegistryId);
         model.addAttribute("cashRegistrySalesPage", cashRegistrySalesPage);
+        model.addAttribute("cashRegistryId", cashRegistryId);
 
         int totalPages = cashRegistrySalesPage.getTotalPages();
         if (totalPages > 0) {

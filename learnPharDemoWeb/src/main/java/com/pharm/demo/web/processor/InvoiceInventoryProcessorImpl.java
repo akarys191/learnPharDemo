@@ -22,6 +22,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     private final InvoiceInventoryItemService invoiceInventoryItemService;
     private final InvoiceInventoryService invoiceInventoryService;
 
+    //TODO remove it and put it to separate context provider
     private Long currentInventoryVersionNumber;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
