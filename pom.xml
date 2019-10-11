@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 	<scm>
 		<connection>scm:git:https://github.com/akarys191/learnPharDemo.git</connection>
-		<developerConnection>scm:git://akarys191:Mus@19911004/akarys191/learnPharDemo.git</developerConnection>
+		<developerConnection>scm:git://akarys191@gmail.com:Mus@19911004/akarys191/learnPharDemo.git</developerConnection>
 		<url>https://github.com/akarys191/learnPharDemo</url>
 		<tag>HEAD</tag>
 	</scm>
