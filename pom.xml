@@ -4,14 +4,18 @@
 	<groupId>com.epam.spring</groupId>
 	<artifactId>learnPharDemo</artifactId>
 	<version>0.0.1</version>
+	<properties>
+		<gitUser>akarys191@gmail.com</gitUser>
+		<gitPass>Mus@19911004</gitPass>
+	</properties>
 	<modules>
 		<module>learnPharDemData</module>
 		<module>learnPharDemoWeb</module>
 	</modules>
 	<packaging>pom</packaging>
 	<scm>
-		<connection>scm:git:https://github.com/akarys191/learnPharDemo.git</connection>
-		<developerConnection>scm:git://akarys191@gmail.com:Mus@19911004/akarys191/learnPharDemo.git</developerConnection>
+		<connection>scm:git:git@github.com:akarys191/learnPharDemo.git</connection>
+		<developerConnection>scm:git:git@github.com:akarys191/learnPharDemo.git</developerConnection>
 		<url>https://github.com/akarys191/learnPharDemo</url>
 		<tag>HEAD</tag>
 	</scm>
