@@ -13,9 +13,11 @@
 		<module>learnPharDemoWeb</module>
 	</modules>
 	<packaging>pom</packaging>
+	<!--<connection>scm:git:git@github.com:akarys191/learnPharDemo.git</connection>
+		<developerConnection>scm:git:git@github.com:akarys191/learnPharDemo.git</developerConnection>-->
 	<scm>
-		<connection>scm:git:git@github.com:akarys191/learnPharDemo.git</connection>
-		<developerConnection>scm:git:git@github.com:akarys191/learnPharDemo.git</developerConnection>
+		<connection>scm:git:https://github.com/akarys191/learnPharDemo.git</connection>
+		<developerConnection>scm:git:https://github.com/akarys191/learnPharDemo.git</developerConnection>
 		<url>https://github.com/akarys191/learnPharDemo</url>
 		<tag>HEAD</tag>
 	</scm>
