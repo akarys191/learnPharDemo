@@ -1,8 +1,10 @@
 package com.pharm.demo.model;
 
 import lombok.*;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -34,5 +36,12 @@ public class CashInventory extends AbstractEntity {
     @PreUpdate
     public void setTotal() {
         this.totalMoney = this.totalCardMoney + this.totalCashMoney;
+    }
+
+    public void addCashRegistry(CashRegistry cashRegistry) {
+        if (CollectionUtils.isEmpty(cashRegistries)) {
+            cashRegistries = new ArrayList<>();
+        }
+        cashRegistries.add(cashRegistry);
     }
 }

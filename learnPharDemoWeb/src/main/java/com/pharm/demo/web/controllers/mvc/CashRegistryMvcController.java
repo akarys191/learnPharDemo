@@ -4,6 +4,7 @@ import com.pharm.demo.model.CashRegistry;
 import com.pharm.demo.model.Sales;
 import com.pharm.demo.services.CashRegistryService;
 import com.pharm.demo.services.SalesService;
+import com.pharm.demo.web.processor.context.CashRegistryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -25,6 +25,7 @@ import java.util.stream.IntStream;
 public class CashRegistryMvcController {
 
     private final CashRegistryService cashRegistryService;
+    private final CashRegistryContextHolder cashRegistryContextHolder;
     private final SalesService salesService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -34,9 +35,11 @@ public class CashRegistryMvcController {
     private static int currentCashRegistrySalesPage = 1;
     private static int currentCashRegistrySalesPageSize = 50;
 
-    public CashRegistryMvcController(CashRegistryService cashRegistryService, SalesService salesService) {
+    public CashRegistryMvcController(CashRegistryService cashRegistryService, CashRegistryContextHolder cashRegistryContextHolder,
+                                     SalesService salesService) {
         this.cashRegistryService = cashRegistryService;
         this.salesService = salesService;
+        this.cashRegistryContextHolder = cashRegistryContextHolder;
     }
 
     @RequestMapping({"/cashRegistry/", "/cashRegistry", "cashRegistry", "cashRegistry.html", "cashRegistry/"})
@@ -50,20 +53,16 @@ public class CashRegistryMvcController {
     public String listCashRegistrySales(
             Model model,
             @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size,
-            @RequestParam("cashRegistryId") Long cashRegistryId) {
+            @RequestParam("size") Optional<Integer> size) {
 
         int currentPage = page.orElse(currentCashRegistrySalesPage);
         int pageSize = size.orElse(currentCashRegistrySalesPageSize);
-
+        CashRegistry activeCashRegistry = cashRegistryContextHolder.getCashRegistryForToday();
         currentCashRegistrySalesPage = currentPage;
 
-        if (Objects.isNull(cashRegistryId)) {
-
-        }
-        Page<Sales> cashRegistrySalesPage = salesService.findPaginateByCashRegistry(PageRequest.of(currentPage - 1, pageSize), cashRegistryId);
+        Page<Sales> cashRegistrySalesPage = salesService.findPaginateByCashRegistry(PageRequest.of(currentPage - 1, pageSize), activeCashRegistry.getCashRegistryId());
         model.addAttribute("cashRegistrySalesPage", cashRegistrySalesPage);
-        model.addAttribute("cashRegistryId", cashRegistryId);
+        model.addAttribute("cashRegistryId", activeCashRegistry.getCashRegistryId());
 
         int totalPages = cashRegistrySalesPage.getTotalPages();
         if (totalPages > 0) {
