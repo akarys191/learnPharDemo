@@ -47,4 +47,8 @@ public class CashInventoryJpaService implements CashInventoryService {
     public void deleteById(Long aLong) {
         cashInventoryRepository.deleteById(aLong);
     }
+
+    public CashInventory findCashInventorByVersionNumber(Long inventoryVersionNumber) {
+        return cashInventoryRepository.findCashInventoryByInventoryVersionNumber(inventoryVersionNumber);
+    }
 }

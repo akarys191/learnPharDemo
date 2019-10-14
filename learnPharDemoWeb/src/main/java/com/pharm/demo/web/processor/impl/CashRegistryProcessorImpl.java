@@ -1,6 +1,8 @@
-package com.pharm.demo.web.processor;
+package com.pharm.demo.web.processor.impl;
 
 import com.pharm.demo.services.CashRegistryService;
+import com.pharm.demo.web.processor.CashRegistryProcessor;
+import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,9 +23,5 @@ public class CashRegistryProcessorImpl implements CashRegistryProcessor {
     public CashRegistryProcessorImpl(CashRegistryService cashRegistryService, InvoiceInventoryProcessor invoiceInventoryProcessor) {
         this.cashRegistryService = cashRegistryService;
         this.invoiceInventoryProcessor = invoiceInventoryProcessor;
-    }
-
-    @Override
-    public void getCashRegistryForToday() {
     }
 }

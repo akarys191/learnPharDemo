@@ -1,4 +1,4 @@
-package com.pharm.demo.web.processor;
+package com.pharm.demo.web.processor.impl;
 
 import com.pharm.demo.model.Inventory;
 import com.pharm.demo.model.InvoiceInventory;
@@ -6,6 +6,8 @@ import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InventoryService;
 import com.pharm.demo.services.InvoiceInventoryItemService;
 import com.pharm.demo.services.InvoiceInventoryService;
+import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
+import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,17 +23,16 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     private final InventoryService inventoryService;
     private final InvoiceInventoryItemService invoiceInventoryItemService;
     private final InvoiceInventoryService invoiceInventoryService;
-
-    //TODO remove it and put it to separate context provider
-    private Long currentInventoryVersionNumber;
+    private final InvoiceInventoryContextHolder invoiceInventoryContextHolder;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public InvoiceInventoryProcessorImpl(InventoryService inventoryService, InvoiceInventoryItemService invoiceInventoryItemService,
-                                         InvoiceInventoryService invoiceInventoryService) {
+                                         InvoiceInventoryService invoiceInventoryService, InvoiceInventoryContextHolder invoiceInventoryContextHolder) {
         this.inventoryService = inventoryService;
         this.invoiceInventoryItemService = invoiceInventoryItemService;
         this.invoiceInventoryService = invoiceInventoryService;
+        this.invoiceInventoryContextHolder = invoiceInventoryContextHolder;
     }
 
     @Override
@@ -55,10 +56,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     }
 
     private Inventory getCurrentInventoryByMedicine(InvoiceInventoryItem invoiceInventoryItem) {
-        if (currentInventoryVersionNumber == null) {
-            currentInventoryVersionNumber = inventoryService.latestInventoryVersionNumber();
-        }
-        return inventoryService.findInventoryByVersionNumberAndMedicine(currentInventoryVersionNumber, invoiceInventoryItem.getMedicine().getId());
+        return inventoryService.findInventoryByVersionNumberAndMedicine(invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber(), invoiceInventoryItem.getMedicine().getId());
     }
 
     private void addInventory(InvoiceInventory invoiceInventory, InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {
