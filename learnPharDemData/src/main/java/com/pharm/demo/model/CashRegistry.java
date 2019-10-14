@@ -1,8 +1,12 @@
 package com.pharm.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -10,7 +14,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CashRegistry extends AbstractEntity {
 
     @Id
@@ -33,6 +36,8 @@ public class CashRegistry extends AbstractEntity {
     private Double totalCashRegistryMoney = 0.0;
     private Double totalCardRegistryMoney = 0.0;
     private Double totalRegistryMoney = 0.0;
+
+    private LocalDate cashRegistryDate;
 
     @PrePersist
     @PreUpdate

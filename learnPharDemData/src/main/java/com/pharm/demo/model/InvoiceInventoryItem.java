@@ -41,12 +41,12 @@ public class InvoiceInventoryItem extends AbstractEntity {
     private Supplier supplier;
 
     @NotNull
-    private Double quantity;
-    private Double price;
-    private Double markupPercentage;
+    private Double quantity = 0.0;
+    private Double price = 0.0;
+    private Double markupPercentage = DEFAULT_MARKUP_PERCENTAGE;
 
     @NotNull
-    private Double suppliedCost;
+    private Double suppliedCost = 0.0;
     private Double paidSum;
     private Double priceSum;
 

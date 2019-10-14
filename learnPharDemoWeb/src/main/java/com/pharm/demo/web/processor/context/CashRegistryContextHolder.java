@@ -11,13 +11,14 @@ public class CashRegistryContextHolder {
     private CashRegistry currentCashRegistry;
     private CashRegistryService cashRegistryService;
 
-    private final InvoiceInventoryContextHolder invoiceInventoryContextHolder;
+    private InvoiceInventoryContextHolder invoiceInventoryContextHolder;
 
     public CashRegistryContextHolder(InvoiceInventoryContextHolder invoiceInventoryContextHolder,
                                      CashRegistryService cashRegistryService) {
         this.invoiceInventoryContextHolder = invoiceInventoryContextHolder;
         this.cashRegistryService = cashRegistryService;
     }
+
 
     public CashRegistry getCashRegistryForToday() {
         if (currentCashRegistry == null) {
