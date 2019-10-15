@@ -29,7 +29,7 @@
       last: $lastPaginationMessage,
       initiateStartPageClick: false,
       onPageClick: function (event, page) {
-        var urlLink = $urlLinklistInvoiceInventoryItems+'?page='+page+'&invoiceId='+$invoiceId;
+        var urlLink = $urlLinklistCashRegistrySales+'?page='+page+'&invoiceId='+$invoiceId;
         $tableID.load(urlLink);
       }
  });

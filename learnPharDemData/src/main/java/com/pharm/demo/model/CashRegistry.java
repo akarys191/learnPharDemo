@@ -33,6 +33,8 @@ public class CashRegistry extends AbstractEntity {
     @JoinColumn(name = "CASH_INVENTORY_ID")
     CashInventory cashInventory;
 
+    private Boolean closed = false;
+
     private Double totalCashRegistryMoney = 0.0;
     private Double totalCardRegistryMoney = 0.0;
     private Double totalRegistryMoney = 0.0;

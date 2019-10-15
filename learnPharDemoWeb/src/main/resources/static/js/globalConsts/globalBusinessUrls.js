@@ -5,3 +5,4 @@
  const $allSuppliersUrl = "/rest/suppliers/all";
  const $postInvoiceInventoryUrl = "/invoices/inventory"
  const $urlLinklistInvoiceInventoryItems = '/invoices/listInvoiceInventoryItems'
+ const $urlLinklistCashRegistrySales = '/invoices/listCashRegistrySales'

@@ -5,6 +5,8 @@ import com.pharm.demo.model.CashRegistry;
 import com.pharm.demo.services.CashRegistryService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class CashRegistryContextHolder {
 
@@ -21,18 +23,23 @@ public class CashRegistryContextHolder {
 
 
     public CashRegistry getCashRegistryForToday() {
-        if (currentCashRegistry == null) {
-            currentCashRegistry = createCashRegistry();
+        if (currentCashRegistry == null || !isToday(currentCashRegistry.getCashRegistryDate())) {
+            currentCashRegistry = createCashRegistryForToday();
         }
         return this.currentCashRegistry;
     }
 
-    private CashRegistry createCashRegistry() {
+    private CashRegistry createCashRegistryForToday() {
         CashRegistry cashRegistry = new CashRegistry();
         cashRegistry.setInventoryVersionNumber(invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber());
         CashInventory cashInventory = invoiceInventoryContextHolder.getActiveCashInventory();
+        cashRegistry.setCashRegistryDate(LocalDate.now());
         cashRegistry.setCashInventory(cashInventory);
         cashInventory.addCashRegistry(cashRegistry);
         return cashRegistryService.save(cashRegistry);
+    }
+
+    private boolean isToday(LocalDate date) {
+        return LocalDate.now().compareTo(date) == 0;
     }
 }
