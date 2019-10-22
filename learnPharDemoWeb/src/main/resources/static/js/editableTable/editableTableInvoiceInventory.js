@@ -115,16 +115,16 @@ const newTr = `
         $row.find("td:eq(6)").children('input').val(currentIsoDate);
         $row.find("td:eq(7)").html('<input class="tableInput" type="text" name="quantity" form="'+addFormId+'"/>');
         var $rowCol8 =  $row.find("td:eq(8)");
-        if(acceptingPharmacistRef.roles.includes("ADMIN")){
-            console.log('acceptingPharmacistRef');
-            console.log(acceptingPharmacistRef);
+        if(currentPharmacistRef.roles.includes("ADMIN")){
+            console.log('currentPharmacistRef');
+            console.log(currentPharmacistRef);
             $rowCol8.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
-            selectPharmacists($rowCol8.parents("tr"), acceptingPharmacistRef.id);
+            selectPharmacists($rowCol8.parents("tr"), currentPharmacistRef.id);
          } else {
             $rowCol8.removeClass($editWarningClass);
-            $rowCol8.text(acceptingPharmacistRef.name);
+            $rowCol8.text(currentPharmacistRef.name);
             $rowCol8.append('<input id="'+medicineId+'" type="hidden" name="acceptingPharmacist" form="'+addFormId+'"/>');
-            $rowCol8.children('input').val(acceptingPharmacistRef.id);
+            $rowCol8.children('input').val(currentPharmacistRef.id);
          }
          $row.find("td:eq(9)").children('input').attr('form',''+addFormId);
          $row.find('input[name=invoiceInventoryItemId]').attr('form',addFormId)

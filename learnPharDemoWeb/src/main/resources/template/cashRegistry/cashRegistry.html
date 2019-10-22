@@ -26,11 +26,11 @@
                 <tr>
                     <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
                     <th style="width: 150px;" th:text="#{customerText}"> Customer</th>
+                    <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
                     <th style="width: 150px;" th:text="#{cashTypeText}"> CashType</th>
                     <th style="width: 150px;" th:text="#{priceText}"> price</th>
                     <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
                     <th style="width: 150px;" th:text="#{soldSumText}"> Sold Sum</th>
-                    <th style="width: 150px;" th:text="#{cardPaymentText}"> Card Payment Sum</th>
                     <th style="width: 150px;" th:text="#{soldDateText}"> Sold Date</th>
                     <th style="width: 150px;" th:text="#{sellingPharmacistText}"> acceptingPharmacist</th>
                     <th style="width: 150px;"> *</th>
@@ -46,17 +46,23 @@
                         <input type="hidden" id="medicineId" th:value="${salesCashRegistry.medicine.id}"/>
                         <input type="hidden" id="medicineName" th:value="${salesCashRegistry.medicine.name}"/>
                     </td>
-                    <td class="pt-3-half" id="cashRegistryTd" th:text="${salesCashRegistry.customer.name}">Customer</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.customer.name}"></th:block>
+                        <input type="hidden" id="customerHiddenId" th:value="${salesCashRegistry.customer.id}"/>
+                    </td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.supplier.name}"></th:block>
+                        <input type="hidden" id="supplierHiddenId" th:value="${salesCashRegistry.supplier.id}"/>
+                    </td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.price}">price</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.quantity}">quantity</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.soldSum}">Sold sum</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.cashType}">Cash Type</td>
-                    <td class="pt-3-half" th:text="${salesCashRegistry.cardPayment}">Card payment</td>
-                    <td class="pt-3-half" th:text="${salesCashRegistry.soldDate}">suppliedDate</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.soldDate}">soldDate</td>
                     <td class="pt-3-half">
                         <th:block th:text="${salesCashRegistry.sellingPharmacist.name}"></th:block>
                         <input type="hidden" id="pharmacistHiddenId"
-                               th:value="${salesCashRegistry.acceptingPharmacist.id}"/>
+                               th:value="${salesCashRegistry.sellingPharmacist.id}"/>
                     </td>
                     <td class="pt-3-half">
                         <input type="hidden" name="salesCashRegistryId" th:value="${salesCashRegistry.salesId}"/>

@@ -1,14 +1,18 @@
 //Catalogues
 var pharmacistsRef= {json : null };
 var suppliersRef={json : null };
-var acceptingPharmacistRef;
+var customersRef={json : null };
+var cashTypesRef={json : null };
+var currentPharmacistRef;
 
 
 //Ajax queries
 $( window ).on("load", function() {
     selectPharmacists(null, pharmacistsRef, null);
     selectSuppliers(null, suppliersRef, null);
-    acceptingPharmacistRef = syncAjaxRequest($acceptingPharmUserUrl, {});
+    selectCustomers(null, customersRef, null);
+    selectCashTypes(null, cashTypesRef, null);
+    currentPharmacistRef = syncAjaxRequest($currentPharmUserUrl, {});
 });
 
 
@@ -30,6 +34,14 @@ $( window ).on("load", function() {
 
   function selectSuppliers(component, defaultSelectId){
        selectOptions(component, suppliersRef, "selectSupplier", $allSuppliersUrl,{},defaultSelectId);
+  }
+
+  function selectCustomers(component, defaultSelectId){
+       selectOptions(component, customersRef, "selectCustomer", $allCustomersUrl,{},defaultSelectId);
+  }
+
+  function selectCashTypes(component, defaultSelectId){
+         selectOptions(component, cashTypesRef, "selectCashType", $allCashTypesUrl,{},defaultSelectId);
   }
 
   function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelectId){
