@@ -29,7 +29,7 @@ $( window ).on("load", function() {
   }
 
   function selectPharmacists(component, defaultSelectId){
-      selectOptions(component, pharmacistsRef,  "acceptingPharmacist" ,$allPharmacistsUrl,{},defaultSelectId);
+      selectOptions(component, pharmacistsRef,  "pharmacist" ,$allPharmacistsUrl,{},defaultSelectId);
    }
 
   function selectSuppliers(component, defaultSelectId){

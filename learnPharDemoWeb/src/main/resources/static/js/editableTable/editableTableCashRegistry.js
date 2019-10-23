@@ -94,29 +94,29 @@ const newTr = `
         var saleQuantityInputId = 'saleQuantityInput'+0;
         var currentIsoDate = getIsoDate(new Date());
         console.log('currentIsoDate: '+currentIsoDate);
-        $row.find("td:eq(0)").html('<input id="'+medicineName+'" medicineIdForm="'+medicineIdForm+'" class="tableInput"/>');
+        $row.find("td:eq(0)").html('<input id="'+medicineName+'" medicineIdForm="'+medicineId+'" class="tableInput"/>');
         $row.find("td:eq(0)").append('<input id="'+medicineId+'" type="hidden" name="medicine" form="'+addFormId+'"/>');
-        if(medicine != null){
-           $row.find("td:eq(0)").children('input[id='+medicineId+']').val(medicineSale.id);
-           $row.find("td:eq(0)").children('input[id="'+medicineName+'"]').val(medicineSale.name);
-        }
+
         $row.find("td:eq(1)").html('<select id="selectCustomer" name="customer" form="'+addFormId+'" class="tableSelect"></select>');
         selectCustomers($('#table tr:last'), null);
 
         $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
         selectSuppliers($('#table tr:last'), null);
 
-        $row.find("td:eq(3)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+addFormId+'"/>');
-        $row.find("td:eq(3)").children('input').val(medicineSale.price);
-
-        $row.find("td:eq(4)").html('<input id="'+saleQuantityInputId+'" class="tableInput" name="saleQuantity" form="'+addFormId+'"/>');
-        $row.find("td:eq(4)").children('input').attr('number',0);
-
-        $row.find("td:eq(5)").html('<input class="tableInput" type="datetime-local" name="soldSum" form="'+addFormId+'"/>');
-        $row.find("td:eq(5)").children('input').val(currentIsoDate);
-
-        $row.find("td:eq(6)").html('<select id="selectCashType" name="supplier" form="'+addFormId+'" class="tableSelect"></select>');
+        $row.find("td:eq(3)").html('<select id="selectCashType" name="cashType" form="'+addFormId+'" class="tableSelect"></select>');
         selectCashTypes($('#table tr:last'), null);
+
+        $row.find("td:eq(4)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+addFormId+'"/>');
+         if(medicine != null){
+             $row.find("td:eq(0)").children('input[id='+medicineId+']').val(medicine.id);
+             $row.find("td:eq(0)").children('input[id="'+medicineName+'"]').val(medicine.name);
+             $row.find("td:eq(4)").children('input').val(medicine.price);
+         }
+
+        $row.find("td:eq(5)").html('<input id="'+saleQuantityInputId+'" class="tableInput" name="saleQuantity" form="'+addFormId+'"/>');
+        $row.find("td:eq(5)").children('input').attr('number',0);
+
+        $row.find("td:eq(6)").html('<input class="tableInput" name="soldSum" form="'+addFormId+'"/>');
 
         $row.find("td:eq(7)").html('<input class="tableInput" type="datetime-local" name="soldDate" form="'+addFormId+'"/>');
         $row.find("td:eq(7)").children('input').val(currentIsoDate);
@@ -125,7 +125,7 @@ const newTr = `
         if(currentPharmacistRef.roles.includes("ADMIN")){
             console.log('sellingPharmacist');
             console.log(currentPharmacistRef);
-            $rowCol8.html('<select id="sellingPharmacist"  name="sellingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
+            $rowCol8.html('<select id="pharmacist"  name="sellingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
             selectPharmacists($rowCol8.parents("tr"), currentPharmacistRef.id);
          } else {
             $rowCol8.removeClass($editWarningClass);
@@ -198,14 +198,14 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     $row.find("td:eq(0)").children('input[id='+medicineIdId+']').val(medicineId);
     $row.find("td:eq(1)").html('<select id="selectCustomer" name="customer" form="'+editFormId+'" class="tableSelect"></select>');
     $row.find("td:eq(2)").html('<select id="selectSupplier" name="supplier" form="'+editFormId+'" class="tableSelect"></select>');
-    $row.find("td:eq(3)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+editFormId+'"/>');
-    $row.find("td:eq(3)").children('input').val(price);
-    $row.find("td:eq(4)").html('<input id="'+saleQuantityInputId+'" class="tableInput" name="saleQuantity" form="'+editFormId+'"/>');
-    $row.find("td:eq(4)").children('input').val(saleQuantity);
-    $row.find("td:eq(4)").children('input').attr('number',medicineNumber);
-    $row.find("td:eq(5)").html('<input class="tableInput" type="text" name="soldSum" form="'+editFormId+'"/>');
-    $row.find("td:eq(5)").children('input').val(soldSum);
-    $row.find("td:eq(6)").html('<select id="selectCashType" name="supplier" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(3)").html('<select id="selectCashType" name="supplier" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(4)").html('<input id="'+priceInputId+'" class="tableInput" name="price" form="'+editFormId+'"/>');
+    $row.find("td:eq(4)").children('input').val(price);
+    $row.find("td:eq(5)").html('<input id="'+saleQuantityInputId+'" class="tableInput" name="saleQuantity" form="'+editFormId+'"/>');
+    $row.find("td:eq(5)").children('input').val(saleQuantity);
+    $row.find("td:eq(5)").children('input').attr('number',medicineNumber);
+    $row.find("td:eq(6)").html('<input class="tableInput" type="text" name="soldSum" form="'+editFormId+'"/>');
+    $row.find("td:eq(6)").children('input').val(soldSum);
     $row.find("td:eq(7)").html('<input class="tableInput" type="datetime-local" name="soldDate" form="'+editFormId+'"/>');
     $row.find("td:eq(7)").children('input').val(dateLocal);
     $submitButton.attr('form',editFormId);

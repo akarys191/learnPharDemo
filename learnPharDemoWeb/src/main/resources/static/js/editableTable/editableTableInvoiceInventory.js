@@ -118,7 +118,7 @@ const newTr = `
         if(currentPharmacistRef.roles.includes("ADMIN")){
             console.log('currentPharmacistRef');
             console.log(currentPharmacistRef);
-            $rowCol8.html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
+            $rowCol8.html('<select id="pharmacist"  name="acceptingPharmacist" form="'+addFormId+'" class="tableSelect"></select>');
             selectPharmacists($rowCol8.parents("tr"), currentPharmacistRef.id);
          } else {
             $rowCol8.removeClass($editWarningClass);
@@ -202,7 +202,7 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
     $row.find("td:eq(6)").children('input').val(dateLocal);
     $row.find("td:eq(7)").html('<input class="tableInput" type="text" name="quantity" form="'+editFormId+'"/>');
     $row.find("td:eq(7)").children('input').val(quantity);
-    $row.find("td:eq(8)").html('<select id="acceptingPharmacist"  name="acceptingPharmacist" form="'+editFormId+'" class="tableSelect"></select>');
+    $row.find("td:eq(8)").html('<select id="pharmacist"  name="acceptingPharmacist" form="'+editFormId+'" class="tableSelect"></select>');
     $row.find("td:eq(9)").children('input').attr('form',''+editFormId);
     $submitButton.attr('form',editFormId);
 

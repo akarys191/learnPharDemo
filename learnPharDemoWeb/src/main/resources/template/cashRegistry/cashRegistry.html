@@ -54,10 +54,10 @@
                         <th:block th:text="${salesCashRegistry.supplier.name}"></th:block>
                         <input type="hidden" id="supplierHiddenId" th:value="${salesCashRegistry.supplier.id}"/>
                     </td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.cashType}">Cash Type</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.price}">price</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.quantity}">quantity</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.soldSum}">Sold sum</td>
-                    <td class="pt-3-half" th:text="${salesCashRegistry.cashType}">Cash Type</td>
                     <td class="pt-3-half" th:text="${salesCashRegistry.soldDate}">soldDate</td>
                     <td class="pt-3-half">
                         <th:block th:text="${salesCashRegistry.sellingPharmacist.name}"></th:block>
