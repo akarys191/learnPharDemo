@@ -28,6 +28,7 @@ public class DataLoader implements CommandLineRunner {
     private  final CategoryMedRepository categoryMedRepository;
     private final ManufacturerService manufacturerService;
     private final CountryService countryService;
+    private final CustomerService customerService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
@@ -37,7 +38,8 @@ public class DataLoader implements CommandLineRunner {
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
                       CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService invoiceInventoryItemService,
                       CountryService countryService, ManufacturerService manufacturerService,
-                      InvoiceInventoryService invoiceInventoryService, InventoryService inventoryService) {
+                      InvoiceInventoryService invoiceInventoryService, InventoryService inventoryService,
+                      CustomerService customerService) {
         this.invoiceInventoryItemService = invoiceInventoryItemService;
         this.invoiceInventoryService = invoiceInventoryService;
         this.supplierService = supplierService;
@@ -48,6 +50,7 @@ public class DataLoader implements CommandLineRunner {
         this.manufacturerService = manufacturerService;
         this.countryService = countryService;
         this.inventoryService = inventoryService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -166,6 +169,13 @@ public class DataLoader implements CommandLineRunner {
             inventory.setInventoryVersionNumber(1L);
             inventory.setMedicine(medicine);
             inventoryService.save(inventory);
+
+            Customer customer = new Customer();
+            customer.setDiscount(0.0);
+            customer.setFirstName("General");
+            customer.setLastName("General");
+            customer.setRoles("USER");
+            customerService.save(customer);
 
             InvoiceInventoryItem invoiceInventoryItem = new InvoiceInventoryItem(medicine,
                     supplier2, 100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 100.0, LocalDateTime.now(), pharmacist);

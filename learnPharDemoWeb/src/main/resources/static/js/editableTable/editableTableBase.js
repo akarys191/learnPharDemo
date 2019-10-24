@@ -41,7 +41,7 @@ $( window ).on("load", function() {
   }
 
   function selectCashTypes(component, defaultSelectId){
-         selectOptions(component, cashTypesRef, "selectCashType", $allCashTypesUrl,{},defaultSelectId);
+       selectOptions(component, cashTypesRef, "selectCashType", $allCashTypesUrl,{},defaultSelectId);
   }
 
   function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelectId){
@@ -55,11 +55,17 @@ $( window ).on("load", function() {
                         console.log(component);
                         console.log(targetComponentId);
 
-                    if(defaultSelectId == item.id){
-                       items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
-                    } else {
-                       items+="<option value='"+item.id+"'>"+item.name+"</option>";
+                    if(item.id == undefined || item.id == null || item.id == "undefined" || item.id == ""){
+                        items+="<option value='"+item+"'>"+item+"</option>";
                     }
+                    else{
+                        if(defaultSelectId == item.id){
+                             items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
+                        } else {
+                             items+="<option value='"+item.id+"'>"+item.name+"</option>";
+                        }
+                    }
+
                     component.find("#"+targetComponentId).html(items);
              });
          }
