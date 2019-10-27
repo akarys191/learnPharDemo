@@ -32,6 +32,9 @@ public class Inventory extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<Sales> sales;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
+    List<InventorySupplierLatestPrice> inventorySupplierLatestPrices;
+
     private Double totalBoughtQuantity = 0.0;
 
     private Double totalSoldQuantity = 0.0;

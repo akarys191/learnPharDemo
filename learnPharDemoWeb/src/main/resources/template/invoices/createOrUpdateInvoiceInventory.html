@@ -28,7 +28,7 @@
         <input type="hidden"
                th:field="*{invoice}" th:value="${invoice}"/>
         <input
-                th:replace="~{fragments/inputField :: input ('Price', 'price', 'text')}"/>
+                th:replace="~{fragments/inputField :: input ('Price', 'latestPrice', 'text')}"/>
         <input
                 th:replace="~{fragments/inputField :: input ('Quantity', 'totalQuantity', 'text')}"/>
         <input

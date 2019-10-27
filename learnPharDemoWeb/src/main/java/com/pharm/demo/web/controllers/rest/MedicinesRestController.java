@@ -52,7 +52,7 @@ public class MedicinesRestController {
             Inventory inventory = inventoryService.findInventoryByVersionNumberAndMedicine(invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber(),
                     medicine.getId());
             if (inventory != null) {
-                medicineDTO.setPrice(inventory.getPrice());
+                medicineDTO.setPrice(inventory.getInventorySupplierLatestPrices().getLatestPrice());
             }
         }
         return medicineDTO;

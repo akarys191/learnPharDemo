@@ -1,9 +1,11 @@
 package com.pharm.demo.web.processor.impl;
 
 import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InventorySupplierLatestPrice;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InventorySupplierPriceService;
 import com.pharm.demo.services.InvoiceInventoryItemService;
 import com.pharm.demo.services.InvoiceInventoryService;
 import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Objects;
 
 @Component
@@ -23,16 +26,19 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     private final InventoryService inventoryService;
     private final InvoiceInventoryItemService invoiceInventoryItemService;
     private final InvoiceInventoryService invoiceInventoryService;
+    private final InventorySupplierPriceService inventorySupplierPriceService;
     private final InvoiceInventoryContextHolder invoiceInventoryContextHolder;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public InvoiceInventoryProcessorImpl(InventoryService inventoryService, InvoiceInventoryItemService invoiceInventoryItemService,
-                                         InvoiceInventoryService invoiceInventoryService, InvoiceInventoryContextHolder invoiceInventoryContextHolder) {
+                                         InvoiceInventoryService invoiceInventoryService, InvoiceInventoryContextHolder invoiceInventoryContextHolder,
+                                         InventorySupplierPriceService inventorySupplierPriceService) {
         this.inventoryService = inventoryService;
         this.invoiceInventoryItemService = invoiceInventoryItemService;
         this.invoiceInventoryService = invoiceInventoryService;
         this.invoiceInventoryContextHolder = invoiceInventoryContextHolder;
+        this.inventorySupplierPriceService = inventorySupplierPriceService;
     }
 
     @Override
@@ -63,6 +69,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
         invoiceInventory.getInvoiceInventoryItems().add(invoiceInventoryItem);
         invoiceInventoryItem.setInvoice(invoiceInventory);
         invoiceInventoryItem.setInventory(currentInventory);
+        currentInventory.setInventorySupplierLatestPrices(Collections.singletonList(createInventorySupplierPrice(currentInventory, invoiceInventoryItem)));
         currentInventory.setTotalBoughtCost(addInventoryValue(currentInventory.getTotalBoughtCost(), invoiceInventoryItem.getPaidSum()));
         currentInventory.setTotalBoughtQuantity(addInventoryValue(currentInventory.getTotalBoughtQuantity(), invoiceInventoryItem.getQuantity()));
         currentInventory.setTotalBoughtPriceSum(addInventoryValue(currentInventory.getTotalBoughtPriceSum(), invoiceInventoryItem.getPriceSum()));
@@ -70,6 +77,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
 
     private void editInventory(InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {
         InvoiceInventoryItem existingInvoiceInventoryItem = invoiceInventoryItemService.findById(invoiceInventoryItem.getInvoiceInventoryItemId());
+        editInventorySupplierPrice(currentInventory, invoiceInventoryItem);
         if (isOldValueChanged(existingInvoiceInventoryItem.getPaidSum(), invoiceInventoryItem.getPaidSum())) {
             currentInventory.setTotalBoughtCost(recalculateTotal(existingInvoiceInventoryItem.getPaidSum(), invoiceInventoryItem.getPaidSum(),
                     currentInventory.getTotalBoughtCost()));
@@ -81,6 +89,22 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
         if (isOldValueChanged(existingInvoiceInventoryItem.getPriceSum(), invoiceInventoryItem.getPriceSum())) {
             currentInventory.setTotalBoughtPriceSum(recalculateTotal(existingInvoiceInventoryItem.getPriceSum(), invoiceInventoryItem.getPriceSum(),
                     currentInventory.getTotalBoughtPriceSum()));
+        }
+    }
+
+    private InventorySupplierLatestPrice createInventorySupplierPrice(Inventory inventory, InvoiceInventoryItem invoiceInventoryItem) {
+        InventorySupplierLatestPrice inventorySupplierLatestPrice = new InventorySupplierLatestPrice(inventory, invoiceInventoryItem.getSupplier(),
+                invoiceInventoryItem.getPrice());
+        return inventorySupplierPriceService.save(inventorySupplierLatestPrice);
+    }
+
+    private void editInventorySupplierPrice(Inventory inventory, InvoiceInventoryItem invoiceInventoryItem) {
+        Objects.requireNonNull(inventory.getInventorySupplierLatestPrices());
+        InventorySupplierLatestPrice inventorySupplierLatestPrice = inventorySupplierPriceService.findInventoryByInventoryAndSupplier(inventory.getInventoryId(), invoiceInventoryItem.getSupplier().getId());
+        if (Objects.nonNull(inventorySupplierLatestPrice)) {
+            inventorySupplierLatestPrice.setLatestPrice(invoiceInventoryItem.getPrice());
+        } else {
+            createInventorySupplierPrice(inventory, invoiceInventoryItem);
         }
     }
 
