@@ -1,3 +1,4 @@
+/*
 package com.pharm.demo.web.processor.impl;
 
 import com.pharm.demo.model.*;
@@ -141,3 +142,4 @@ public class InvoiceInventoryProcessorImplUT {
         return Optional.ofNullable(defaultInventory).map(funcRef).orElse(addValue);
     }
 }
+*/

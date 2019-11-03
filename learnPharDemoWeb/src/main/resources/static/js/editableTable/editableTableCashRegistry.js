@@ -19,7 +19,6 @@
  const $totalPages = $('#totalPages').val();
  const $markupPercentage = $('#markupPercentage').val();
 
-
  $('#pagination-cashRegistry').twbsPagination({
       totalPages: $totalPages == 0 ? 1 : $totalPages,
       visiblePages: $totalPages == 0 ? 1 : $totalPages%5,
@@ -246,6 +245,32 @@ $tableID.on('click', '.'+$tableEditClass, function(event)  {
    }
    $row.prev().before($row.get(0));
  });
+
+$tableID.on('change', '#selectSupplier', function () {
+      var medicineId = $(this).parents("tr").find("td:eq(0)").children("input[name='medicine']").val();
+      var supplierId = this.value;
+            console.log('out');
+            console.log('out');
+      if(medicineId!=='null' && medicineId!=='undefined' && medicineId!==null && medicineId!==''){
+            console.log(supplierId);
+            console.log(medicineId);
+        $.ajax({
+              dataType: "json",
+              url:$medicinePriceUrl,
+              data: {
+                 supplierId: supplierId,
+                 medicineId: medicineId
+                 },
+                 success:function(data) {
+                  messagePrompt('data: '+data);
+              },
+              error:function(data) {
+                  messagePrompt(data.statusText);
+                  console.log(data);
+              }
+         });
+      }
+  });
 
  $tableID.on('click', '.table-down', function () {
    const $row = $(this).parents('tr');

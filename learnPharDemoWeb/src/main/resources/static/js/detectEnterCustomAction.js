@@ -9,7 +9,7 @@ $(document).ready(function() {
          var val = $("#tagQuery").val();
          $.ajax({
                  dataType: "json",
-                 url:$medicineBarcodeUrl,
+                 url: $medicineBarcodeUrl,
                   data: {term: val},
                  success:function(data) {
                        $("#tagQuery").val(data.name);
@@ -58,21 +58,18 @@ $(document).ready(function() {
                               messagePrompt($medicineDoesNotExistMessage);
                            }
                        });
-             } else if(event.target.id.lastIndexOf("medicineName") == 0 || event.target.id.lastIndexOf("salesMedicineName")){
+             } else if(event.target.id.lastIndexOf("medicineName") == 0){
                                 event.preventDefault();
                                 var barCodeMedicine = $('#'+event.target.id);
                                 console.log(event.target.id);
                                 var barCodeMedicineVal = barCodeMedicine.val();
-                                var isSales = false;
-                                if(event.target.id.includes("sales")){
-                                    isSales = true;
-                                }
+
                                 var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
                                 var barCodeMedicineId = $('#'+medicineIdForm);
                                  $.ajax({
                                      dataType: "json",
                                      url:$medicineBarcodeUrl,
-                                     data: {term: barCodeMedicineVal, isSales: isSales},
+                                     data: {term: barCodeMedicineVal},
                                          success:function(data) {
                                             console.log(data);
                                             barCodeMedicine.val(data.name);

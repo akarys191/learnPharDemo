@@ -1,5 +1,6 @@
  //key Urls
  const $medicineBarcodeUrl =  "/rest/medicines/findByBarcode";
+ const $medicinePriceUrl =  "/rest/cashRegistry/findPrice";
  const $allPharmacistsUrl = "/rest/pharmacists/all";
  const $allCustomersUrl = "/rest/customers/all";
  const $allCashTypesUrl = "/rest/general/allCashTypes";
