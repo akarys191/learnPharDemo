@@ -15,7 +15,7 @@ public class InventorySupplierLatestPrice extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_price_id_generator")
     @SequenceGenerator(name = "inventory_price_id_generator", sequenceName = "inventory_price_id_seq", allocationSize = 50)
-    private Long inventorySupplierId;
+    private Long inventorySupplierPriceId;
 
     @ManyToOne
     private Inventory inventory;

@@ -21,6 +21,7 @@ public class DataLoader implements CommandLineRunner {
     private final InventoryService inventoryService;
     private final InvoiceInventoryService invoiceInventoryService;
     private final InvoiceInventoryItemService invoiceInventoryItemService;
+    private final InventorySupplierPriceService inventorySupplierPriceService;
     private  final SupplierService supplierService;
     private  final MedicineService medicineService;
     private  final PharmacistService pharmacistService;
@@ -39,8 +40,9 @@ public class DataLoader implements CommandLineRunner {
                       CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService invoiceInventoryItemService,
                       CountryService countryService, ManufacturerService manufacturerService,
                       InvoiceInventoryService invoiceInventoryService, InventoryService inventoryService,
-                      CustomerService customerService) {
+                      CustomerService customerService, InventorySupplierPriceService inventorySupplierPriceService) {
         this.invoiceInventoryItemService = invoiceInventoryItemService;
+        this.inventorySupplierPriceService = inventorySupplierPriceService;
         this.invoiceInventoryService = invoiceInventoryService;
         this.supplierService = supplierService;
         this.medicineService = medicineService;
@@ -194,6 +196,12 @@ public class DataLoader implements CommandLineRunner {
             invoiceInventoryService.save(invoice);
             invoiceInventoryService.save(invoice2);
             invoiceInventoryService.save(invoice3);
+
+            InventorySupplierLatestPrice inventorySupplierLatestPrice = new InventorySupplierLatestPrice();
+            inventorySupplierLatestPrice.setInventory(inventory);
+            inventorySupplierLatestPrice.setSupplier(supplier2);
+            inventorySupplierLatestPrice.setLatestPrice(invoiceInventoryItem.getPrice());
+            inventorySupplierPriceService.save(inventorySupplierLatestPrice);
 
             if (pharmUserService.findByUserName(user.getUserName()) == null) {
                 pharmUserService.save(user);

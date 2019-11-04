@@ -1,6 +1,8 @@
 //General language bundle values
 const $medicineAlreadyExistMessage = $("#medicineAlreadyExistMessage").val();
 const $medicineDoesNotExistMessage = $("#medicineDoesNotExistMessage").val();
+ const $notFoundException = $("#notFoundException").val();
+ const $notFoundPriceException = $("#notFoundPriceException").val();
 
 //Editable table language bundle values
  const $nextPaginationMessage = $("#nextPaginationMessage").val();

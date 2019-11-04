@@ -7,11 +7,13 @@ import com.pharm.demo.services.PharmacistService;
 import com.pharm.demo.services.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.el.PropertyNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
@@ -41,6 +43,12 @@ public class GeneralAdviceController {
         mav.addObject("url", req.getRequestURL());
         mav.setViewName("errorView");
         return mav;
+    }
+
+    @ExceptionHandler(PropertyNotFoundException.class)
+    public ResponseEntity handleErrorNotFound(HttpServletRequest req, Exception ex) {
+        LOGGER.error("Request: " + req.getRequestURL() + " raised  ", ex);
+        return ResponseEntity.notFound().build();
     }
 
     @ModelAttribute("suppliers")

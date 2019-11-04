@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.el.PropertyNotFoundException;
 import java.util.Optional;
 
 @RestController
@@ -30,7 +31,7 @@ public class CashRegistryRestController {
     @RequestMapping(value = "/findPrice", produces = " application/json")
     public @ResponseBody
     Double findPrice(@Param("supplierId") Long supplierId,
-                     @Param("medicineId") Long medicineId) throws NoSuchFieldException {
+                     @Param("medicineId") Long medicineId) throws PropertyNotFoundException {
 
         Inventory inventory = findInventory(medicineId);
         Long inventoryId = inventory.getInventoryId();
@@ -38,7 +39,7 @@ public class CashRegistryRestController {
         InventorySupplierLatestPrice inventorySupplierLatestPrice = inventorySupplierPriceService.findInventoryByInventoryAndSupplier(inventoryId, supplierId);
         return Optional.ofNullable(inventorySupplierLatestPrice)
                 .map(InventorySupplierLatestPrice::getLatestPrice)
-                .orElseThrow(() -> new NoSuchFieldException("No such price for this medicine nd supplier"));
+                .orElseThrow(() -> new PropertyNotFoundException("No such price for this medicine nd supplier"));
     }
 
     private Inventory findInventory(Long medicineId) {
