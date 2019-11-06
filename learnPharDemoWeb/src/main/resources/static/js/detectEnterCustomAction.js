@@ -36,65 +36,60 @@ $(document).ready(function() {
                             console.log($medicineDoesNotExistMessage)
                       }
                   });
-          }  else if(event.target.id.lastIndexOf("medicineName") == 0){
-                  event.preventDefault();
-                  var barCodeMedicine = $('#'+event.target.id);
-                  console.log(event.target.id);
-                  var barCodeMedicineVal = barCodeMedicine.val();
-                  var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
-                  var barCodeMedicineId = $('#'+medicineIdForm);
-                   $.ajax({
-                       dataType: "json",
-                       url:$medicineBarcodeUrl,
-                       data: {term: barCodeMedicineVal},
-                           success:function(data) {
-                              console.log(data);
-                              barCodeMedicine.val(data.name);
-                              barCodeMedicineId.val(data.id);
-                           },
-                           error:function(error) {
-                              console.log(error);
-                              barCodeMedicine.val($medicineDoesNotExistMessage);
-                              messagePrompt($medicineDoesNotExistMessage);
-                           }
-                       });
-             } else if(event.target.id.lastIndexOf("medicineName") == 0){
-                                event.preventDefault();
-                                var barCodeMedicine = $('#'+event.target.id);
-                                console.log(event.target.id);
-                                var barCodeMedicineVal = barCodeMedicine.val();
-
-                                var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
-                                var barCodeMedicineId = $('#'+medicineIdForm);
-                                 $.ajax({
-                                     dataType: "json",
-                                     url:$medicineBarcodeUrl,
-                                     data: {term: barCodeMedicineVal},
-                                         success:function(data) {
-                                            console.log(data);
-                                            barCodeMedicine.val(data.name);
-                                            barCodeMedicineId.val(data.id);
-                                         },
-                                         error:function(error) {
-                                            console.log(error);
-                                            barCodeMedicine.val($medicineDoesNotExistMessage);
-                                            messagePrompt($medicineDoesNotExistMessage);
-                                         }
-                                     });
-                   } else if(event.target.id.includes("markupPercentageInput") || event.target.id.includes("suppliedCostInput")){
-                   event.preventDefault();
-                   var number = $('#'+event.target.id).attr('number');
-                   var suppliedCostInput = $("#suppliedCostInput"+number).val();
-                   var markupPercentageInput = $("#markupPercentageInput"+number).val();
-                   if(suppliedCostInput==null || suppliedCostInput == ''){
-                         messagePrompt($suppliedCostInputEmptyMessage);
-                         return ;
-                   } else if(markupPercentageInput==null || markupPercentageInput == ''){
-                         messagePrompt($markupPercentageInputEmptyMessage);
-                         return ;
-                    }
-                   $("#priceInput"+number).val(calculatePrice(markupPercentageInput, suppliedCostInput));
-             }
+          }  else if(event.target.id.includes("medicineName")){
+                        event.preventDefault();
+                        var eventTargetId = event.target.id;
+                           var barCodeMedicine = $('#'+event.target.id);
+                           console.log(event.target.id);
+                           var barCodeMedicineVal = barCodeMedicine.val();
+                           var medicineIdForm = barCodeMedicine.attr('medicineIdForm');
+                           var barCodeMedicineId = $('#'+medicineIdForm);
+                           $.ajax({
+                               dataType: "json",
+                               url:$medicineBarcodeUrl,
+                               data: {term: barCodeMedicineVal},
+                                     success:function(data) {
+                                     console.log(data);
+                                     barCodeMedicine.val(data.name);
+                                     barCodeMedicineId.val(data.id);
+                                     if(eventTargetId.includes("ForCash")){
+                                        findSetMedicinePrice(barCodeMedicine);
+                                     }
+                                },
+                                 error:function(error) {
+                                     console.log(error);
+                                     barCodeMedicine.val($medicineDoesNotExistMessage);
+                                     messagePrompt($medicineDoesNotExistMessage);
+                                  }
+                             });
+                   }
+                   else if(event.target.id.includes("markupPercentageInput") || event.target.id.includes("suppliedCostInput")){
+                       event.preventDefault();
+                       var number = $('#'+event.target.id).attr('number');
+                       var suppliedCostInput = $("#saleQuantityInput"+number).val();
+                       var markupPercentageInput = $("#markupPercentageInput"+number).val();
+                       if(suppliedCostInput==null || suppliedCostInput == ''){
+                             messagePrompt($suppliedCostInputEmptyMessage);
+                             return ;
+                       } else if(markupPercentageInput==null || markupPercentageInput == ''){
+                             messagePrompt($markupPercentageInputEmptyMessage);
+                             return ;
+                        }
+                       $("#priceInput"+number).val(calculatePrice(markupPercentageInput, suppliedCostInput));
+                 } else if(event.target.id.includes("saleQuantityInput")){
+                        event.preventDefault();
+                        var number = $('#'+event.target.id).attr('number');
+                        var saleQuantityInput = $("#saleQuantityInput"+number).val();
+                        var priceInput = $("#priceInput"+number).val();
+                        if(saleQuantityInput==null || saleQuantityInput == ''){
+                            messagePrompt($saleQuantityInputEmptyMessage);
+                             return ;
+                        } else if(priceInput==null || priceInput == ''){
+                             messagePrompt($notFoundPriceException);
+                             return ;
+                        }
+                     $("#soldSum"+number).val(saleQuantityInput*priceInput);
+                  }
        return false;
     }
   });

@@ -39,7 +39,7 @@ public class CashRegistryRestController {
         InventorySupplierLatestPrice inventorySupplierLatestPrice = inventorySupplierPriceService.findInventoryByInventoryAndSupplier(inventoryId, supplierId);
         return Optional.ofNullable(inventorySupplierLatestPrice)
                 .map(InventorySupplierLatestPrice::getLatestPrice)
-                .orElseThrow(() -> new PropertyNotFoundException("No such price for this medicine nd supplier"));
+                .orElseThrow(() -> new PropertyNotFoundException(String.format("No such price for this medicine %s and supplier %s", medicineId, supplierId)));
     }
 
     private Inventory findInventory(Long medicineId) {

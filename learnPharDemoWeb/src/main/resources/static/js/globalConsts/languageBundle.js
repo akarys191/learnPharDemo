@@ -7,6 +7,7 @@ const $medicineDoesNotExistMessage = $("#medicineDoesNotExistMessage").val();
 //Editable table language bundle values
  const $nextPaginationMessage = $("#nextPaginationMessage").val();
  const $suppliedCostInputEmptyMessage = $("#suppliedCostInputEmptyMessage").val();
+ const $saleQuantityInputEmptyMessage = $("#saleQuantityInputEmptyMessage").val();
  const $markupPercentageInputEmptyMessage = $("#markupPercentageInputEmptyMessage").val();
  const $prevPaginationMessage = $("#prevPaginationMessage").val();
  const $firstPaginationMessage = $("#firstPaginationMessage").val();
