@@ -1,7 +1,6 @@
 package com.pharm.demo.web.bootstrap;
 
 import com.pharm.demo.model.*;
-import com.pharm.demo.repositories.CategoryMedRepository;
 import com.pharm.demo.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
@@ -19,14 +18,15 @@ import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
 public class DataLoader implements CommandLineRunner {
 
     private final InventoryService inventoryService;
+    private final CashInventoryService cashInventoryService;
     private final InvoiceInventoryService invoiceInventoryService;
     private final InvoiceInventoryItemService invoiceInventoryItemService;
-    private final InventorySupplierPriceService inventorySupplierPriceService;
-    private  final SupplierService supplierService;
-    private  final MedicineService medicineService;
-    private  final PharmacistService pharmacistService;
-    private  final PharmUserService pharmUserService;
-    private  final CategoryMedRepository categoryMedRepository;
+    private final InventorySupplierLatestService inventorySupplierLatestService;
+    private final SupplierService supplierService;
+    private final MedicineService medicineService;
+    private final PharmacistService pharmacistService;
+    private final PharmUserService pharmUserService;
+    private final CategoryMedService categoryMedService;
     private final ManufacturerService manufacturerService;
     private final CountryService countryService;
     private final CustomerService customerService;
@@ -35,20 +35,21 @@ public class DataLoader implements CommandLineRunner {
 
     private Boolean load = false;
 
-    public DataLoader(SupplierService supplierService, MedicineService medicineService,
+    public DataLoader(CashInventoryService cashInventoryService, SupplierService supplierService, MedicineService medicineService,
                       PharmacistService pharmacistService, PharmUserService pharmUserService,
-                      CategoryMedRepository categoryMedRepository, InvoiceInventoryItemService invoiceInventoryItemService,
+                      CategoryMedService categoryMedService, InvoiceInventoryItemService invoiceInventoryItemService,
                       CountryService countryService, ManufacturerService manufacturerService,
                       InvoiceInventoryService invoiceInventoryService, InventoryService inventoryService,
-                      CustomerService customerService, InventorySupplierPriceService inventorySupplierPriceService) {
+                      CustomerService customerService, InventorySupplierLatestService inventorySupplierPriceService) {
+        this.cashInventoryService = cashInventoryService;
         this.invoiceInventoryItemService = invoiceInventoryItemService;
-        this.inventorySupplierPriceService = inventorySupplierPriceService;
+        this.inventorySupplierLatestService = inventorySupplierPriceService;
         this.invoiceInventoryService = invoiceInventoryService;
         this.supplierService = supplierService;
         this.medicineService = medicineService;
         this.pharmacistService = pharmacistService;
         this.pharmUserService = pharmUserService;
-        this.categoryMedRepository = categoryMedRepository;
+        this.categoryMedService = categoryMedService;
         this.manufacturerService = manufacturerService;
         this.countryService = countryService;
         this.inventoryService = inventoryService;
@@ -60,13 +61,13 @@ public class DataLoader implements CommandLineRunner {
         List<Country> countries = new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();
         if (this.isEmpty() || load) {
-            for (int i = 0; i < 5; i++) {
+           /* for (int i = 0; i < 5; i++) {
                 Supplier supplier = new Supplier();
                 supplier.setName("Supplier" + i);
                 supplier.setContactNumber("8777555221" + i);
                 supplier.setEmail("astana@gmail.com" + i);
                 supplierService.save(supplier);
-            }
+            }*/
 
             for (int i = 0; i < 5; i++) {
                 Country country = new Country();
@@ -82,54 +83,52 @@ public class DataLoader implements CommandLineRunner {
                 manufacturer.setName("Manufacturer" + i);
                 manufacturer.setContactNumber("8777555221" + i);
                 manufacturer.setEmail("manufacturer@gmail.com" + i);
-                manufacturerService.save(manufacturer);
+                manufacturerService.saveFlush(manufacturer);
                 manufacturers.add(manufacturer);
-
             }
-
 
             Supplier supplier2 = new Supplier();
             supplier2.setName("Astana2");
             supplier2.setContactNumber("8777555222");
             supplier2.setEmail("astana2@gmail.com");
-            supplierService.save(supplier2);
+            supplierService.saveFlush(supplier2);
 
             Supplier supplier3 = new Supplier();
             supplier3.setName("Astana3");
             supplier3.setContactNumber("8777555223");
             supplier3.setEmail("astana3@gmail.com");
-            supplierService.save(supplier3);
+            supplierService.saveFlush(supplier3);
 
             Supplier supplier4 = new Supplier();
             supplier4.setName("Astana4");
             supplier4.setContactNumber("8777555224");
             supplier4.setEmail("astana4@gmail.com");
-            supplierService.save(supplier4);
+            supplierService.saveFlush(supplier4);
 
             Medicine medicine = new Medicine();
             CategoryMed cardioMed = new CategoryMed();
             cardioMed.setName("Cardio");
             cardioMed.setName("Cardio vuscular");
-            categoryMedRepository.save(cardioMed);
+            categoryMedService.saveFlush(cardioMed);
 
             medicine.setCategory(cardioMed);
             medicine.setName("Paracetomol");
-            medicine.setBarCode("11111111111111");
+            medicine.setBarCode("123456789");
             medicine.setCountry(countries.get(0));
             medicine.setManufacturer(manufacturers.get(0));
-            medicineService.save(medicine);
+            medicineService.saveFlush(medicine);
 
             Medicine medicine2 = new Medicine();
             CategoryMed brainMed = new CategoryMed();
             medicine2.setBarCode("22222222222222");
             brainMed.setName("Brain vuscular");
-            categoryMedRepository.save(brainMed);
+            categoryMedService.saveFlush(brainMed);
 
             medicine2.setCategory(brainMed);
             medicine2.setName("Paracetomol2");
             medicine2.setCountry(countries.get(1));
             medicine2.setManufacturer(manufacturers.get(1));
-            medicineService.save(medicine2);
+            medicineService.saveFlush(medicine2);
 
             Medicine medicine3 = new Medicine();
             medicine3.setCategory(cardioMed);
@@ -137,7 +136,7 @@ public class DataLoader implements CommandLineRunner {
             medicine3.setName("Paracetomol3");
             medicine3.setCountry(countries.get(2));
             medicine3.setManufacturer(manufacturers.get(2));
-            medicineService.save(medicine3);
+            medicineService.saveFlush(medicine3);
 
             Pharmacist pharmacist = new Pharmacist();
             pharmacist.setFirstName("Aidana");
@@ -170,38 +169,45 @@ public class DataLoader implements CommandLineRunner {
             Inventory inventory = new Inventory();
             inventory.setInventoryVersionNumber(1L);
             inventory.setMedicine(medicine);
-            inventoryService.save(inventory);
+            inventoryService.saveFlush(inventory);
 
             Customer customer = new Customer();
             customer.setDiscount(0.0);
             customer.setFirstName("General");
             customer.setLastName("General");
             customer.setRoles("USER");
-            customerService.save(customer);
+            customerService.saveFlush(customer);
 
             InvoiceInventoryItem invoiceInventoryItem = new InvoiceInventoryItem(medicine,
-                    supplier2, 100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 100.0, LocalDateTime.now(), pharmacist);
+                    supplier2, 2100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(100.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 100.0, LocalDateTime.now(), pharmacist);
             InvoiceInventoryItem invoiceInventoryItem1 = new InvoiceInventoryItem(medicine,
                     supplier3, 10.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(200.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 200.0, LocalDateTime.now(), pharmacist2);
             InvoiceInventoryItem invoiceInventoryItem2 = new InvoiceInventoryItem(medicine,
                     supplier3, 1.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(300.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 300.0, LocalDateTime.now(), pharmacist3);
 
-            InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(invoiceInventoryItem));
+            /*InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(invoiceInventoryItem));
             InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(invoiceInventoryItem1));
             InvoiceInventory invoice3 = new InvoiceInventory(null, supplier4, Arrays.asList(invoiceInventoryItem2));
             invoiceInventoryItem.setInvoice(invoice);
             invoiceInventoryItem1.setInvoice(invoice2);
             invoiceInventoryItem2.setInvoice(invoice3);
 
-            invoiceInventoryService.save(invoice);
-            invoiceInventoryService.save(invoice2);
-            invoiceInventoryService.save(invoice3);
+            invoiceInventoryService.saveFlush(invoice);
+            invoiceInventoryService.saveFlush(invoice2);
+            invoiceInventoryService.saveFlush(invoice3)*/
+            ;
 
-            InventorySupplierLatestPrice inventorySupplierLatestPrice = new InventorySupplierLatestPrice();
-            inventorySupplierLatestPrice.setInventory(inventory);
-            inventorySupplierLatestPrice.setSupplier(supplier2);
-            inventorySupplierLatestPrice.setLatestPrice(invoiceInventoryItem.getPrice());
-            inventorySupplierPriceService.save(inventorySupplierLatestPrice);
+            CashInventory cashInventory = new CashInventory();
+            InvestedMoney investedMoney = new InvestedMoney(100000D,
+                    "Test origin", "Test msg", cashInventory);
+            cashInventory.setTotalCashMoney(50000D);
+            cashInventory.setTotalCardMoney(50000D);
+            cashInventory.setInventoryVersionNumber(1L);
+            cashInventory.setInvestedMonies(new ArrayList<>(
+                    Collections.singletonList(investedMoney)
+            ));
+
+            cashInventoryService.saveFlush(cashInventory);
 
             if (pharmUserService.findByUserName(user.getUserName()) == null) {
                 pharmUserService.save(user);
@@ -211,9 +217,9 @@ public class DataLoader implements CommandLineRunner {
 
             load = false;
         }
-        LOGGER.info(" Is pharmacist user: " + pharmUserService.findByUserName("" +
-                ""));
+        LOGGER.info(" Is pharmacist user: " + pharmUserService.findByUserName("ADMIN"));
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
+        LOGGER.info(" Siz of cashInventories: " + cashInventoryService.findAll().size());
         LOGGER.info(" Siz of inventory: " + invoiceInventoryItemService.findAll().size());
         LOGGER.info(" Siz of invoices: " + invoiceInventoryService.findAll().size());
         LOGGER.info(" Siz of medicines: " + medicineService.findAll().size());
@@ -223,7 +229,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private boolean isEmpty() {
-        return categoryMedRepository.findAll().isEmpty() || invoiceInventoryService.findAll().isEmpty() || invoiceInventoryService.findAll().isEmpty() ||
+        return categoryMedService.findAll().isEmpty() ||
                 medicineService.findAll().isEmpty() || supplierService.findAll().isEmpty() || pharmUserService.findAll().isEmpty() ||
                 countryService.findAll().isEmpty() || manufacturerService.findAll().isEmpty() || pharmUserService.findAll().isEmpty();
     }

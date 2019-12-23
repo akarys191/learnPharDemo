@@ -77,4 +77,8 @@ public class MedicineJpaService implements MedicineService {
         return medicineJpaRepository.findAll(pageable);
     }
 
+    @Override
+    public Medicine saveFlush(Medicine object) {
+        return medicineJpaRepository.saveAndFlush(object);
+    }
 }

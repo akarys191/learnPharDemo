@@ -1,11 +1,19 @@
 package com.pharm.demo.repositories;
 
-import com.pharm.demo.model.InventorySupplierLatestPrice;
+import com.pharm.demo.model.InventorySupplierPriceCost;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface InventorySupplierPriceRepository extends PagingAndSortingRepository<InventorySupplierLatestPrice, Long> {
-    @Query("SELECT invSupPrice FROM InventorySupplierLatestPrice invSupPrice WHERE invSupPrice.inventory.inventoryId =:inventoryId and invSupPrice.supplier.id=:supplierId")
-    InventorySupplierLatestPrice findInventorySupplierPriceByInventorySupplier(@Param("inventoryId") Long inventoryId, @Param("supplierId") Long supplierId);
+import java.util.List;
 
+public interface InventorySupplierPriceRepository extends JpaRepository<InventorySupplierPriceCost, Long> {
+    @Query("SELECT invSupLatest FROM InventorySupplierPriceCost invSupLatest WHERE invSupLatest.inventory.inventoryId =:inventoryId and invSupLatest.supplier.id=:supplierId")
+    List<InventorySupplierPriceCost> findInventorySupplierLatestByInventorySupplierId(@Param("inventoryId") Long inventoryId, @Param("supplierId") Long supplierId);
+
+    @Query("SELECT invSupLatest FROM InventorySupplierPriceCost invSupLatest WHERE invSupLatest.inventory.inventoryId =:inventoryId and invSupLatest.supplier.id=:supplierId " +
+            "ORDER BY invSupLatest.creationDateTime desc")
+    Page<InventorySupplierPriceCost> findInventorySupplierPriceByInventorySupplierLatest(Pageable pageable, @Param("inventoryId") Long inventoryId, @Param("supplierId") Long supplierId);
 }

@@ -6,8 +6,11 @@
     <div th:fragment="languageGeneral" th:remove="tag">
         <input type="hidden" id="medicineAlreadyExistMessage" th:value="#{medicineAlreadyExistMessage}"/>
         <input type="hidden" id="medicineDoesNotExistMessage" th:value="#{medicineDoesNotExistMessage}"/>
+        <input type="hidden" id="medicineDoesNotExistInventoryMessage"
+               th:value="#{medicineDoesNotExistInventoryMessage}"/>
         <input type="hidden" id="notFoundPriceException" th:value="#{notFoundPriceException}"/>
         <input type="hidden" id="notFoundException" th:value="#{notFoundException}"/>
+        <input type="hidden" id="notAllFieldsAreFilled" th:value="#{notAllFieldsAreFilled}"/>
     </div>
     <div th:fragment="languageEditableTable" th:remove="tag">
         <input type="hidden" id="nextPaginationMessage" th:value="#{nextMessage}"/>
@@ -16,6 +19,7 @@
         <input type="hidden" id="lastPaginationMessage" th:value="#{lastMessage}"/>
         <input type="hidden" id="addRecordIsInProcessMessage" th:value="#{addRecordIsInProcessMessage}"/>
         <input type="hidden" id="suppliedCostInputEmptyMessage" th:value="#{suppliedCostInputEmptyMessage}"/>
+        <input type="hidden" id="saleQuantityExceedsMessage" th:value="#{saleQuantityExceedsMessage}"/>
         <input type="hidden" id="saleQuantityInputEmptyMessage" th:value="#{saleQuantityInputEmptyMessage}"/>
         <input type="hidden" id="markupPercentageInputEmptyMessage" th:value="#{markupPercentageInputEmptyMessage}"/>
     </div>

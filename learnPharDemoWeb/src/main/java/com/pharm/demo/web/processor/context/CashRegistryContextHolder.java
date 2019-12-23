@@ -6,6 +6,7 @@ import com.pharm.demo.services.CashRegistryService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Component
 public class CashRegistryContextHolder {
@@ -23,10 +24,19 @@ public class CashRegistryContextHolder {
 
 
     public CashRegistry getCashRegistryForToday() {
-        if (currentCashRegistry == null || !isToday(currentCashRegistry.getCashRegistryDate())) {
-            currentCashRegistry = createCashRegistryForToday();
+        if (currentCashRegistry == null || !isToday(currentCashRegistry.getCashRegistryDate())
+                || currentCashRegistry.isClosed()) {
+            currentCashRegistry = getExistingOrNewCashRegistryForToday();
         }
         return this.currentCashRegistry;
+    }
+
+    private CashRegistry getExistingOrNewCashRegistryForToday() {
+        CashRegistry cashRegistryForToday = cashRegistryService.findLatestForToday();
+        if (Objects.isNull(cashRegistryForToday) || cashRegistryForToday.isClosed()) {
+            return createCashRegistryForToday();
+        }
+        return cashRegistryForToday;
     }
 
     private CashRegistry createCashRegistryForToday() {
@@ -35,6 +45,10 @@ public class CashRegistryContextHolder {
         CashInventory cashInventory = invoiceInventoryContextHolder.getActiveCashInventory();
         cashRegistry.setCashRegistryDate(LocalDate.now());
         cashRegistry.setCashInventory(cashInventory);
+        if (Objects.isNull(cashInventory)) {
+            throw new IllegalStateException(String.format("No cash inventory was found for version %s",
+                    invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber()));
+        }
         cashInventory.addCashRegistry(cashRegistry);
         return cashRegistryService.save(cashRegistry);
     }

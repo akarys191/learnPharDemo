@@ -29,12 +29,12 @@ public class InvoiceInventoryContextHolder {
 
     @PostConstruct
     public void initInitialInventoryContext() {
-        activeInventoryVersionNumber = inventoryService.latestInventoryVersionNumber();
-        activeCashInventory = cashInventoryService.findCashInventorByVersionNumber(activeInventoryVersionNumber);
-        if (Objects.isNull(activeCashInventory)) {
-            activeCashInventory = initializeInitialCashInventory();
+        this.activeInventoryVersionNumber = inventoryService.latestInventoryVersionNumber();
+        if (Objects.isNull(this.activeInventoryVersionNumber)) {
+            this.activeInventoryVersionNumber = 1L;
         }
-
+        System.out.println(" this.activeInventoryVersionNumber ::: " + this.activeInventoryVersionNumber);
+        this.activeCashInventory = cashInventoryService.findCashInventorByVersionNumber(activeInventoryVersionNumber);
     }
 
     public Long getActiveInvoiceInventoryVersionNumber() {
@@ -47,10 +47,5 @@ public class InvoiceInventoryContextHolder {
 
     public CashInventory getActiveCashInventory() {
         return this.activeCashInventory;
-    }
-
-    private CashInventory initializeInitialCashInventory() {
-        CashInventory cashInventory = new CashInventory();
-        return cashInventoryService.save(cashInventory);
     }
 }

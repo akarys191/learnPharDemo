@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -24,8 +26,15 @@ public class CashInventory extends AbstractEntity {
 
     private Long inventoryVersionNumber;
 
-    @OneToMany(mappedBy = "cashInventory")
+    @OneToMany(mappedBy = "cashInventory", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     private List<CashRegistry> cashRegistries;
+
+    @OneToMany(mappedBy = "cashInventory",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<InvestedMoney> investedMonies;
 
     @OneToMany(mappedBy = "cashInventory")
     private List<InvoiceInventoryItem> boughtInvoiceInventoryItems;

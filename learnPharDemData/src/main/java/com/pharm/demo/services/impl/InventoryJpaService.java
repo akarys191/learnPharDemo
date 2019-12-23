@@ -76,4 +76,8 @@ public class InventoryJpaService implements InventoryService {
         return inventoryRepository.findInventoryByMedicine(inventoryVersionNumber, medicineId);
     }
 
+    @Override
+    public Inventory saveFlush(Inventory object) {
+        return inventoryRepository.saveAndFlush(object);
+    }
 }

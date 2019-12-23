@@ -13,38 +13,43 @@ import java.util.Set;
 @Profile("springdatajpa")
 public class CustomerJpaService implements CustomerService {
 
-    private final CustomerRepository CustomerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerJpaService(CustomerRepository CustomerRepository) {
-        this.CustomerRepository = CustomerRepository;
+        this.customerRepository = CustomerRepository;
     }
 
     @Override
     public Customer findById(Long aLong) {
-        return this.CustomerRepository.findById(aLong).orElse(null);
+        return this.customerRepository.findById(aLong).orElse(null);
     }
 
     @Override
     public Customer save(Customer Customer) {
-        return CustomerRepository.save(Customer);
+        return customerRepository.save(Customer);
     }
 
     @Override
     public Set<Customer> findAll() {
         System.out.println("ALL countries of Med  in JPA found@@@@@@@@ ");
         Set<Customer> CustomerSet = new HashSet<>();
-        CustomerRepository.findAll().forEach(CustomerSet::add);
+        customerRepository.findAll().forEach(CustomerSet::add);
 
         return CustomerSet;
     }
 
     @Override
     public void delete(Customer object) {
-        CustomerRepository.delete(object);
+        customerRepository.delete(object);
     }
 
     @Override
     public void deleteById(Long aLong) {
-        CustomerRepository.deleteById(aLong);
+        customerRepository.deleteById(aLong);
+    }
+
+    @Override
+    public Customer saveFlush(Customer object) {
+        return this.customerRepository.saveAndFlush(object);
     }
 }

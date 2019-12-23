@@ -41,6 +41,10 @@ public class CashRegistry extends AbstractEntity {
 
     private LocalDate cashRegistryDate;
 
+    public Boolean isClosed() {
+        return this.closed;
+    }
+
     @PrePersist
     @PreUpdate
     public void setTotal() {

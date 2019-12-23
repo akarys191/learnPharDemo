@@ -88,7 +88,7 @@ public class SalesMvcController {
     @PostMapping("/sales")
     public String processCreationForm(@Valid Sales sales,
                                       Model model, BindingResult result) {
-        LOGGER.info("Post sales id {1} is called! ", sales.getSalesId());
+        LOGGER.info("Post sales id {} is called! ", sales.getSalesId());
         int currentPage = currentSalesPage;
         int pageSize = currentSalesPageSize;
         this.currentSalesPage = currentPage;
@@ -105,7 +105,7 @@ public class SalesMvcController {
     @ResponseBody
     @DeleteMapping("/sales/{id}")
     public void processDeletionForm(@PathVariable("id") Long salesId) {
-        LOGGER.info("Delete sales {1} is called! ", salesId);
+        LOGGER.info("Delete sales {} is called! ", salesId);
         salesService.deleteById(salesId);
     }
 

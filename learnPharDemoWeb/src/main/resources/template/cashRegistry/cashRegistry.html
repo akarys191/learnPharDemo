@@ -65,7 +65,7 @@
                                th:value="${salesCashRegistry.sellingPharmacist.id}"/>
                     </td>
                     <td class="pt-3-half">
-                        <input type="hidden" name="salesCashRegistryId" th:value="${salesCashRegistry.salesId}"/>
+                        <input type="hidden" name="salesId" th:value="${salesCashRegistry.salesId}"/>
                         <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                                    aria-hidden="true"></i></a></span>
                         <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -87,9 +87,9 @@
                 </tbody>
             </table>
             <div>
-                <label style="display: flex;" th:text="#{labelTotalPaidNum} +': '+ ${totalPaidNum}">totalPaidNum</label>
+                <label style="display: flex;" th:text="#{labelTotalSoldNum} +': '+ ${totalSoldNum}">totalSoldNum</label>
                 <label style="display: flex;"
-                       th:text="#{labelTotalPaidSum}  +': '+ ${totalPaidSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
+                       th:text="#{labelTotalSoldSum}  +': '+ ${totalSoldSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
             </div>
         </div>
     </div>

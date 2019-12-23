@@ -1,10 +1,15 @@
 package com.pharm.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Getter
@@ -12,7 +17,6 @@ import java.util.Optional;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Inventory extends AbstractEntity {
 
     @Id
@@ -29,11 +33,25 @@ public class Inventory extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<InvoiceInventoryItem> invoiceInventoryItems;
 
+    public List<InvoiceInventoryItem> getInvoiceInventoryItems() {
+        if (Objects.isNull(invoiceInventoryItems)) {
+            this.invoiceInventoryItems = new ArrayList<>();
+        }
+        return this.invoiceInventoryItems;
+    }
+
+    public List<Sales> getSales() {
+        if (Objects.isNull(sales)) {
+            this.sales = new ArrayList<>();
+        }
+        return sales;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<Sales> sales;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
-    List<InventorySupplierLatestPrice> inventorySupplierLatestPrices;
+    List<InventorySupplierPriceCost> inventorySupplierLatestPriceCosts;
 
     private Double totalBoughtQuantity = 0.0;
 

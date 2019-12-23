@@ -30,6 +30,11 @@ public class CardPaymentJpaService implements CardPaymentService {
     }
 
     @Override
+    public CardPayment saveFlush(CardPayment object) {
+        return this.cardPaymentRepository.saveAndFlush(object);
+    }
+
+    @Override
     public Set<CardPayment> findAll() {
         System.out.println("ALL categories of Med  in JPA found@@@@@@@@ ");
         Set<CardPayment> cardPaymentSet = new HashSet<>();

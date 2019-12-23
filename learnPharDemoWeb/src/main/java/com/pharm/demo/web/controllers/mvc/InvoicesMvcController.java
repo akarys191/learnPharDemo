@@ -6,6 +6,7 @@ import com.pharm.demo.model.InvoiceInventoryItem;
 import com.pharm.demo.services.InvoiceInventoryItemService;
 import com.pharm.demo.services.InvoiceInventoryService;
 import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
+import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,7 @@ public class InvoicesMvcController {
     private static int currentInventoryPageSize = 50;
 
     public InvoicesMvcController(InvoiceInventoryService invoiceService, InvoiceInventoryItemService inventoryService,
-                                 InvoiceInventoryProcessor invoiceInventoryProcessor) {
+                                 InvoiceInventoryProcessor invoiceInventoryProcessor, InvoiceInventoryContextHolder invoiceInventoryContextHolder) {
         this.invoiceService = invoiceService;
         this.inventoryService = inventoryService;
         this.invoiceInventoryProcessor = invoiceInventoryProcessor;
@@ -117,7 +118,7 @@ public class InvoicesMvcController {
     public String processCreationForm(@Valid InvoiceInventoryItem inventory,
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model, BindingResult result) {
-        LOGGER.info("Post inventory {1} is called! ", inventory.getInvoiceInventoryItemId());
+        LOGGER.info("Post inventory {} is called! ", inventory.getInvoiceInventoryItemId());
         if (result.hasErrors()) {
             return VIEWS_INVOICE_CREATE_OR_UPDATE_FORM;
         } else {
@@ -134,7 +135,7 @@ public class InvoicesMvcController {
     public String processDeletionForm(@PathVariable("id") Long invoiceInventoryItemId,
                                       @ModelAttribute("invoice") InvoiceInventory invoiceInventory,
                                       Model model) {
-        LOGGER.info("Delete inventory {1} is called! ", invoiceInventoryItemId);
+        LOGGER.info("Delete inventory {} is called! ", invoiceInventoryItemId);
         InvoiceInventoryItem deleteInventory = inventoryService.findById(invoiceInventoryItemId);
         invoiceInventoryProcessor.processDeleteInventory(invoiceInventory, deleteInventory);
         Page<InvoiceInventoryItem> invoiceInventoryPage = inventoryService.findInvoiceInventoryItemPaginated(PageRequest.of(currentInventoryPage - 1, currentInventoryPageSize), invoiceInventory.getId());
@@ -143,7 +144,7 @@ public class InvoicesMvcController {
     }
 
     private void setInvoiceInventoryPageAttributesToModel(Page invoiceInventoryPage, Model model, InvoiceInventory invoiceInventory) {
-        InventoryItemSumsDTO inventoryItemSumsDTO = invoiceService.getTotalPaidPriceSum(invoiceInventory.getId());
+        InventoryItemSumsDTO inventoryItemSumsDTO = invoiceService.getTotalPaidPriceNumSum(invoiceInventory.getId());
         model.addAttribute("invoiceInventoryPage", invoiceInventoryPage);
         model.addAttribute("totalPaidSum", inventoryItemSumsDTO.getSumOfPaidSums());
         model.addAttribute("totalPriceSum", inventoryItemSumsDTO.getSumOfPricesSums());

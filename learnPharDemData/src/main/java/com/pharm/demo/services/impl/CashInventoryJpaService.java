@@ -30,6 +30,11 @@ public class CashInventoryJpaService implements CashInventoryService {
     }
 
     @Override
+    public CashInventory saveFlush(CashInventory object) {
+        return cashInventoryRepository.saveAndFlush(object);
+    }
+
+    @Override
     public Set<CashInventory> findAll() {
         System.out.println("ALL categories of Med  in JPA found@@@@@@@@ ");
         Set<CashInventory> cashInventorySet = new HashSet<>();

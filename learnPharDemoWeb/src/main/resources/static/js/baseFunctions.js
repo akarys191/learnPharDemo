@@ -28,3 +28,19 @@ function calculatePrice(markupPercentage, suppliedCost){
     return ((markupPercentageNum*(0.01)*suppliedCostNum)+suppliedCostNum);
 }
 
+function checkQuantity(totalQuantity, checkQuantity){
+     var checkQuantityNum = parseFloat(checkQuantity);
+     var totalQuantityNum = parseFloat(totalQuantity);
+     return checkQuantityNum <= totalQuantityNum;
+}
+
+function isEmpty(value){
+   return value == null || value =='' || typeof value == 'undefined' || value == 'null';
+}
+
+function nonEmpty(value){
+console.log('nonEmpty value');
+console.log(value);
+    return value != null && value != '' && typeof value != 'undefined' && value != 'null';
+}
+

@@ -19,49 +19,54 @@ import java.util.Set;
 @Transactional
 public class InvoiceInventoryItemJpaService implements InvoiceInventoryItemService {
 
-    private final InvoiceInventoryItemRepository inventoryRepository;
+    private final InvoiceInventoryItemRepository inventoryInvoiceRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     public InvoiceInventoryItemJpaService(InvoiceInventoryItemRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+        this.inventoryInvoiceRepository = inventoryRepository;
     }
 
     @Override
     public Page<InvoiceInventoryItem> findPaginated(Pageable pageable) {
-        return this.inventoryRepository.findAll(pageable);
+        return this.inventoryInvoiceRepository.findAll(pageable);
     }
 
     @Override
     public Page<InvoiceInventoryItem> findInvoiceInventoryItemPaginated(Pageable pageable, Long invoiceId) {
-        return this.inventoryRepository.findInvoiceInventoryItemPaginated(pageable, invoiceId);
+        return this.inventoryInvoiceRepository.findInvoiceInventoryItemPaginated(pageable, invoiceId);
     }
 
     @Override
     public InvoiceInventoryItem findById(Long aLong) {
-        return this.inventoryRepository.findById(aLong).orElse(null);
+        return this.inventoryInvoiceRepository.findById(aLong).orElse(null);
     }
 
     @Override
     public InvoiceInventoryItem save(InvoiceInventoryItem object) {
-        return inventoryRepository.save(object);
+        return inventoryInvoiceRepository.save(object);
     }
 
     @Override
     public Set<InvoiceInventoryItem> findAll() {
         LOGGER.info("ALL inventory  in JPA found@@@@@@@@ ");
         Set<InvoiceInventoryItem> inventorySet = new HashSet<>();
-        inventoryRepository.findAll().forEach(inventorySet::add);
+        inventoryInvoiceRepository.findAll().forEach(inventorySet::add);
         return inventorySet;
     }
 
     @Override
     public void delete(InvoiceInventoryItem object) {
-        inventoryRepository.delete(object);
+        inventoryInvoiceRepository.delete(object);
     }
 
     @Override
     public void deleteById(Long aLong) {
-        inventoryRepository.deleteById(aLong);
+        inventoryInvoiceRepository.deleteById(aLong);
+    }
+
+    @Override
+    public InvoiceInventoryItem saveFlush(InvoiceInventoryItem object) {
+        return inventoryInvoiceRepository.saveAndFlush(object);
     }
 }

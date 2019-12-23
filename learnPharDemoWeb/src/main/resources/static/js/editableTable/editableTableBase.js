@@ -5,7 +5,6 @@ var customersRef={json : null };
 var cashTypesRef={json : null };
 var currentPharmacistRef;
 
-
 //Ajax queries
 $( window ).on("load", function() {
     selectPharmacists(null, pharmacistsRef, null);
@@ -40,11 +39,11 @@ $( window ).on("load", function() {
        selectOptions(component, customersRef, "selectCustomer", $allCustomersUrl,{},defaultSelectId);
   }
 
-  function selectCashTypes(component, defaultSelectId){
-       selectOptions(component, cashTypesRef, "selectCashType", $allCashTypesUrl,{},defaultSelectId);
+  function selectCashTypes(component, defaultSelect){
+       selectOptions(component, cashTypesRef, "selectCashType", $allCashTypesUrl,{},defaultSelect);
   }
 
-  function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelectId){
+  function selectOptions(component, fillItems,  targetComponentId, url, params, defaultSelect){
         var items = "";
         if(fillItems.json == null){
             fillItems.json = syncAjaxRequest(url,params);
@@ -56,10 +55,14 @@ $( window ).on("load", function() {
                         console.log(targetComponentId);
 
                     if(item.id == undefined || item.id == null || item.id == "undefined" || item.id == ""){
-                        items+="<option value='"+item+"'>"+item+"</option>";
+                        if(defaultSelect == item){
+                            items+="<option selected value='"+item+"'>"+item+"</option>";
+                         } else {
+                           items+="<option value='"+item+"'>"+item+"</option>";
+                        }
                     }
                     else{
-                        if(defaultSelectId == item.id){
+                        if(defaultSelect == item.id){
                              items+="<option selected value='"+item.id+"'>"+item.name+"</option>";
                         } else {
                              items+="<option value='"+item.id+"'>"+item.name+"</option>";
@@ -78,8 +81,11 @@ $( window ).on("load", function() {
        success: function(data){
            divComponent.html( data );
         },
-        error: function( jqXhr, textStatus, errorThrown ){
-           console.log(textStatus);
+        error: function(error){
+           console.log(error);
+           if(nonEmpty(error.responseText)){
+              messagePrompt(error.responseText);
+           }
         }
      });
   }
@@ -97,7 +103,7 @@ $( window ).on("load", function() {
        });
       }
 
-    function ajaxRequestDelete(urlLink, divComponent){
+  function ajaxRequestDelete(urlLink, divComponent){
         $.ajax({
            url: urlLink,
            type: 'delete',
@@ -123,9 +129,11 @@ $( window ).on("load", function() {
            data: params,
            dataType: "json",
            success: function (json) {
+           console.log(json);
              theResponse = json;
            },
            error:function (xhr) {
+           console.log(xhr);
              messagePrompt('Ошибка: '+ xhr.statusText);
            }
     });

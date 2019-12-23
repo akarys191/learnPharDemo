@@ -7,6 +7,7 @@ import com.pharm.demo.services.PharmacistService;
 import com.pharm.demo.services.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,7 +36,7 @@ public class GeneralAdviceController {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-        LOGGER.error("Request: " + req.getRequestURL() + " raised  ", ex);
+        LOGGER.error("Request in ExceptionHandler Exception : " + req.getRequestURL() + " raised  ", ex);
 
         ModelAndView mav = new ModelAndView();
         mav.addObject("errMsg", ex);
@@ -45,10 +46,10 @@ public class GeneralAdviceController {
         return mav;
     }
 
-    @ExceptionHandler(PropertyNotFoundException.class)
-    public ResponseEntity handleErrorNotFound(HttpServletRequest req, Exception ex) {
-        LOGGER.error("Request: " + req.getRequestURL() + " raised  ", ex);
-        return ResponseEntity.notFound().build();
+    @ExceptionHandler({PropertyNotFoundException.class, IllegalStateException.class})
+    public ResponseEntity<String> handleErrorNotFound(HttpServletRequest req, Exception ex) {
+        LOGGER.error("Request before ExceptionHandler: " + req.getRequestURL() + " raised  ", ex);
+        return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ModelAttribute("suppliers")

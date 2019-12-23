@@ -66,8 +66,9 @@ $(document).ready(function() {
                    else if(event.target.id.includes("markupPercentageInput") || event.target.id.includes("suppliedCostInput")){
                        event.preventDefault();
                        var number = $('#'+event.target.id).attr('number');
-                       var suppliedCostInput = $("#saleQuantityInput"+number).val();
+                       var suppliedCostInput = $("#suppliedCostInput"+number).val();
                        var markupPercentageInput = $("#markupPercentageInput"+number).val();
+
                        if(suppliedCostInput==null || suppliedCostInput == ''){
                              messagePrompt($suppliedCostInputEmptyMessage);
                              return ;
@@ -75,22 +76,47 @@ $(document).ready(function() {
                              messagePrompt($markupPercentageInputEmptyMessage);
                              return ;
                         }
-                       $("#priceInput"+number).val(calculatePrice(markupPercentageInput, suppliedCostInput));
-                 } else if(event.target.id.includes("saleQuantityInput")){
+
+                        var $calcPrice = calculatePrice(markupPercentageInput, suppliedCostInput);
+                        $("#priceInput"+number).val($calcPrice);
+                        $("#pPrice"+number).text($calcPrice);
+
+                 }  else if(event.target.id.includes("saleQuantityInput")){
                         event.preventDefault();
                         var number = $('#'+event.target.id).attr('number');
                         var saleQuantityInput = $("#saleQuantityInput"+number).val();
                         var priceInput = $("#priceInput"+number).val();
                         if(saleQuantityInput==null || saleQuantityInput == ''){
-                            messagePrompt($saleQuantityInputEmptyMessage);
-                             return ;
+                            saleQuantityInput = 0;
                         } else if(priceInput==null || priceInput == ''){
                              messagePrompt($notFoundPriceException);
                              return ;
                         }
-                     $("#soldSum"+number).val(saleQuantityInput*priceInput);
+                         var medicineId = $('#medicineId'+number);
+                         var medicineIdVal = medicineId.val();
+                         $.ajax({
+                            dataType: "json",
+                            url:$medicineQuantityUrl,
+                            data: {medicineId: medicineIdVal},
+                              success:function(data) {
+                                  if(nonEmpty(data)){
+                                     if(checkQuantity(data, saleQuantityInput )){
+                                       $("#soldSum"+number).val(saleQuantityInput*priceInput);
+                                       $('#pSoldSum'+number).text(saleQuantityInput*priceInput);
+                                     } else {
+                                         messagePrompt($saleQuantityExceedsMessage);
+                                      }
+                                   } else {
+                                        messagePrompt($saleQuantityExceedsMessage);
+                                   }
+                              },
+                              error:function(error) {
+                                  console.log(error);
+                                  messagePrompt($medicineDoesNotExistInventoryMessage);
+                              }
+                          });
                   }
-       return false;
+                return false;
     }
   });
 });

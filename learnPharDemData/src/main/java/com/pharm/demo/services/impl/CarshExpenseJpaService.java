@@ -30,6 +30,11 @@ public class CarshExpenseJpaService implements CashExpenseService {
     }
 
     @Override
+    public CashExpense saveFlush(CashExpense object) {
+        return cashExpenseRepository.saveAndFlush(object);
+    }
+
+    @Override
     public Set<CashExpense> findAll() {
         System.out.println("ALL categories of Med  in JPA found@@@@@@@@ ");
         Set<CashExpense> cashExpenseSet = new HashSet<>();

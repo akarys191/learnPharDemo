@@ -47,4 +47,9 @@ public class CountryJpaService implements CountryService {
     public void deleteById(Long aLong) {
         countryRepository.deleteById(aLong);
     }
+
+    @Override
+    public Country saveFlush(Country object) {
+        return countryRepository.saveAndFlush(object);
+    }
 }

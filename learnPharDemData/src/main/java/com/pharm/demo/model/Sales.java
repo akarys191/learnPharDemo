@@ -1,7 +1,9 @@
 package com.pharm.demo.model;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,6 +27,10 @@ public class Sales extends AbstractEntity {
     private Customer customer;
 
     @ManyToOne
+    @JoinColumn(name = "SUPPLIER_ID")
+    private Supplier supplier;
+
+    @ManyToOne
     @JoinColumn(name = "INVENTORY_ID")
     private Inventory inventory;
 
@@ -35,9 +41,14 @@ public class Sales extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     CashType cashType;
 
+    @NonNull
     private Double price;
+    private Double soldCost;
     private Double soldSum;
+    @NonNull
     private Double quantity;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime soldDate;
 
     @OneToOne(mappedBy = "sales")
@@ -50,6 +61,7 @@ public class Sales extends AbstractEntity {
     @PreUpdate
     public void setSoldSum() {
         this.soldSum = this.price * this.quantity;
+        this.soldCost = this.soldCost * this.quantity;
     }
 
     public Double getSoldSum() {

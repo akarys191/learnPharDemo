@@ -1,12 +1,13 @@
 package com.pharm.demo.services;
 
 import com.pharm.demo.model.Medicine;
+import com.pharm.demo.services.base.CrudJpaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface MedicineService extends CrudService<Medicine,Long>{
+public interface MedicineService extends CrudJpaService<Medicine, Long> {
     boolean exists(String barCode);
 
     Page<Medicine> findPaginated(Pageable pageable);

@@ -1,5 +1,6 @@
 package com.pharm.demo.services.impl;
 
+import com.pharm.demo.dto.CashRegistrySalesSumsDTO;
 import com.pharm.demo.model.Sales;
 import com.pharm.demo.repositories.SalesRepository;
 import com.pharm.demo.services.SalesService;
@@ -57,5 +58,15 @@ public class SalesJpaService implements SalesService {
     @Override
     public Page<Sales> findPaginateByCashRegistry(Pageable pageable, Long cashRegistryId) {
         return salesRepository.findByCashRegistryId(pageable, cashRegistryId);
+    }
+
+    @Override
+    public CashRegistrySalesSumsDTO getTotalSoldPriceNumSum(Long cashRegistryId) {
+        return salesRepository.getTotalSoldNumSumByCashRegistryId(cashRegistryId);
+    }
+
+    @Override
+    public Sales saveFlush(Sales object) {
+        return salesRepository.saveAndFlush(object);
     }
 }

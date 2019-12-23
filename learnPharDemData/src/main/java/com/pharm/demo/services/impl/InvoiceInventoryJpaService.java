@@ -33,7 +33,7 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     }
 
     @Override
-    public InventoryItemSumsDTO getTotalPaidPriceSum(Long invoiceId) {
+    public InventoryItemSumsDTO getTotalPaidPriceNumSum(Long invoiceId) {
         return Optional.ofNullable(invoiceInventoryRepository.getTotalPaidPriceSum(invoiceId)).orElse(new InventoryItemSumsDTO());
     }
 
@@ -63,5 +63,10 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     @Override
     public void deleteById(Long aLong) {
         invoiceInventoryRepository.deleteById(aLong);
+    }
+
+    @Override
+    public InvoiceInventory saveFlush(InvoiceInventory object) {
+        return invoiceInventoryRepository.saveAndFlush(object);
     }
 }
