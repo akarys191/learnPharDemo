@@ -6,13 +6,15 @@
     <title>Learn Pharm Demo</title>
 </head>
 
+
 <body id="editableTableBody" class="editableTableBody">
-<script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
 <!-- Editable table -->
 <div id="cardDiv" class="card">
     <form method="POST" id="edit_form"></form>
     <form method="POST" id="add_form"></form>
     <input type="hidden" id="invoiceId" name="invoice" th:value="${invoice.id}"/>
+    <input type="hidden" id="markupPercentage" th:value="${markupPercentage}"/>
+    <input type="hidden" id="totalPages" name="invoice" th:value="${totalPages}"/>
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4" th:text="#{invoiceInventories}">
         Invoices</h3>
     <div class="card-body">
@@ -26,6 +28,7 @@
                     <th style="width: 150px;" th:text="#{invoiceText}"> invoice</th>
                     <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
                     <th style="width: 150px;" th:text="#{priceText}"> price</th>
+                    <th style="width: 150px;" th:text="#{markupText}">markup</th>
                     <th style="width: 150px;" th:text="#{suppliedCostText}"> suppliedCost</th>
                     <th style="width: 150px;" th:text="#{suppliedDateText}"> suppliedDate</th>
                     <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
@@ -35,29 +38,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="inventory, iStat  : ${invoiceInventoryPage.content}"
+                <tr th:each="invoiceInventoryItem, iStat  : ${invoiceInventoryPage.content}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.medicine.name}"></th:block>
-                        <input type="hidden" id="medicineId" th:value="${inventory.medicine.id}"/>
-                        <input type="hidden" id="medicineName" th:value="${inventory.medicine.name}"/>
+                        <th:block th:text="${invoiceInventoryItem.medicine.name}"></th:block>
+                        <input type="hidden" id="medicineId" th:value="${invoiceInventoryItem.medicine.id}"/>
+                        <input type="hidden" id="medicineName" th:value="${invoiceInventoryItem.medicine.name}"/>
                     </td>
-                    <td class="pt-3-half" id="invoiceTd" th:text="${inventory.invoice.id}">invoice</td>
+                    <td class="pt-3-half" id="invoiceTd" th:text="${invoiceInventoryItem.invoice.id}">invoice</td>
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.supplier.name}"></th:block>
-                        <input type="hidden" id="supplierHiddenId" th:value="${inventory.supplier.id}"/>
+                        <th:block th:text="${invoiceInventoryItem.supplier.name}"></th:block>
+                        <input type="hidden" id="supplierHiddenId" th:value="${invoiceInventoryItem.supplier.id}"/>
                     </td>
-                    <td class="pt-3-half" th:text="${inventory.price}">price</td>
-                    <td class="pt-3-half" th:text="${inventory.suppliedCost}">suppliedCost</td>
-                    <td class="pt-3-half" th:text="${inventory.suppliedDate}">suppliedDate</td>
-                    <td class="pt-3-half" th:text="${inventory.quantity}">Quantity</td>
+                    <td class="pt-3-half" th:text="${invoiceInventoryItem.price}">price</td>
+                    <td class="pt-3-half" th:text="${invoiceInventoryItem.markupPercentage}">markupInPercentage</td>
+                    <td class="pt-3-half" th:text="${invoiceInventoryItem.suppliedCost}">suppliedCost</td>
+                    <td class="pt-3-half" th:text="${invoiceInventoryItem.suppliedDate}">suppliedDate</td>
+                    <td class="pt-3-half" th:text="${invoiceInventoryItem.quantity}">Quantity</td>
                     <td class="pt-3-half">
-                        <th:block th:text="${inventory.acceptingPharmacist.name}"></th:block>
-                        <input type="hidden" id="pharmacistHiddenId" th:value="${inventory.acceptingPharmacist.id}"/>
+                        <th:block th:text="${invoiceInventoryItem.acceptingPharmacist.name}"></th:block>
+                        <input type="hidden" id="pharmacistHiddenId"
+                               th:value="${invoiceInventoryItem.acceptingPharmacist.id}"/>
                     </td>
                     <td class="pt-3-half">
-                        <input type="hidden" name="inventoryId" th:value="${inventory.inventoryId}"/>
+                        <input type="hidden" name="invoiceInventoryItemId"
+                               th:value="${invoiceInventoryItem.invoiceInventoryItemId}"/>
                         <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
                                                                          aria-hidden="true"></i></a></span>
                         <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
@@ -78,19 +84,28 @@
                 </tr>
                 </tbody>
             </table>
+            <div>
+                <label style="display: flex;" th:text="#{labelTotalPaidNum} +': '+ ${totalPaidNum}">totalPaidNum</label>
+                <label style="display: flex;"
+                       th:text="#{labelTotalPaidSum}  +': '+ ${totalPaidSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
+                <label style="display: flex;"
+                       th:text="#{labelTotalPriceSum}  +': '+ ${totalPriceSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
+            </div>
         </div>
     </div>
 </div>
-<b>
-    <a th:href="@{/inventory/new}" th:text="#{createNewInvoiceInventory}"/>create new inventory</a>
-</b>
-<div th:if="${invoiceInventoryPage.totalPages > 0}" class="pagination"
-     th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/invoices/listInventory(size=${invoiceInventoryPage.size}, page=${pageNumber})}"
-       th:text=${pageNumber}
-       th:class="${pageNumber==invoiceInventoryPage.number + 1} ? active"></a>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul id="pagination-inventory" class="pagination-lg pull-right"></ul>
+            </div>
+        </div>
+    </div>
 </div>
-<script type="text/javascript" src="/js/editableTable.js"></script>
-<script type="text/javascript" src="/js/searchMedicineByBarcode.js"></script>
+<script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
+<script type="text/javascript" src="/js/editableTable/editableTableInvoiceInventory.js"></script>
+<script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
+<script type="text/javascript" src="/js/detectEnterCustomAction.js"></script>
 </body>
 </html>

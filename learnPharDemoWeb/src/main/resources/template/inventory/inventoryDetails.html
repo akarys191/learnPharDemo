@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout (~{::body},'inventorys')}">
+      th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
 
 <body>
 
-<h2>Inventory Information</h2>
+<h2 th:text="#{inventoryDetails}">Inventory Information</h2>
 <table class="table table-striped" th:object="${inventory}">
     <tr>
         <th th:text="#{idText}">Inventory Id</th>
@@ -18,45 +18,58 @@
         </td>
     </tr>
     <tr>
-        <th th:text="#{invoiceText}">Invoice</th>
-        <td th:text="*{invoice.id}"/>
+        <th th:text="#{totalBoughtQuantity}">totalBoughtQuantity</th>
+        <td th:text="*{totalBoughtQuantity}"/>
         </td>
     </tr>
     <tr>
-        <th th:text="#{supplierText}">Supplier</th>
-        <td th:text="*{supplier.name}"/>
+        <th th:text="#{totalSoldQuantity}">totalSoldQuantity</th>
+        <td th:text="*{totalSoldQuantity}"/>
         </td>
     </tr>
     <tr>
-        <th th:text="#{quantityText}">Quantity</th>
-        <td th:text="*{quantity}"/>
+        <th th:text="#{totalBoughtCost}">totalBoughtCost</th>
+        <td th:text="*{totalBoughtCost}"/>
         </td>
     </tr>
     <tr>
-    <tr>
-        <th th:text="#{priceText}">Price</th>
-        <td th:text="*{price}"/>
+        <th th:text="#{totalSoldCost}">totalSoldCost</th>
+        <td th:text="*{totalSoldCost}"/>
         </td>
     </tr>
     <tr>
-        <th th:text="#{suppliedCostText}">Supplied cost</th>
-        <td th:text="*{suppliedCost}"/>
+        <th th:text="#{totalBoughtPriceSum}">totalBoughtPriceSum</th>
+        <td th:text="*{totalBoughtPriceSum}"/>
         </td>
     </tr>
     <tr>
-        <th th:text="#{suppliedDateText}">Supplied date</th>
-        <td th:text="*{suppliedDate}"/>
+        <th th:text="#{totalSoldPriceSum}">totalSoldPriceSum</th>
+        <td th:text="*{totalSoldPriceSum}"/>
         </td>
     </tr>
     <tr>
-        <th th:text="#{acceptingPharmacistText}">Accepting pharmacist</th>
-        <td th:text="*{acceptingPharmacist.name}"/>
+        <th th:text="#{totalSoldPriceSum}">totalSoldPriceSum</th>
+        <td th:text="*{totalSoldPriceSum}"/>
+        </td>
+    </tr>
+    <tr>
+        <th th:text="#{totalActiveQuantity}">totalActiveQuantity</th>
+        <td th:text="*{totalActiveQuantity}"/>
+        </td>
+    </tr>
+    <tr>
+        <th th:text="#{totalActiveCost}">totalActiveCost</th>
+        <td th:text="*{totalActiveCost}"/>
+        </td>
+    </tr>
+    <tr>
+        <th th:text="#{totalActivePriceSum}">totalActivePriceSum</th>
+        <td th:text="*{totalActivePriceSum}"/>
         </td>
     </tr>
 </table>
-
-<a th:href="@{{id}/edit(id=${inventory.inventoryId})}" class="btn btn-default">Edit
-    Inventory</a>
+<!--<a th:href="@{{id}/edit(id=${inventory.inventoryId})}" class="btn btn-default">Edit
+    Inventory</a>-->
 <br/>
 <br/>
 <br/>

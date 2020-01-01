@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'salesVersion')}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+
+<body>
+<br/>
+<h2 th:text="#{salesText}">Sales List</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;" th:text="#{inventoryVersionText}"> Inventory version num</th>
+        <th style="width: 150px;" th:text="#{labelTotalSoldNum}"> Customer</th>
+        <th style="width: 150px;" th:text="#{labelTotalSoldSum}"> supplier</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="salesVersion, iStat  : ${salesVersionPage.content}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td>
+                        <a class="tableLink" th:href="@{/sales/version/__${salesVersion.version}__}"
+                           th:text="${salesVersion.version}"/></a>
+                    </td>
+        <td class="pt-3-half" th:text="${salesVersion.quantityOfSold}">quantity</td>
+        <td class="pt-3-half" th:text="${salesVersion.sumOfSold}">Sold sum</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul id="pagination-salesVersion" class="pagination-lg pull-right"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

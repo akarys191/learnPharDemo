@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'cashRegistryText')}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+
+<body id="editableTableCashRegistry" class="editableTableBody">
+<!-- Editable table -->
+<div id="cardDiv" class="card">
+    <form method="POST" id="edit_form"></form>
+    <form method="POST" id="add_form"></form>
+    <input type="hidden" id="cashRegistryId" name="cashRegistry" th:value="${cashRegistryId}"/>
+    <input type="hidden" id="totalPages" name="cashRegistry" th:value="${totalPages}"/>
+    <h3 class="card-header text-center font-weight-bold text-uppercase py-4" th:text="#{cashRegistryInventoriesText}">
+        cashRegistries</h3>
+    <div class="card-body">
+        <div id="table" class="table-editable" th:fragment="editableTable">
+      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+              class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+                <thead>
+                <tr>
+                    <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+                    <th style="width: 150px;" th:text="#{customerText}"> Customer</th>
+                    <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
+                    <th style="width: 150px;" th:text="#{cashTypeText}"> CashType</th>
+                    <th style="width: 150px;" th:text="#{priceText}"> price</th>
+                    <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
+                    <th style="width: 150px;" th:text="#{soldSumText}"> Sold Sum</th>
+                    <th style="width: 150px;" th:text="#{soldDateText}"> Sold Date</th>
+                    <th style="width: 150px;" th:text="#{sellingPharmacistText}"> acceptingPharmacist</th>
+                    <th style="width: 150px;"> *</th>
+                    <th style="width: 150px;"> **</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="salesCashRegistry, iStat  : ${cashRegistrySalesPage.content}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.medicine.name}"></th:block>
+                        <input type="hidden" id="medicineId" th:value="${salesCashRegistry.medicine.id}"/>
+                        <input type="hidden" id="medicineNameForCash" th:value="${salesCashRegistry.medicine.name}"/>
+                    </td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.customer.name}"></th:block>
+                        <input type="hidden" id="customerHiddenId" th:value="${salesCashRegistry.customer.id}"/>
+                    </td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.supplier.name}"></th:block>
+                        <input type="hidden" id="supplierHiddenId" th:value="${salesCashRegistry.supplier.id}"/>
+                    </td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.cashType}">Cash Type</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.price}">price</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.quantity}">quantity</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.soldSum}">Sold sum</td>
+                    <td class="pt-3-half" th:text="${salesCashRegistry.soldDate}">soldDate</td>
+                    <td class="pt-3-half">
+                        <th:block th:text="${salesCashRegistry.sellingPharmacist.name}"></th:block>
+                        <input type="hidden" id="pharmacistHiddenId"
+                               th:value="${salesCashRegistry.sellingPharmacist.id}"/>
+                    </td>
+                    <td class="pt-3-half">
+                        <input type="hidden" name="salesId" th:value="${salesCashRegistry.salesId}"/>
+                        <span class="table-up"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-up"
+                                                                                   aria-hidden="true"></i></a></span>
+                        <span class="table-down"><a href="#!" class="indigo-text"><i class="fas fa-long-arrow-alt-down"
+                                                                                     aria-hidden="true"></i></a></span>
+                    </td>
+                    <td>
+                        <div sec:authorize="hasAuthority('ADMIN')">
+                            <span class="table-edit"><button type="button"><i
+                                    class="fas fa-edit"
+                                    style="font-size:20px;color:red"
+                                    aria-hidden="true"></i></button></span>
+                        </div>
+                        <span class="table-submit" style="display: none;"><button type="button"
+                        ><i class="fa fa-paper-plane" style="color:red" aria-hidden="true"></i></button></span>
+                        <span class="table-remove" style="display: none;"><button type="button"
+                        ><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i></button></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <label style="display: flex;" th:text="#{labelTotalSoldNum} +': '+ ${totalSoldNum}">totalSoldNum</label>
+                <label style="display: flex;"
+                       th:text="#{labelTotalSoldSum}  +': '+ ${totalSoldSum}  +' '+  #{currencyTenge}">totalPaidSum</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul id="pagination-salesCashRegistry" class="pagination-lg pull-right"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
+<script type="text/javascript" src="/js/editableTable/editableTableCashRegistry.js"></script>
+<script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
+<script type="text/javascript" src="/js/detectEnterCustomAction.js"></script>
+</body>
+</html>

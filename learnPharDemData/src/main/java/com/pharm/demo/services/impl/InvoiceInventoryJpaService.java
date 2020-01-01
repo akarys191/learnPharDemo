@@ -1,5 +1,6 @@
 package com.pharm.demo.services.impl;
 
+import com.pharm.demo.dto.InventoryItemSumsDTO;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.repositories.InvoiceInventoryRepository;
 import com.pharm.demo.services.InvoiceInventoryService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,6 +30,11 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     @Override
     public Page<InvoiceInventory> findPaginated(Pageable pageable) {
         return this.invoiceInventoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public InventoryItemSumsDTO getTotalPaidPriceNumSum(Long invoiceId) {
+        return Optional.ofNullable(invoiceInventoryRepository.getTotalPaidPriceSum(invoiceId)).orElse(new InventoryItemSumsDTO());
     }
 
     @Override
@@ -56,5 +63,10 @@ public class InvoiceInventoryJpaService implements InvoiceInventoryService {
     @Override
     public void deleteById(Long aLong) {
         invoiceInventoryRepository.deleteById(aLong);
+    }
+
+    @Override
+    public InvoiceInventory saveFlush(InvoiceInventory object) {
+        return invoiceInventoryRepository.saveAndFlush(object);
     }
 }

@@ -12,14 +12,13 @@
     <thead>
     <tr>
         <th style="width: 150px;" th:text="#{idText}">Id</th>
+        <th style="width: 150px;" th:text="#{inventoryVersionNumber}">inventoryVersionNumber</th>
         <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
-        <th style="width: 150px;" th:text="#{invoiceText}"> invoice</th>
-        <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
-        <th style="width: 150px;" th:text="#{priceText}"> price</th>
-        <th style="width: 150px;" th:text="#{suppliedCostText}"> suppliedCost</th>
-        <th style="width: 150px;" th:text="#{suppliedDateText}"> suppliedDate</th>
-        <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
-        <th style="width: 150px;" th:text="#{acceptingPharmacistText}"> acceptingPharmacist</th>
+        <th style="width: 150px;" th:text="#{invoiceInventoryItemsSize}"> InvoiceInventoryItemsSize</th>
+        <th style="width: 150px;" th:text="#{salesSize}"> salesSize</th>
+        <th style="width: 150px;" th:text="#{totalActiveQuantity}"> totalActiveQuantity</th>
+        <th style="width: 150px;" th:text="#{totalActiveCost}"> totalActiveCost</th>
+        <th style="width: 150px;" th:text="#{totalActivePriceSum}"> totalActivePriceSum</th>
     </tr>
     </thead>
     <tbody>
@@ -30,20 +29,26 @@
             <a class="tableLink" th:href="@{/inventory/__${inventory.inventoryId}__}"
                th:text="${inventory.inventoryId}"/></a>
         </td>
-
-        <td th:text="${inventory.medicine.id}">medicine</td>
-        <td th:text="${inventory.invoice.id}">invoice</td>
-        <td th:text="${inventory.supplier.name}">supplier</td>
-        <td th:text="${inventory.price}">price</td>
-        <td th:text="${inventory.suppliedCost}">suppliedCost</td>
-        <td th:text="${inventory.suppliedDate}">suppliedDate</td>
-        <td th:text="${inventory.quantity}">Quantity</td>
-        <td th:text="${inventory.acceptingPharmacist.name}">acceptingPharmacist</td>
+        <td th:text="${inventory.inventoryVersionNumber}">inventoryVersionNumber</td>
+        <td th:text="${inventory.medicine.name}">medicine</td>
+        <td>
+            <div th:if="${inventory.invoiceInventoryItemsSize > 0}">
+                <a class="tableLink" th:href="@{/inventory/listInvoiceInventoryItems/__${inventory.inventoryId}__}"
+                   th:text="${inventory.invoiceInventoryItemsSize}"/></a>
+            </div>
+            <div th:unless="${inventory.invoiceInventoryItemsSize > 0}">
+                <p th:text="${inventory.invoiceInventoryItemsSize}">medicine</p>
+            </div>
+        </td>
+        <td th:text="${inventory.salesSize}">salesSize</td>
+        <td th:text="${inventory.totalActiveQuantity}">totalActiveQuantity</td>
+        <td th:text="${inventory.totalActiveCost}">totalActiveCost</td>
+        <td th:text="${inventory.totalActivePriceSum}">totalActivePriceSum</td>
     </tr>
     </tbody>
     </tr>
 </table>
-<div th:if="${inventoryPage.totalPages > 0}" class="pagination"
+<div th:if="${inventoryPage.totalPages > 1}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{/inventory/listInventory(size=${inventoryPage.size}, page=${pageNumber})}"
        th:text=${pageNumber}

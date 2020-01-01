@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'sales')}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+
+<body>
+<br/>
+<h2 th:text="#{salesText}">Sales List</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+        <th style="width: 150px;" th:text="#{customerText}"> Customer</th>
+        <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
+        <th style="width: 150px;" th:text="#{cashTypeText}"> CashType</th>
+        <th style="width: 150px;" th:text="#{priceText}"> price</th>
+        <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
+        <th style="width: 150px;" th:text="#{soldSumText}"> Sold Sum</th>
+        <th style="width: 150px;" th:text="#{soldDateText}"> Sold Date</th>
+        <th style="width: 150px;" th:text="#{sellingPharmacistText}"> acceptingPharmacist</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sales, iStat  : ${salesPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td class="pt-3-half">
+            <th:block th:text="${sales.medicine.name}"></th:block>
+            <input type="hidden" id="medicineId" th:value="${sales.medicine.id}"/>
+            <input type="hidden" id="medicineNameForCash" th:value="${sales.medicine.name}"/>
+        </td>
+        <td class="pt-3-half">
+            <th:block th:text="${sales.customer.name}"></th:block>
+            <input type="hidden" id="customerHiddenId" th:value="${sales.customer.id}"/>
+        </td>
+        <td class="pt-3-half">
+            <th:block th:text="${sales.supplier.name}"></th:block>
+            <input type="hidden" id="supplierHiddenId" th:value="${sales.supplier.id}"/>
+        </td>
+        <td class="pt-3-half" th:text="${sales.cashType}">Cash Type</td>
+        <td class="pt-3-half" th:text="${sales.price}">price</td>
+        <td class="pt-3-half" th:text="${sales.quantity}">quantity</td>
+        <td class="pt-3-half" th:text="${sales.soldSum}">Sold sum</td>
+        <td class="pt-3-half" th:text="${sales.soldDate}">soldDate</td>
+        <td class="pt-3-half">
+            <th:block th:text="${sales.sellingPharmacist.name}"></th:block>
+            <input type="hidden" id="pharmacistHiddenId"
+                   th:value="${sales.sellingPharmacist.id}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <label style="display: flex;" th:text="#{labelTotalSoldNum} +': '+ ${totalSoldNum}">totalSoldNum</label>
+    <label style="display: flex;"
+           th:text="#{labelTotalSoldSum}  +': '+ ${totalSoldSum}  +' '+  #{currencyTenge}">totalSoldSum</label>
+</div>
+</div>
+</div>
+</div>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul id="pagination-sales" class="pagination-lg pull-right"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/editableTable/editableTableBase.js"></script>
+<script type="text/javascript" src="/js/editableTable/editableTable.js"></script>
+<script type="text/javascript" src="/libs/js/scanner/jquery.scannerdetection.js"></script>
+<script type="text/javascript" src="/js/detectEnterCustomAction.js"></script>
+</body>
+</html>

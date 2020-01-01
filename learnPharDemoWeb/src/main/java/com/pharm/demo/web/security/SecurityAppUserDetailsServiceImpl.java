@@ -3,7 +3,6 @@ package com.pharm.demo.web.security;
 import com.pharm.demo.model.PharmUser;
 import com.pharm.demo.services.PharmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +30,7 @@ public class SecurityAppUserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    //TODO Make logic of schedule assigning when logging in
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         PharmUser user = userService.findByUserName(userName);
         if(user == null){

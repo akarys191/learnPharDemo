@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'inventory')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+<body>
+<br/>
+<h2 th:text="#{inventoryText}+' '+${inventoryVersion}+':'+${medicineName}">Inventory List</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;" th:text="#{idText}">Id</th>
+        <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+        <th style="width: 150px;" th:text="#{invoiceText}"> invoice</th>
+        <th style="width: 150px;" th:text="#{suppliersText}"> supplier</th>
+        <th style="width: 150px;" th:text="#{priceText}"> price</th>
+        <th style="width: 150px;" th:text="#{suppliedCostText}"> suppliedCost</th>
+        <th style="width: 150px;" th:text="#{suppliedDateText}"> suppliedDate</th>
+        <th style="width: 150px;" th:text="#{quantityText}"> Quantity</th>
+        <th style="width: 150px;" th:text="#{acceptingPharmacistText}"> acceptingPharmacist</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="invoiceInventoryItem, iStat  : ${inventoryInvoiceInventoryPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+
+        <td th:text="${invoiceInventoryItem.invoiceInventoryItemId}">invoiceInventoryItemId</td>
+        <td th:text="${invoiceInventoryItem.medicine.id}">medicine</td>
+        <td th:text="${invoiceInventoryItem.invoice.id}">invoice</td>
+        <td th:text="${invoiceInventoryItem.supplier.name}">supplier</td>
+        <td th:text="${invoiceInventoryItem.price}">price</td>
+        <td th:text="${invoiceInventoryItem.suppliedCost}">suppliedCost</td>
+        <td th:text="${invoiceInventoryItem.suppliedDate}">suppliedDate</td>
+        <td th:text="${invoiceInventoryItem.quantity}">Quantity</td>
+        <td th:text="${invoiceInventoryItem.acceptingPharmacist.name}">acceptingPharmacist</td>
+    </tr>
+    </tbody>
+    </tr>
+</table>
+<div th:if="${inventoryInvoiceInventoryPage.totalPages > 1}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/inventory/listInvoiceInventoryItems(size=${inventoryInvoiceInventoryPage.size}, page=${pageNumber}, inventoryId=${invoiceInventoryItem.inventory.inventoryId})}"
+       th:text=${pageNumber}
+       th:class="${pageNumber==inventoryInvoiceInventoryPage.number + 1} ? active"></a>
+</div>
+</body>
+</html>

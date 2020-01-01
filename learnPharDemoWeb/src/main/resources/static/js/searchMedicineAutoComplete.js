@@ -5,7 +5,7 @@
         delay: 500,
         //define callback to format results
         source: function (request, response) {
-            $.getJSON("/medicines/findByName", request, function(result) {
+            $.getJSON("/rest/medicines/findByName", request, function(result) {
                 response($.map(result, function(item) {
                     return {
                         // following property gets displayed in drop down

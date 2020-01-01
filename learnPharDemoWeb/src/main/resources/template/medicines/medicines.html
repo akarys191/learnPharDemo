@@ -33,7 +33,7 @@
     </tbody>
     </tr>
 </table>
-<div th:if="${medicinePage.totalPages > 0}" class="pagination"
+<div th:if="${medicinePage.totalPages > 1}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{/medicines/listMedicines(size=${medicinePage.size}, page=${pageNumber})}"
        th:text=${pageNumber}

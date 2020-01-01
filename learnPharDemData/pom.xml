@@ -28,10 +28,15 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.2.8.Final</version>
         </dependency>
-       <!-- <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
+        <!-- <dependency>
+             <groupId>com.h2database</groupId>
+             <artifactId>h2</artifactId>
+         </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.spockframework</groupId>

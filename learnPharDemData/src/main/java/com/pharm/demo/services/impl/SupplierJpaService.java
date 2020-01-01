@@ -64,4 +64,9 @@ public class SupplierJpaService implements SupplierService {
     public Page<Supplier> findPaginated(Pageable pageable) {
            return supplierRepository.findAll(pageable);
     }
+
+    @Override
+    public Supplier saveFlush(Supplier object) {
+        return supplierRepository.saveAndFlush(object);
+    }
 }

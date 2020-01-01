@@ -15,8 +15,7 @@
     <tr>
         <th style="width: 150px;" th:text="#{idText}"> Id</th>
         <th style="width: 150px;" th:text="#{suppliersText}"> Supplier</th>
-        <th style="width: 150px;" th:text="#{numberOfInventories}"> Number of inventories</th>
-        <th style="width: 150px;" th:text="#{paidSumText}"> Paid sum</th>
+        <th style="width: 150px;" th:text="#{numberOfInvoiceInventoryItems}"> Number of inventories</th>
     </tr>
     </thead>
     <tbody>
@@ -27,13 +26,12 @@
             <a class="tableLink" th:href="@{/invoices/__${invoice.id}__}" th:text="${invoice.id}"/></a>
         </td>
         <td th:text="${invoice.supplier.name}">Supplier</td>
-        <td th:text="${invoice.inventories.size()}">Number of inventory</td>
-        <td th:text="${invoice.paidSum}">Paid sum</td>
+        <td th:text="${invoice.invoiceInventoryItems.size()}">Number of inventory</td>
     </tr>
     </tbody>
     </tr>
 </table>
-<div th:if="${invoicePage.totalPages > 0}" class="pagination"
+<div th:if="${invoicePage.totalPages > 1}" class="pagination"
      th:each="pageNumber : ${pageNumbers}">
     <a th:href="@{/invoices/listInvoices(size=${invoicePage.size}, page=${pageNumber})}"
        th:text=${pageNumber}

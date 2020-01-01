@@ -47,4 +47,9 @@ public class ManufacturerJpaService implements ManufacturerService {
     public void deleteById(Long aLong) {
         manufacturerRepository.deleteById(aLong);
     }
+
+    @Override
+    public Manufacturer saveFlush(Manufacturer object) {
+        return manufacturerRepository.saveAndFlush(object);
+    }
 }

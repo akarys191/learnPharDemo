@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -81,22 +80,6 @@ public class MedicinesMvcController {
 
         return "medicines/medicines";
     }
-
-    @RequestMapping({"/findByName"})
-    public @ResponseBody
-    List<Medicine> findMedicineByName(@Param("term") String term) {
-        return medicineService.findByNameTerm(term);
-    }
-
-
-    @RequestMapping(value = "/findByBarcode", produces = " application/json")
-    public @ResponseBody
-    Medicine findByBarcode(@Param("term") String term) {
-        Medicine medicine = medicineService.findByBarcode(term);
-        return medicine;
-    }
-
-
 
     @GetMapping("/{id}")
     public ModelAndView showMedicine(@PathVariable("id") Long id) {

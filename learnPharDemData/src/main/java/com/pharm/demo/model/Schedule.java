@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+//TODO how to make dynamic creation or static assignin
 public class Schedule extends CommonProperties{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_generator")

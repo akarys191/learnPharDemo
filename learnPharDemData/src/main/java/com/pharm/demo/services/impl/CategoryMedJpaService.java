@@ -30,6 +30,11 @@ public class CategoryMedJpaService implements CategoryMedService {
     }
 
     @Override
+    public CategoryMed saveFlush(CategoryMed object) {
+        return categoryMedRepository.saveAndFlush(object);
+    }
+
+    @Override
     public Set<CategoryMed> findAll() {
         System.out.println("ALL categories of Med  in JPA found@@@@@@@@ ");
         Set<CategoryMed> categoryMedSet = new HashSet<>();
