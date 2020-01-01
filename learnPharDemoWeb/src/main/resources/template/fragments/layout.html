@@ -80,7 +80,8 @@
                 th:replace="::menuItem ('/invoices/listInvoices','invoices','invoices','th-list',#{invoicesText})">
                 <a class="nav-link" href="#">Invoices</a>
             </li>
-            <li class="nav-item" th:replace="::menuItem ('/oups','Sales','Sales','th-list',#{salesText})">
+            <li class="nav-item"
+                th:replace="::menuItem ('/sales/listSalesVersions','Sales','Sales','th-list',#{salesText})">
                 <a class="nav-link" href="#">Sales</a>
             </li>
             <li class="nav-item"

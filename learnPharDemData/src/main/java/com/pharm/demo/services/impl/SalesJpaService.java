@@ -1,6 +1,6 @@
 package com.pharm.demo.services.impl;
 
-import com.pharm.demo.dto.CashRegistrySalesSumsDTO;
+import com.pharm.demo.dto.SalesSumsDTO;
 import com.pharm.demo.model.Sales;
 import com.pharm.demo.repositories.SalesRepository;
 import com.pharm.demo.services.SalesService;
@@ -56,13 +56,28 @@ public class SalesJpaService implements SalesService {
     }
 
     @Override
+    public Page<Sales> findPaginatedByInventoryNumber(Pageable pageable, Long inventoryVersionNumber) {
+        return salesRepository.findByInventoryVersionNumber(pageable, inventoryVersionNumber);
+    }
+
+    @Override
     public Page<Sales> findPaginateByCashRegistry(Pageable pageable, Long cashRegistryId) {
         return salesRepository.findByCashRegistryId(pageable, cashRegistryId);
     }
 
     @Override
-    public CashRegistrySalesSumsDTO getTotalSoldPriceNumSum(Long cashRegistryId) {
+    public SalesSumsDTO getTotalSoldPriceNumSumByCashRegistryId(Long cashRegistryId) {
         return salesRepository.getTotalSoldNumSumByCashRegistryId(cashRegistryId);
+    }
+
+    @Override
+    public SalesSumsDTO getTotalSoldPriceNumSumByInventoryVersion(Long inventoryVersionNumber) {
+        return salesRepository.getTotalSoldNumSumByInventoryVersion(inventoryVersionNumber);
+    }
+
+    @Override
+    public Page<SalesSumsDTO> getTotalSoldPriceNumSumGroupByInventoryVersion(Pageable pageable) {
+        return salesRepository.getTotalSoldNumSumGroupByInventoryVersion(pageable);
     }
 
     @Override

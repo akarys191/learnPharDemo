@@ -1,6 +1,6 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.dto.CashRegistrySalesSumsDTO;
+import com.pharm.demo.dto.SalesSumsDTO;
 import com.pharm.demo.model.CashRegistry;
 import com.pharm.demo.model.Sales;
 import com.pharm.demo.services.CashRegistryService;
@@ -140,7 +140,7 @@ public class CashRegistryMvcController {
     private String returnCashRegistryPage(Model model, CashRegistry activeCashRegistry, Page<Sales> cashRegistrySalesPage,
                                           String returnForm) {
         model.addAttribute("cashRegistryId", activeCashRegistry.getCashRegistryId());
-        CashRegistrySalesSumsDTO cashRegistrySalesSumsDTO = salesService.getTotalSoldPriceNumSum(activeCashRegistry.getCashRegistryId());
+        SalesSumsDTO cashRegistrySalesSumsDTO = salesService.getTotalSoldPriceNumSumByCashRegistryId(activeCashRegistry.getCashRegistryId());
         model.addAttribute("totalSoldSum", cashRegistrySalesSumsDTO.getSumOfSold());
         model.addAttribute("totalSoldNum", cashRegistrySalesSumsDTO.getQuantityOfSold());
         model.addAttribute("cashRegistrySalesPage", cashRegistrySalesPage);

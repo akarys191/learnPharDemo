@@ -1,9 +1,6 @@
 package com.pharm.demo.web.processor.impl;
 
-import com.pharm.demo.model.CashInventory;
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.InvoiceInventory;
-import com.pharm.demo.model.InvoiceInventoryItem;
+import com.pharm.demo.model.*;
 import com.pharm.demo.services.CashInventoryService;
 import com.pharm.demo.services.InventoryService;
 import com.pharm.demo.services.InvoiceInventoryItemService;
@@ -50,14 +47,16 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     public void processSaveInventory(InvoiceInventory invoiceInventory, InvoiceInventoryItem invoiceInventoryItem) {
         Inventory currentInventory = getCurrentInventoryByMedicine(invoiceInventoryItem);
 
-        if (Objects.isNull(currentInventory)) {
-            throw new IllegalStateException(String.format(
-                    "Initial inventory for this %s medicine is absent!", invoiceInventoryItem.getMedicine().getId()));
-        }
-
         if (invoiceInventoryItem.getInvoiceInventoryItemId() == null && doesNotContainInventoryItem(invoiceInventory, invoiceInventoryItem)) {
+            if (Objects.isNull(currentInventory)) {
+                currentInventory = createInventoryForMedicine(invoiceInventoryItem.getMedicine());
+            }
             addInvoiceInventoryItem(invoiceInventory, invoiceInventoryItem, currentInventory);
         } else {
+            if (Objects.isNull(currentInventory)) {
+                throw new IllegalStateException(String.format(
+                        "Initial inventory for this %s medicine is absent!", invoiceInventoryItem.getMedicine().getId()));
+            }
             editInvoiceInventoryItem(invoiceInventoryItem, currentInventory);
         }
         invoiceInventoryService.save(invoiceInventory);
@@ -87,6 +86,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
 
     private void addInvoiceInventoryItem(InvoiceInventory invoiceInventory, InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {
         CashInventory cashInventory = invoiceInventoryContextHolder.getActiveCashInventory();
+
         if (isEnoughTotalMoney(invoiceInventoryItem, cashInventory)) {
             currentInventory.setInventorySupplierLatestPriceCosts(
                     new ArrayList<>(Collections.singletonList(inventorySupplierLatestEditer.createNew(currentInventory, invoiceInventoryItem))));
@@ -130,6 +130,7 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
     private void editInvoiceInventoryItem(InvoiceInventoryItem invoiceInventoryItem, Inventory currentInventory) {
         CashInventory cashInventory = invoiceInventoryContextHolder.getActiveCashInventory();
         InvoiceInventoryItem existingInvoiceInventoryItem = invoiceInventoryItemService.findById(invoiceInventoryItem.getInvoiceInventoryItemId());
+
         if ((cashInventory.getTotalMoney() + existingInvoiceInventoryItem.getPaidSum()) >= invoiceInventoryItem.getPaidSum()) {
             inventorySupplierLatestEditer.edit(currentInventory, invoiceInventoryItem);
             editCashInventory(invoiceInventoryItem, cashInventory, existingInvoiceInventoryItem);
@@ -175,5 +176,12 @@ public class InvoiceInventoryProcessorImpl implements InvoiceInventoryProcessor 
         currentInventory.setTotalBoughtCost(currentInventory.getTotalBoughtCost() - deleteInventoryItem.getPaidSum());
         currentInventory.setTotalBoughtQuantity(currentInventory.getTotalBoughtQuantity() - deleteInventoryItem.getQuantity());
         currentInventory.setTotalBoughtPriceSum(currentInventory.getTotalBoughtPriceSum() - deleteInventoryItem.getPriceSum());
+    }
+
+    private Inventory createInventoryForMedicine(Medicine medicine) {
+        Objects.requireNonNull(medicine);
+        Inventory newInventory = new Inventory(invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber(),
+                medicine);
+        return inventoryService.saveFlush(newInventory);
     }
 }

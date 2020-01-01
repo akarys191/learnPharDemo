@@ -19,6 +19,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class Inventory extends AbstractEntity {
 
+    public Inventory(Long inventoryVersionNumber, @NotNull Medicine medicine) {
+        this.inventoryVersionNumber = inventoryVersionNumber;
+        this.medicine = medicine;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_id_generator")
     @SequenceGenerator(name = "inventory_id_generator", sequenceName = "inventory_id_seq", allocationSize = 50)
@@ -29,6 +34,7 @@ public class Inventory extends AbstractEntity {
     @NotNull
     @ManyToOne
     private Medicine medicine;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<InvoiceInventoryItem> invoiceInventoryItems;

@@ -1,7 +1,9 @@
 package com.pharm.demo.web.controllers.mvc;
 
+import com.pharm.demo.dto.SalesSumsDTO;
 import com.pharm.demo.model.Sales;
 import com.pharm.demo.services.SalesService;
+import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,66 +24,50 @@ import java.util.stream.IntStream;
 public class SalesMvcController {
 
     private final SalesService salesService;
+    private final InvoiceInventoryContextHolder invoiceInventoryContextHolder;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
-    private static final String VIEWS_SALES_CREATE_OR_UPDATE_FORM = "sales/sales";
+    private static final String VIEWS_SALES_LIST_BY_VERSION_FORM = "sales/salesByVersion";
+    private static final String VIEWS_SALES_VERSIONS_FORM = "sales/sales";
 
     private static int currentSalesPage = 1;
     private static int currentSalesPageSize = 50;
 
-    public SalesMvcController(SalesService salesService) {
+    public SalesMvcController(SalesService salesService, InvoiceInventoryContextHolder invoiceInventoryContextHolder) {
         this.salesService = salesService;
+        this.invoiceInventoryContextHolder = invoiceInventoryContextHolder;
     }
 
-    @RequestMapping({"/sales/", "/sales", "sales", "cashRegistry.html", "sales/"})
-    public String listSales(Model model) {
-        model.addAttribute("sales", salesService.findAll());
-
-        return "sales/sales";
-    }
-
-    @RequestMapping(value = "/listSales", method = RequestMethod.GET)
-    public String listSales(
+    @RequestMapping(value = "/listSalesVersions", method = RequestMethod.GET)
+    public String listSalesVersions(
             Model model,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(currentSalesPage);
         int pageSize = size.orElse(currentSalesPageSize);
         currentSalesPage = currentPage;
-        Page<Sales> salesPage = salesService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        Page<SalesSumsDTO> salesVersionPage = salesService.getTotalSoldPriceNumSumGroupByInventoryVersion(PageRequest.of(currentPage - 1, pageSize));
 
-        model.addAttribute("salesPage", salesPage);
+        int totalPages = salesVersionPage.getTotalPages();
+        model.addAttribute("salesVersionPage", salesVersionPage);
+        model.addAttribute("totalPages", totalPages);
 
-        int totalPages = salesPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        return VIEWS_SALES_CREATE_OR_UPDATE_FORM;
+        return VIEWS_SALES_VERSIONS_FORM;
     }
 
-    @RequestMapping({"/find"})
-    public String findInvoice(Model model) {
-        model.addAttribute("sales", salesService.findAll());
-
-        return "sales/sales";
-    }
-
-    @GetMapping("/{id}")
-    public ModelAndView showSale(@PathVariable("id") Long id) {
-        LOGGER.info("Get /id is called! " + id);
-        int currentPage = 1;
-        int pageSize = 50;
-
-        Sales sales = salesService.findById(id);
-        Page<Sales> salesPage = salesService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-        ModelAndView mav = new ModelAndView(VIEWS_SALES_CREATE_OR_UPDATE_FORM);
-        mav.addObject("salesPage", salesPage);
-        mav.addObject("sales", sales);
-        return mav;
+    @RequestMapping(value = "/version/{version}", method = RequestMethod.GET)
+    public String listSales(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
+            @PathVariable("version") Integer version) {
+        int currentPage = page.orElse(currentSalesPage);
+        int pageSize = size.orElse(currentSalesPageSize);
+        currentSalesPage = currentPage;
+        Page<Sales> salesPage = salesService.findPaginatedByInventoryNumber(PageRequest.of(currentPage - 1, pageSize), version.longValue());
+        return returnSalesPageWithAttributes(model, salesPage, version.longValue(),
+                VIEWS_SALES_LIST_BY_VERSION_FORM);
     }
 
     @PostMapping("/sales")
@@ -93,12 +78,12 @@ public class SalesMvcController {
         int pageSize = currentSalesPageSize;
         this.currentSalesPage = currentPage;
         if (result.hasErrors()) {
-            return VIEWS_SALES_CREATE_OR_UPDATE_FORM;
+            return VIEWS_SALES_LIST_BY_VERSION_FORM;
         } else {
             salesService.save(sales);
             Page<Sales> salesPage = salesService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
             model.addAttribute("salesPage", salesPage);
-            return VIEWS_SALES_CREATE_OR_UPDATE_FORM + "::editableTable";
+            return VIEWS_SALES_LIST_BY_VERSION_FORM + "::editableTable";
         }
     }
 
@@ -112,6 +97,27 @@ public class SalesMvcController {
     @GetMapping("/{id}/edit")
     public String initUpdateInvoiceForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("sales", salesService.findById(id));
-        return VIEWS_SALES_CREATE_OR_UPDATE_FORM;
+        return VIEWS_SALES_LIST_BY_VERSION_FORM;
     }
+
+    private String returnSalesPageWithAttributes(Model model, Page<Sales> salesPage, Long inventoryVersionNumber,
+                                                 String returnForm) {
+        SalesSumsDTO salesSumsDTO = salesService.getTotalSoldPriceNumSumByInventoryVersion(
+                inventoryVersionNumber
+        );
+
+        int totalPages = salesPage.getTotalPages();
+        model.addAttribute("salesPage", salesPage);
+        model.addAttribute("totalSoldSum", salesSumsDTO.getSumOfSold());
+        model.addAttribute("totalSoldNum", salesSumsDTO.getQuantityOfSold());
+        model.addAttribute("totalPages", totalPages);
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return returnForm;
+    }
+
 }
