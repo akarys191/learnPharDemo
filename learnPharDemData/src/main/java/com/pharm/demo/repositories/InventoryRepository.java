@@ -17,4 +17,15 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
     @Query("SELECT inv FROM Inventory inv WHERE inv.inventoryVersionNumber =:inventoryVersionNumber and inv.medicine.id=:medicineId")
     Inventory findInventoryByMedicine(@Param("inventoryVersionNumber") Long inventoryVersionNumber, @Param("medicineId") Long medicineId);
+
+    @Query("SELECT inv FROM Inventory inv WHERE inv.inventoryId = :inventoryId " +
+            "or inv.inventoryVersionNumber = :inventoryVersionNumber " +
+            "or inv.medicine.barCode LIKE %:medicineBarcodeSearch% " +
+            "or inv.medicine.name LIKE %:medicineNameSearch% ")
+    Page<Inventory> searchInventoryByText(Pageable pageable,
+                                          @Param("inventoryId") Long inventoryId,
+                                          @Param("inventoryVersionNumber") Long inventoryVersionNumber,
+                                          @Param("medicineBarcodeSearch") String medicineBarcodeSearch,
+                                          @Param("medicineNameSearch") String medicineNameSearch);
+
 }

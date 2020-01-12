@@ -11,3 +11,4 @@
  const $postCashRegistryUrl = "/cashRegistry/sales"
  const $urlLinklistInvoiceInventoryItems = '/invoices/listInvoiceInventoryItems'
  const $urlLinklistCashRegistrySales = '/sales/listCashRegistrySales'
+ const $urlLinklistInventory = '/inventory/listInventory'

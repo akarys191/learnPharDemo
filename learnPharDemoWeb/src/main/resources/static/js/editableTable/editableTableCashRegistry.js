@@ -21,7 +21,7 @@
  const $cashRegistryId = $('#cashRegistryId').val();
  const $totalPages = $('#totalPages').val();
  const $markupPercentage = $('#markupPercentage').val();
-
+//TODO check it
  $('#pagination-cashRegistry').twbsPagination({
       totalPages: $totalPages == 0 ? 1 : $totalPages,
       visiblePages: $totalPages == 0 ? 1 : $totalPages%5,

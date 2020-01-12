@@ -77,6 +77,23 @@ public class InventoryJpaService implements InventoryService {
     }
 
     @Override
+    public Page<Inventory> findInventoriesBySearch(Pageable pageable, Long inventoryId, Long inventoryVersionNumber, String medicineBarcodeSearch,
+                                                   String medicineNameSearch) {
+        return inventoryRepository.searchInventoryByText(pageable, inventoryId, inventoryVersionNumber,
+                medicineBarcodeSearch, medicineNameSearch);
+    }
+
+    private Long getLong(String searchString) {
+        Long longValue = null;
+        try {
+            longValue = Long.parseLong(searchString);
+        } catch (NumberFormatException ne) {
+            return null;
+        }
+        return longValue;
+    }
+
+    @Override
     public Inventory saveFlush(Inventory object) {
         return inventoryRepository.saveAndFlush(object);
     }

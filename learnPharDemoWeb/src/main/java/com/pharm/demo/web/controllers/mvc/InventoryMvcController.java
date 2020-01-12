@@ -40,6 +40,7 @@ public class InventoryMvcController {
     @RequestMapping(value = "/listInventory", method = RequestMethod.GET)
     public String listInventory(
             Model model,
+            @RequestParam("searchMedicine") String searchMedicine,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
@@ -50,6 +51,7 @@ public class InventoryMvcController {
         model.addAttribute("inventoryPage", inventoryPage);
 
         int totalPages = inventoryPage.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
@@ -58,6 +60,18 @@ public class InventoryMvcController {
         }
 
         return "inventory/inventory";
+    }
+
+    @RequestMapping(value = "/listDataTable", method = RequestMethod.GET)
+    public String listDataTable(
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(50);
+
+
+        return "inventory/listDataTable";
     }
 
     @GetMapping("/listInvoiceInventoryItems/{inventoryId}")
@@ -98,13 +112,6 @@ public class InventoryMvcController {
         model.addAttribute("medicineName", inventory.getMedicine().getName());
         model.addAttribute("inventoryId", inventoryId);
         return "inventory/inventoryDetails";
-    }
-
-    @RequestMapping({"/find"})
-    public String findInventory(Model model) {
-        model.addAttribute("inventory", inventoryService.findAll());
-
-        return "inventory/inventory";
     }
 
     @GetMapping({"/new"})

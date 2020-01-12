@@ -35,7 +35,6 @@ public class Inventory extends AbstractEntity {
     @ManyToOne
     private Medicine medicine;
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
     private List<InvoiceInventoryItem> invoiceInventoryItems;
 

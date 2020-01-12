@@ -14,4 +14,7 @@ public interface InventoryService extends CrudJpaService<Inventory, Long> {
     Long latestInventoryVersionNumber();
 
     Inventory findInventoryByVersionNumberAndMedicine(Long inventoryVersionNumber, Long medicineId);
+
+    Page<Inventory> findInventoriesBySearch(Pageable pageable, Long inventoryId, Long inventoryVersionNumber, String medicineBarcode,
+                                            String medicineName);
 }

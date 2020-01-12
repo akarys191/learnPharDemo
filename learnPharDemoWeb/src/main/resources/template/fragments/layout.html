@@ -40,6 +40,11 @@
     <!--Basic root functions & root urls-->
     <script type="text/javascript" src="/js/baseFunctions.js"></script>
     <script type="text/javascript" src="/js/globalConsts/globalBusinessUrls.js"></script>
+    <!--Data table-->
+    <script type="text/javascript" src="/libs/js/dataTable/dataTable.min.js"></script>
+    <link rel="stylesheet" href="/libs/css/dataTable.min.css">
+
+
 </head>
 <body id="layout">
 <!--Begin of language script injection-->
@@ -87,6 +92,10 @@
             <li class="nav-item"
                 th:replace="::menuItem ('/cashRegistry/listCashRegistrySales','CashRegistry','CashRegistry','th-list',#{cashRegistryText})">
                 <a class="nav-link" href="#">Sales</a>
+            </li>
+            <li class="nav-item"
+                th:replace="::menuItem ('/inventory/listDataTable','Datatable','Datatable','th-list', 'dataTable')">
+                <a class="nav-link" href="#">DataTables</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

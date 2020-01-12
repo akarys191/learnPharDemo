@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'dataTable')}">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Pharm Demo</title>
+</head>
+
+<body>
+<br/>
+<h2>Data table List</h2>
+<!-- th:text="#{inventoryText}"-->
+<table id="dataTable" class="table table-striped">
+    <thead>
+    <tr>
+        <th style="width: 150px;" th:text="#{idText}">Id</th>
+        <th style="width: 150px;" th:text="#{inventoryVersionNumber}">inventoryVersionNumber</th>
+        <th style="width: 150px;" th:text="#{medicineText}"> medicine</th>
+        <th style="width: 150px;" th:text="#{invoiceInventoryItemsSize}"> InvoiceInventoryItemsSize</th>
+        <th style="width: 150px;" th:text="#{salesSize}"> salesSize</th>
+        <th style="width: 150px;" th:text="#{totalActiveQuantity}"> totalActiveQuantity</th>
+        <th style="width: 150px;" th:text="#{totalActiveCost}"> totalActiveCost</th>
+        <th style="width: 150px;" th:text="#{totalActivePriceSum}"> totalActivePriceSum</th>
+    </tr>
+    </thead>
+</table>
+<script type="text/javascript" src="/js/dataTable.js"></script>
+</body>
+</html>

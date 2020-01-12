@@ -100,6 +100,14 @@ h1{
   display: inline-flex;
   margin-bottom: 1.75em;
 }
+#pagination-cashRegistry{
+  display: inline-flex;
+  margin-bottom: 1.75em;
+}
+#pagination-inventory-list{
+  display: inline-flex;
+  margin-bottom: 1.75em;
+}
 #pagination-demo li{
   display: inline-block;
 }
