@@ -1,3 +1,4 @@
+/*
 package com.pharm.demo.web.processor.context;
 
 import com.pharm.demo.model.CashInventory;
@@ -47,3 +48,4 @@ public class CashRegistryContextHolderUT {
         return cashRegistry;
     }
 }
+*/

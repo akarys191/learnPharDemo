@@ -1,3 +1,4 @@
+/*
 package com.pharm.demo;
 
 import com.pharm.demo.web.config.WebConfig;
@@ -36,3 +37,4 @@ public class LearnPharDemoWebTest {
     }
 }
 
+*/

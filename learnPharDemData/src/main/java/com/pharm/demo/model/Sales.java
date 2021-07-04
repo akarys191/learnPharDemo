@@ -1,6 +1,7 @@
 package com.pharm.demo.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 public class Sales extends AbstractEntity {

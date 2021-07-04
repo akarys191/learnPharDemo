@@ -1,16 +1,42 @@
 package com.pharm.demo.web.bootstrap;
 
-import com.pharm.demo.model.*;
-import com.pharm.demo.services.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import com.pharm.demo.model.CashInventory;
+import com.pharm.demo.model.CategoryMed;
+import com.pharm.demo.model.Country;
+import com.pharm.demo.model.Customer;
+import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InvestedMoney;
+import com.pharm.demo.model.InvoiceInventory;
+import com.pharm.demo.model.InvoiceInventoryItem;
+import com.pharm.demo.model.Manufacturer;
+import com.pharm.demo.model.Medicine;
+import com.pharm.demo.model.PharmUser;
+import com.pharm.demo.model.Pharmacist;
+import com.pharm.demo.model.Supplier;
+import com.pharm.demo.services.CashInventoryService;
+import com.pharm.demo.services.CategoryMedService;
+import com.pharm.demo.services.CountryService;
+import com.pharm.demo.services.CustomerService;
+import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.services.InventorySupplierLatestService;
+import com.pharm.demo.services.InvoiceInventoryItemService;
+import com.pharm.demo.services.InvoiceInventoryService;
+import com.pharm.demo.services.ManufacturerService;
+import com.pharm.demo.services.MedicineService;
+import com.pharm.demo.services.PharmUserService;
+import com.pharm.demo.services.PharmacistService;
+import com.pharm.demo.services.SupplierService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static com.pharm.demo.web.util.InvoiceInventoryUtil.calculatePrice;
 
@@ -61,22 +87,23 @@ public class DataLoader implements CommandLineRunner {
         List<Country> countries = new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();
         if (this.isEmpty() || load) {
-           /* for (int i = 0; i < 5; i++) {
-                Supplier supplier = new Supplier();
-                supplier.setName("Supplier" + i);
-                supplier.setContactNumber("8777555221" + i);
-                supplier.setEmail("astana@gmail.com" + i);
-                supplierService.save(supplier);
-            }*/
+          for (int i = 0; i < 5; i++) {
+            Supplier supplier = new Supplier();
+            supplier.setName("Supplier" + i);
+            supplier.setContactNumber("8777555221" + i);
+            supplier.setEmail("astana@gmail.com" + i);
+            supplierService.save(supplier);
+          }
 
-            for (int i = 0; i < 5; i++) {
-                Country country = new Country();
-                country.setName("Country" + i);
-                country.setFullName("CountryFullName" + i);
-                countryService.save(country);
-                countries.add(country);
 
-            }
+          for (int i = 0; i < 5; i++) {
+            Country country = new Country();
+            country.setName("Country" + i);
+            country.setFullName("CountryFullName" + i);
+            countryService.save(country);
+            countries.add(country);
+
+          }
 
             for (int i = 0; i < 5; i++) {
                 Manufacturer manufacturer = new Manufacturer();
@@ -185,25 +212,25 @@ public class DataLoader implements CommandLineRunner {
             InvoiceInventoryItem invoiceInventoryItem2 = new InvoiceInventoryItem(medicine,
                     supplier3, 1.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE, calculatePrice(300.0, InvoiceInventoryItem.DEFAULT_MARKUP_PERCENTAGE), 300.0, LocalDateTime.now(), pharmacist3);
 
-            /*InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(invoiceInventoryItem));
-            InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(invoiceInventoryItem1));
-            InvoiceInventory invoice3 = new InvoiceInventory(null, supplier4, Arrays.asList(invoiceInventoryItem2));
-            invoiceInventoryItem.setInvoice(invoice);
-            invoiceInventoryItem1.setInvoice(invoice2);
-            invoiceInventoryItem2.setInvoice(invoice3);
+          InvoiceInventory invoice = new InvoiceInventory(null, supplier2, Arrays.asList(invoiceInventoryItem));
+          InvoiceInventory invoice2 = new InvoiceInventory(null, supplier3, Arrays.asList(invoiceInventoryItem1));
+          InvoiceInventory invoice3 = new InvoiceInventory(null, supplier4, Arrays.asList(invoiceInventoryItem2));
+          invoiceInventoryItem.setInvoice(invoice);
+          invoiceInventoryItem1.setInvoice(invoice2);
+          invoiceInventoryItem2.setInvoice(invoice3);
 
-            invoiceInventoryService.saveFlush(invoice);
-            invoiceInventoryService.saveFlush(invoice2);
-            invoiceInventoryService.saveFlush(invoice3)*/
-            ;
+          invoiceInventoryService.saveFlush(invoice);
+          invoiceInventoryService.saveFlush(invoice2);
+          invoiceInventoryService.saveFlush(invoice3)
 
-            CashInventory cashInventory = new CashInventory();
-            InvestedMoney investedMoney = new InvestedMoney(100000D,
-                    "Test origin", "Test msg", cashInventory);
-            cashInventory.setTotalCashMoney(50000D);
-            cashInventory.setTotalCardMoney(50000D);
-            cashInventory.setInventoryVersionNumber(1L);
-            cashInventory.setInvestedMonies(new ArrayList<>(
+          ;
+
+          CashInventory cashInventory = new CashInventory();
+          InvestedMoney investedMoney = new InvestedMoney(100000D, "Test origin", "Test msg", cashInventory);
+          cashInventory.setTotalCashMoney(50000D);
+          cashInventory.setTotalCardMoney(50000D);
+          cashInventory.setInventoryVersionNumber(1L);
+          cashInventory.setInvestedMonies(new ArrayList<>(
                     Collections.singletonList(investedMoney)
             ));
 
