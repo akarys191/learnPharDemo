@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
+
 import java.util.Objects;
 
 @Component
+@Transactional
 public class InvoiceInventoryContextHolder {
 
     private final InventoryService inventoryService;
@@ -35,6 +38,10 @@ public class InvoiceInventoryContextHolder {
         }
         System.out.println(" this.activeInventoryVersionNumber ::: " + this.activeInventoryVersionNumber);
         this.activeCashInventory = cashInventoryService.findCashInventorByVersionNumber(activeInventoryVersionNumber);
+        if(Objects.isNull(this.activeCashInventory)){
+            this.activeCashInventory = new CashInventory();
+            this.activeCashInventory = this.cashInventoryService.save(this.activeCashInventory);
+        }
     }
 
     public Long getActiveInvoiceInventoryVersionNumber() {

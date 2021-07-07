@@ -11,6 +11,7 @@ import com.pharm.demo.model.CategoryMed;
 import com.pharm.demo.model.Country;
 import com.pharm.demo.model.Customer;
 import com.pharm.demo.model.Inventory;
+import com.pharm.demo.model.InventorySupplierPriceCost;
 import com.pharm.demo.model.InvestedMoney;
 import com.pharm.demo.model.InvoiceInventory;
 import com.pharm.demo.model.InvoiceInventoryItem;
@@ -219,12 +220,12 @@ public class DataLoader implements CommandLineRunner {
           invoiceInventoryItem1.setInvoice(invoice2);
           invoiceInventoryItem2.setInvoice(invoice3);
 
+
           invoiceInventoryService.saveFlush(invoice);
           invoiceInventoryService.saveFlush(invoice2);
-          invoiceInventoryService.saveFlush(invoice3)
+          invoiceInventoryService.saveFlush(invoice3);
 
-          ;
-
+          inventorySupplierLatestService.save(new InventorySupplierPriceCost());
           CashInventory cashInventory = new CashInventory();
           InvestedMoney investedMoney = new InvestedMoney(100000D, "Test origin", "Test msg", cashInventory);
           cashInventory.setTotalCashMoney(50000D);
@@ -244,6 +245,7 @@ public class DataLoader implements CommandLineRunner {
 
             load = false;
         }
+
         LOGGER.info(" Is pharmacist user: " + pharmUserService.findByUserName("ADMIN"));
         LOGGER.info(" Siz of users: " + pharmUserService.findAll().size());
         LOGGER.info(" Siz of cashInventories: " + cashInventoryService.findAll().size());

@@ -42,7 +42,7 @@ public class InventorySupplierPriceJpaService implements InventorySupplierLatest
     @Override
     public InventorySupplierPriceCost findLatestInventoryByInventoryAndSupplier(Long inventoryId, Long supplierId) {
         Page<InventorySupplierPriceCost> pagedSuppliers = this.inventorySupplierPriceRepository.findInventorySupplierPriceByInventorySupplierLatest(new PageRequest(0, 1), inventoryId, supplierId);
-        if (Objects.nonNull(pagedSuppliers.getContent()) && !pagedSuppliers.getContent().isEmpty()) {
+        if (!pagedSuppliers.getContent().isEmpty()) {
             return pagedSuppliers.getContent().get(0);
         }
         return null;

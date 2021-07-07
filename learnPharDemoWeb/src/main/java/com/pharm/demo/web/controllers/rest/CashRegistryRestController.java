@@ -28,7 +28,7 @@ public class CashRegistryRestController {
         this.invoiceInventoryContextHolder = invoiceInventoryContextHolder;
     }
 
-    @RequestMapping(value = "/findPrice", produces = " application/json")
+    @RequestMapping(value = "/findPrice", produces = "application/json")
     public @ResponseBody
     Double findPrice(@Param("supplierId") Long supplierId,
                      @Param("medicineId") Long medicineId) throws PropertyNotFoundException {
