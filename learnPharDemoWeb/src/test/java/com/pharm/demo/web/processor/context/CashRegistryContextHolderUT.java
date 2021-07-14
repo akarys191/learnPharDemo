@@ -1,4 +1,4 @@
-/*
+
 package com.pharm.demo.web.processor.context;
 
 import com.pharm.demo.model.CashInventory;
@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDate;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +30,7 @@ public class CashRegistryContextHolderUT {
     public void checkIfGetCashRegistryForToday() {
         CashInventory cashInventory = new CashInventory();
         cashInventory.setCashInventoryId(1L);
-        String excludeFields = "";
+
 
         when(invoiceInventoryContextHolder.getActiveCashInventory()).thenReturn(cashInventory);
         when(invoiceInventoryContextHolder.getActiveInvoiceInventoryVersionNumber()).thenReturn(1L);
@@ -37,7 +39,7 @@ public class CashRegistryContextHolderUT {
         CashRegistry targetCashRegistry = createTargetCashRegistry(cashInventory);
 
         CashRegistryContextHolder cashRegistryContextHolder = new CashRegistryContextHolder(invoiceInventoryContextHolder, cashRegistryService);
-        Assert.assertTrue(new ReflectionEquals(targetCashRegistry, excludeFields).matches(cashRegistryContextHolder.getCashRegistryForToday()));
+        Assert.assertTrue(new ReflectionEquals(targetCashRegistry).matches(cashRegistryContextHolder.getCashRegistryForToday()));
     }
 
     private CashRegistry createTargetCashRegistry(CashInventory cashInventory) {
@@ -45,7 +47,8 @@ public class CashRegistryContextHolderUT {
         cashRegistry.setInventoryVersionNumber(1L);
         cashRegistry.setCashInventory(cashInventory);
         cashInventory.addCashRegistry(cashRegistry);
+        cashRegistry.setCashRegistryDate(LocalDate.now());
         return cashRegistry;
     }
 }
-*/
+
