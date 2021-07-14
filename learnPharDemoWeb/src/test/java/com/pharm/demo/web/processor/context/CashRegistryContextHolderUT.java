@@ -30,7 +30,6 @@ public class CashRegistryContextHolderUT {
     public void checkIfGetCashRegistryForToday() {
         CashInventory cashInventory = new CashInventory();
         cashInventory.setCashInventoryId(1L);
-        String excludeFields = "";
 
 
         when(invoiceInventoryContextHolder.getActiveCashInventory()).thenReturn(cashInventory);
@@ -40,11 +39,7 @@ public class CashRegistryContextHolderUT {
         CashRegistry targetCashRegistry = createTargetCashRegistry(cashInventory);
 
         CashRegistryContextHolder cashRegistryContextHolder = new CashRegistryContextHolder(invoiceInventoryContextHolder, cashRegistryService);
-        System.out.println("??????????");
-        System.out.println(cashRegistryContextHolder.getCashRegistryForToday().toString());
-        System.out.println( new ReflectionEquals(targetCashRegistry.toString(), excludeFields));
-        System.out.println("??????????");
-        Assert.assertTrue(new ReflectionEquals(targetCashRegistry, excludeFields).matches(cashRegistryContextHolder.getCashRegistryForToday()));
+        Assert.assertTrue(new ReflectionEquals(targetCashRegistry).matches(cashRegistryContextHolder.getCashRegistryForToday()));
     }
 
     private CashRegistry createTargetCashRegistry(CashInventory cashInventory) {
