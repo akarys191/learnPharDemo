@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.epam.spring</groupId>
+	<groupId>com.my.pharm</groupId>
 	<artifactId>learnPharDemo</artifactId>
 	<version>0.0.1</version>
 	<properties>
@@ -9,9 +9,8 @@
 		<gitPass>Mus@19911004</gitPass>
 	</properties>
 	<modules>
-		<module>learnPharDemData</module>
-		<module>learnPharDemoWeb</module>
-	</modules>
+    <module>pharDemo</module>
+  </modules>
 	<packaging>pom</packaging>
 	<scm>
 		<connection>scm:git:https://github.com/akarys191/learnPharDemo.git</connection>
@@ -21,7 +20,7 @@
 	</scm>
 
 	<name>learnPharDemo</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for Pharmacy</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
