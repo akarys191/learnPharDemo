@@ -136,6 +136,18 @@
             <artifactId>poi-scratchpad</artifactId>
             <version>3.17</version>
         </dependency>
+
+<!--        Crawler-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -163,6 +175,7 @@
                 </executions>
             </plugin>-->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
             </plugin>
