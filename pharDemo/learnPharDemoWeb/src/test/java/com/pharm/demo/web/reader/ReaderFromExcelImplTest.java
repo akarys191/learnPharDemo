@@ -2,31 +2,25 @@ package com.pharm.demo.web.reader;
 
 import com.pharm.demo.web.reader.dto.Remain;
 import com.pharm.demo.web.reader.dto.RetailSystemRubus;
-import com.pharm.demo.web.reader.service.ReaderFromExcel;
+import com.pharm.demo.web.reader.service.RemainderParser;
 import com.pharm.demo.web.reader.service.impl.ReaderFromExcelImpl;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
 //@RunWith(SpringRunner.class)
-public class ReaderFromExcelTest {
+public class ReaderFromExcelImplTest {
 
 
-    private ReaderFromExcel readerFromExcel;
+    private ReaderFromExcelImpl readerFromExcelImpl;
 
     @Mock
     private Iterator<Cell> cellIterator ;
@@ -38,11 +32,14 @@ public class ReaderFromExcelTest {
     private RetailSystemRubus retailSystemRubus;
 
     @Mock
+    private RemainderParser remainderParser;
+
+    @Mock
     private Row row;
 
     @Before
     public void setUp() throws Exception {
-        readerFromExcel = new ReaderFromExcelImpl();
+        readerFromExcelImpl = new ReaderFromExcelImpl(remainderParser);
     }
 
     @Test
@@ -63,7 +60,7 @@ public class ReaderFromExcelTest {
         retailSystemRubus.setPc(105.6);
         retailSystemRubus.setRegistrationNumber("testNum");
 
-            List<RetailSystemRubus> retailSystemList = readerFromExcel.converting("/excel/rubus_03.11.2021.xls");
+            List<RetailSystemRubus> retailSystemList = readerFromExcelImpl.converting("/excel/rubus_03.11.2021.xls");
             System.out.println(retailSystemList);
 //            Assert.assertEquals("This not consist", retailSystemList.contains(retailSystemRubus) ,true);
 
@@ -74,7 +71,7 @@ public class ReaderFromExcelTest {
     public void testCollectingActiveRetail() {
 
 
-        RetailSystemRubus activeRetail = readerFromExcel.collectingActiveRetail(cellIterator);
+        RetailSystemRubus activeRetail = readerFromExcelImpl.collectingActiveRetail(cellIterator);
         System.out.println(retailSystemRubus.getBarCode());
 //        Assert.assertEquals(activeRetail, retailSystemRubus);
     }
@@ -82,11 +79,11 @@ public class ReaderFromExcelTest {
     @Test
     public void testCheckIfFIleIsReadable(){
         String path = "123456";
-        Assert.assertEquals(readerFromExcel.checkIfFIleIsReadable(path),false);
+        Assert.assertEquals(readerFromExcelImpl.checkIfFIleIsReadable(path),false);
     }
     @Test
     public void testCheckIfRowIsEmpty(){
-        Assert.assertEquals(readerFromExcel.checkIfRowIsEmpty(row),true);
+        Assert.assertEquals(readerFromExcelImpl.checkIfRowIsEmpty(row),true);
     }
 
 }

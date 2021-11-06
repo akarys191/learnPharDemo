@@ -14,7 +14,6 @@ public class Remain {
 
     @Override
     public boolean equals(Object obj) {
-
         Remain inStockObj = (Remain) obj;
         return inPackage.equals(inStockObj.getInPackage())
                 && inPeace.equals(inStockObj.getInPeace());

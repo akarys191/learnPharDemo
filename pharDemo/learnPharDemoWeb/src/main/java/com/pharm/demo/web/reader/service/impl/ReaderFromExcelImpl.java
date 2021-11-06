@@ -3,22 +3,21 @@ package com.pharm.demo.web.reader.service.impl;
 
 import com.pharm.demo.web.reader.dto.RetailSystemRubus;
 import com.pharm.demo.web.reader.exceptions.UnsupportedFormatExcel;
-import com.pharm.demo.web.reader.service.RemainderParser;
 import com.pharm.demo.web.reader.service.ReaderFromExcel;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
+import com.pharm.demo.web.reader.service.RemainderParser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,8 +31,9 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
 
     private RemainderParser remainderParser;
 
-    public ReaderFromExcelImpl() {
-        remainderParser = new RemainderParserImpl();
+    @Autowired
+    public ReaderFromExcelImpl(RemainderParser remainderParser) {
+        this.remainderParser = remainderParser;
     }
 
     public Boolean checkIfFIleIsReadable(String s) {
@@ -43,7 +43,7 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
     }
 
     public HSSFWorkbook openFile(String path) throws IOException, URISyntaxException, UnsupportedFormatExcel {
-        if (checkIfFIleIsReadable(path)){
+        if (checkIfFIleIsReadable(path)) {
             URL resource = getClass().getResource(path);
             if (resource!=null) {
                 return new HSSFWorkbook(new FileInputStream(new File(resource.toURI())));
@@ -51,6 +51,7 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
             }else throw new FileNotFoundException("Cannot load this file");
         }else throw new UnsupportedFormatExcel("Incorrect type of you file, please change it",path);
         }
+    //Crawler
 
     public List<RetailSystemRubus> converting(String path) {
         List<RetailSystemRubus> retailSystemRubuses =  new ArrayList<>();;
@@ -61,12 +62,10 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-
                     if (!checkIfRowIsEmpty(row)) {
                         if(!checkForFindingBarCode) {
                            checkForFindingBarCode = findRowOfBarCode(row);
                            continue;
-
                         }
                         if (checkForFindingBarCode)
                         retailSystemRubuses.add(collectingActiveRetail(row.cellIterator()));
