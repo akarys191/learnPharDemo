@@ -10,6 +10,7 @@
 	</properties>
 	<modules>
     <module>pharDemo</module>
+    <module>pharOrder</module>
   </modules>
 	<packaging>pom</packaging>
 	<scm>
