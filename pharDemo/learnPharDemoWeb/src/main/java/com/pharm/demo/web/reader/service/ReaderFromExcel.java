@@ -14,9 +14,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface ReaderFromExcel{
-    Boolean checkIfFIleIsReadable(String s);
+    boolean checkIfFIleIsReadable(String s);
     Workbook openFile(String path) throws IOException, URISyntaxException, UnsupportedFormatExcel;
-    List<RetailSystemRubus> converting(String path);
-    RetailSystemRubus collectingActiveRetail(Iterator<Cell> cellIterator);
-    Boolean checkIfRowIsEmpty(Row row);
+    List<RetailSystemRubus> convertIntoObject(String path);
+    RetailSystemRubus collectingActiveRetail(Row row);
+    boolean isRowEmpty(Row row);
     }

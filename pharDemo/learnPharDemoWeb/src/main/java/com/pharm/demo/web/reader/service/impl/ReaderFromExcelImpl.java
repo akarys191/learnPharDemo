@@ -5,6 +5,7 @@ import com.pharm.demo.web.reader.dto.RetailSystemRubus;
 import com.pharm.demo.web.reader.exceptions.UnsupportedFormatExcel;
 import com.pharm.demo.web.reader.service.ReaderFromExcel;
 import com.pharm.demo.web.reader.service.RemainderParser;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -27,19 +28,18 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ReaderFromExcelImpl implements ReaderFromExcel {
 
-    private RemainderParser remainderParser;
+    private final RemainderParser remainderParser;
 
     @Autowired
     public ReaderFromExcelImpl(RemainderParser remainderParser) {
         this.remainderParser = remainderParser;
     }
 
-    public Boolean checkIfFIleIsReadable(String s) {
-        if (s.contains(".xls") && !s.contains(".xlsx"))
-            return true;
-        else return false;
+    public boolean checkIfFIleIsReadable(String s) {
+        return s.contains(".xls") && !s.contains(".xlsx");
     }
 
     public HSSFWorkbook openFile(String path) throws IOException, URISyntaxException, UnsupportedFormatExcel {
@@ -47,14 +47,12 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
             URL resource = getClass().getResource(path);
             if (resource!=null) {
                 return new HSSFWorkbook(new FileInputStream(new File(resource.toURI())));
-                //найменование пойск
             }else throw new FileNotFoundException("Cannot load this file");
         }else throw new UnsupportedFormatExcel("Incorrect type of you file, please change it",path);
         }
-    //Crawler
 
-    public List<RetailSystemRubus> converting(String path) {
-        List<RetailSystemRubus> retailSystemRubuses =  new ArrayList<>();;
+    public List<RetailSystemRubus> convertIntoObject(String path) {
+        List<RetailSystemRubus> retailSystemRubuses =  new ArrayList<>();
         try {
             boolean checkForFindingBarCode = false;
             HSSFWorkbook myExcelBook = openFile(path);
@@ -62,28 +60,23 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
             Iterator<Row> rowIterator = sheet.iterator();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                    if (!checkIfRowIsEmpty(row)) {
+                    if (!isRowEmpty(row)) {
                         if(!checkForFindingBarCode) {
                            checkForFindingBarCode = findRowOfBarCode(row);
-                           continue;
                         }
-                        if (checkForFindingBarCode)
-                        retailSystemRubuses.add(collectingActiveRetail(row.cellIterator()));
+                        if (checkForFindingBarCode){
+                        retailSystemRubuses.add(collectingActiveRetail(row)); }
                     }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (UnsupportedFormatExcel e) {
-            e.printStackTrace();
+        } catch (IOException | URISyntaxException | UnsupportedFormatExcel e) {
+            log.error("There is error in parsing of xls file",e);
         }
         return retailSystemRubuses;
     }
 
-    public RetailSystemRubus collectingActiveRetail(Iterator<Cell> cellIterator) {
+    public RetailSystemRubus collectingActiveRetail(Row row) {
+        Iterator<Cell> cellIterator = row.iterator();
         RetailSystemRubus activeRubus = new RetailSystemRubus();
-
         while (cellIterator.hasNext()) {
         Cell cell = cellIterator.next();
             int activeColumn = cell.getAddress().getColumn();
@@ -93,9 +86,9 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                         activeRubus.setBarCode(cell.getStringCellValue());
                     break;
                 case 1:
-                    if (cell.getStringCellValue() != "")
-                        activeRubus.setSellBy(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("dd.MM.uuuu")));
-                    else activeRubus.setSellBy(LocalDate.MIN);
+                    if (!cell.getStringCellValue().equals(""))
+                        activeRubus.setSellByDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+                    else activeRubus.setSellByDate(LocalDate.MIN);
                     break;
                 case 2:
                         activeRubus.setName(cell.getStringCellValue());
@@ -104,7 +97,7 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                     activeRubus.setInStock( cell.getNumericCellValue());
                     break;
                 case 4:
-                        activeRubus.setRemain(remainderParser.StringParserIntoInStock( cell.getStringCellValue()));
+                        activeRubus.setRemain(remainderParser.parserStringIntoInStock( cell.getStringCellValue()));
                     break;
                 case 5:
                     activeRubus.setPrice(cell.getNumericCellValue());
@@ -120,7 +113,6 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                     break;
                 case 9:
                     if (cell.getStringCellValue().contains("да")) activeRubus.setVAT(true);
-                    else activeRubus.setVAT(false);
                     break;
                 case 10:
                         activeRubus.setTVAND(cell.getStringCellValue());
@@ -131,12 +123,13 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                 case 12:
                     activeRubus.setRegistrationNumber(cell.getStringCellValue());
                     break;
+                default:
             }
         }
         return activeRubus;
     }
 
-    public Boolean checkIfRowIsEmpty(Row row) {
+    public boolean isRowEmpty(Row row) {
         if (row == null) {
             return true;
         }
@@ -161,10 +154,7 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                 String stringCellValue = cell.getStringCellValue();
                 if (stringCellValue.equals("Штрихкод")) return true;
             }
-
         }
-
-
     return false;
     }
 

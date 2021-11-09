@@ -4,6 +4,7 @@ package com.pharm.demo.web.reader.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 public class RetailSystemRubus {
     private String barCode;
-    private LocalDate sellBy;
+    private LocalDate sellByDate;
     private String name;
     private Double inStock;
     private Remain remain;
@@ -26,29 +27,17 @@ public class RetailSystemRubus {
     private String registrationNumber;
 
     @Override
-    public boolean equals(Object obj) {
+    public int hashCode() {
+        return Objects.hash(barCode,sellByDate,name);
+    }
 
-        if(obj==null)
-        {
-            return true;
-        }
-        if(this.getClass()!=obj.getClass())
-        {
-            return false;
-        }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return true; }
+        if (this.getClass() != obj.getClass()) { return false; }
         RetailSystemRubus retailSystemRubus = (RetailSystemRubus) obj;
         return barCode.equals( retailSystemRubus.getBarCode())
-                && sellBy.equals(retailSystemRubus.getSellBy())
-                && name.equals(retailSystemRubus.getName())
-                && inStock.equals(retailSystemRubus.getInStock())
-                && remain.equals(retailSystemRubus.getRemain())
-                && price.equals(retailSystemRubus.getPrice())
-                && sum.equals(retailSystemRubus.getSum())
-                && producer.equals(retailSystemRubus.getProducer())
-                && productGroup.equals(retailSystemRubus.getProductGroup())
-                && VAT.equals(retailSystemRubus.getVAT())
-                && TVAND.equals(retailSystemRubus.getTVAND())
-                && pc.equals(retailSystemRubus.getPc())
-                && registrationNumber.equals(retailSystemRubus.getRegistrationNumber());
+                && sellByDate.equals(retailSystemRubus.getSellByDate())
+                && name.equals(retailSystemRubus.getName());
     }
 }

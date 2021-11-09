@@ -15,7 +15,7 @@ public class RemainderParserImplTest {
         Remain inStock = new Remain(2, 10);
 
 
-        Remain active = inStockParser.StringParserIntoInStock(inStock.getInPackage() + " уп " + inStock.getInPeace() + " шт");
+        Remain active = inStockParser.parserStringIntoInStock(inStock.getInPackage() + " уп " + inStock.getInPeace() + " шт");
 
         Assert.assertEquals("The parser not working", active, inStock);
     }

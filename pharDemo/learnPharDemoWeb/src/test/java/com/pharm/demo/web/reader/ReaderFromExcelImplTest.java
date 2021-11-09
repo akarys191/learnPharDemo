@@ -26,7 +26,7 @@ public class ReaderFromExcelImplTest {
     private Iterator<Cell> cellIterator ;
 
     @Mock
-    private Iterator<Row> rowIterator ;
+    private Row row ;
 
     @Mock
     private RetailSystemRubus retailSystemRubus;
@@ -34,8 +34,7 @@ public class ReaderFromExcelImplTest {
     @Mock
     private RemainderParser remainderParser;
 
-    @Mock
-    private Row row;
+
 
     @Before
     public void setUp() throws Exception {
@@ -47,7 +46,7 @@ public class ReaderFromExcelImplTest {
         RetailSystemRubus retailSystemRubus = new RetailSystemRubus();
 //   4600999001376	01.02.2024	 гель прокл для грудь СиЛ	1	1 уп 0 шт	1700	1700			Нет		105.6	testNum
         retailSystemRubus.setBarCode("4600999001376");
-        retailSystemRubus.setSellBy(LocalDate.parse("01.02.2024", DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+        retailSystemRubus.setSellByDate(LocalDate.parse("01.02.2024", DateTimeFormatter.ofPattern("dd.MM.uuuu")));
         retailSystemRubus.setName(" гель прокл для грудь СиЛ");
         retailSystemRubus.setInStock(1.0);
         retailSystemRubus.setRemain(new Remain(1,0));
@@ -60,7 +59,7 @@ public class ReaderFromExcelImplTest {
         retailSystemRubus.setPc(105.6);
         retailSystemRubus.setRegistrationNumber("testNum");
 
-            List<RetailSystemRubus> retailSystemList = readerFromExcelImpl.converting("/excel/rubus_03.11.2021.xls");
+            List<RetailSystemRubus> retailSystemList = readerFromExcelImpl.convertIntoObject("/excel/rubus_03.11.2021.xls");
             System.out.println(retailSystemList);
 //            Assert.assertEquals("This not consist", retailSystemList.contains(retailSystemRubus) ,true);
 
@@ -69,9 +68,7 @@ public class ReaderFromExcelImplTest {
 
     @Test
     public void testCollectingActiveRetail() {
-
-
-        RetailSystemRubus activeRetail = readerFromExcelImpl.collectingActiveRetail(cellIterator);
+        RetailSystemRubus activeRetail = readerFromExcelImpl.collectingActiveRetail(row);
         System.out.println(retailSystemRubus.getBarCode());
 //        Assert.assertEquals(activeRetail, retailSystemRubus);
     }
@@ -83,7 +80,7 @@ public class ReaderFromExcelImplTest {
     }
     @Test
     public void testCheckIfRowIsEmpty(){
-        Assert.assertEquals(readerFromExcelImpl.checkIfRowIsEmpty(row),true);
+        Assert.assertEquals(readerFromExcelImpl.isRowEmpty(row),true);
     }
 
 }
