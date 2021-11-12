@@ -1,10 +1,10 @@
 package com.pharm.demo.web.processor.impl;
 
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.InventorySupplierPriceCost;
-import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.model.Sales;
-import com.pharm.demo.services.InventorySupplierLatestService;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.model.InventorySupplierPriceCost;
+import com.pharm.demo.web.data.model.InvoiceInventoryItem;
+import com.pharm.demo.web.data.model.Sales;
+import com.pharm.demo.web.data.services.InventorySupplierLatestService;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

@@ -1,22 +1,24 @@
 package com.pharm.demo.web.processor.impl;
 
-import com.pharm.demo.model.CashInventory;
-import com.pharm.demo.model.CashType;
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.Sales;
-import com.pharm.demo.services.CashInventoryService;
-import com.pharm.demo.services.InventoryService;
-import com.pharm.demo.services.SalesService;
+import com.pharm.demo.web.data.model.CashInventory;
+import com.pharm.demo.web.data.model.CashType;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.model.Sales;
+import com.pharm.demo.web.data.services.CashInventoryService;
+import com.pharm.demo.web.data.services.InventoryService;
+import com.pharm.demo.web.data.services.SalesService;
 import com.pharm.demo.web.processor.CashRegistryProcessor;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Objects;
 
 @Component
+@SessionScope
 @Transactional
 public class CashRegistryProcessorImpl implements CashRegistryProcessor {
 

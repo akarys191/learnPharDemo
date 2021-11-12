@@ -1,9 +1,9 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.InventorySupplierPriceCost;
-import com.pharm.demo.services.InventoryService;
-import com.pharm.demo.services.InventorySupplierLatestService;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.model.InventorySupplierPriceCost;
+import com.pharm.demo.web.data.services.InventoryService;
+import com.pharm.demo.web.data.services.InventorySupplierLatestService;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;

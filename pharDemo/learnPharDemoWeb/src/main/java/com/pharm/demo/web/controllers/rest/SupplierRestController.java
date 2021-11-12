@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.Supplier;
-import com.pharm.demo.services.SupplierService;
+import com.pharm.demo.web.data.model.Supplier;
+import com.pharm.demo.web.data.services.SupplierService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

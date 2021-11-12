@@ -1,6 +1,6 @@
 package com.pharm.demo.web.processor;
 
-import com.pharm.demo.model.Sales;
+import com.pharm.demo.web.data.model.Sales;
 
 public interface CashRegistryProcessor {
     void processSaveCashRegistrySales(Sales cashRegistrySales);

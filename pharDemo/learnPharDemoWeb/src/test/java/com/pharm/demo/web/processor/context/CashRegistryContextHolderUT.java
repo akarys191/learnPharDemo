@@ -1,13 +1,12 @@
 
 package com.pharm.demo.web.processor.context;
 
-import com.pharm.demo.model.CashInventory;
-import com.pharm.demo.model.CashRegistry;
-import com.pharm.demo.services.CashRegistryService;
+import com.pharm.demo.web.data.model.CashInventory;
+import com.pharm.demo.web.data.model.CashRegistry;
+import com.pharm.demo.web.data.services.CashRegistryService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.test.context.junit4.SpringRunner;

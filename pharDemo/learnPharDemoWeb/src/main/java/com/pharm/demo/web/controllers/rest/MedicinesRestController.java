@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.Medicine;
-import com.pharm.demo.services.MedicineService;
+import com.pharm.demo.web.data.model.Medicine;
+import com.pharm.demo.web.data.services.MedicineService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,13 +1,13 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.model.CategoryMed;
-import com.pharm.demo.model.Country;
-import com.pharm.demo.model.Manufacturer;
-import com.pharm.demo.model.Medicine;
-import com.pharm.demo.services.CategoryMedService;
-import com.pharm.demo.services.CountryService;
-import com.pharm.demo.services.ManufacturerService;
-import com.pharm.demo.services.MedicineService;
+import com.pharm.demo.web.data.model.CategoryMed;
+import com.pharm.demo.web.data.model.Country;
+import com.pharm.demo.web.data.model.Manufacturer;
+import com.pharm.demo.web.data.model.Medicine;
+import com.pharm.demo.web.data.services.CategoryMedService;
+import com.pharm.demo.web.data.services.CountryService;
+import com.pharm.demo.web.data.services.ManufacturerService;
+import com.pharm.demo.web.data.services.MedicineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

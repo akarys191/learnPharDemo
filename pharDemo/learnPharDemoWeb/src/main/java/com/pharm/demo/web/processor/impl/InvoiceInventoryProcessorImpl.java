@@ -1,10 +1,10 @@
 package com.pharm.demo.web.processor.impl;
 
-import com.pharm.demo.model.*;
-import com.pharm.demo.services.CashInventoryService;
-import com.pharm.demo.services.InventoryService;
-import com.pharm.demo.services.InvoiceInventoryItemService;
-import com.pharm.demo.services.InvoiceInventoryService;
+import com.pharm.demo.web.data.model.*;
+import com.pharm.demo.web.data.services.CashInventoryService;
+import com.pharm.demo.web.data.services.InventoryService;
+import com.pharm.demo.web.data.services.InvoiceInventoryItemService;
+import com.pharm.demo.web.data.services.InvoiceInventoryService;
 import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;

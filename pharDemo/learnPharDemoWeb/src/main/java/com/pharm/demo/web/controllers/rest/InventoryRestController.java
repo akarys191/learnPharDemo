@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.services.InventoryService;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import javassist.NotFoundException;
 import org.springframework.data.repository.query.Param;

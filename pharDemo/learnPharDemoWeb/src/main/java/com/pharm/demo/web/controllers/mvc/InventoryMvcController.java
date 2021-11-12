@@ -1,8 +1,8 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.model.InvoiceInventoryItem;
+import com.pharm.demo.web.data.services.InventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

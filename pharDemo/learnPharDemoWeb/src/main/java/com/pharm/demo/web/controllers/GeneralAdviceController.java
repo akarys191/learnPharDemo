@@ -1,10 +1,10 @@
 package com.pharm.demo.web.controllers;
 
-import com.pharm.demo.model.Pharmacist;
-import com.pharm.demo.model.Supplier;
-import com.pharm.demo.services.MedicineService;
-import com.pharm.demo.services.PharmacistService;
-import com.pharm.demo.services.SupplierService;
+import com.pharm.demo.web.data.model.Pharmacist;
+import com.pharm.demo.web.data.model.Supplier;
+import com.pharm.demo.web.data.services.MedicineService;
+import com.pharm.demo.web.data.services.PharmacistService;
+import com.pharm.demo.web.data.services.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
