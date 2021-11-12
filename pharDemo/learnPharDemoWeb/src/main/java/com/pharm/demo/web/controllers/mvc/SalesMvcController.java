@@ -1,8 +1,8 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.dto.SalesSumsDTO;
-import com.pharm.demo.model.Sales;
-import com.pharm.demo.services.SalesService;
+import com.pharm.demo.web.data.dto.SalesSumsDTO;
+import com.pharm.demo.web.data.model.Sales;
+import com.pharm.demo.web.data.services.SalesService;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,9 +1,9 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.PharmUser;
-import com.pharm.demo.model.Pharmacist;
-import com.pharm.demo.services.PharmUserService;
-import com.pharm.demo.services.PharmacistService;
+import com.pharm.demo.web.data.model.PharmUser;
+import com.pharm.demo.web.data.model.Pharmacist;
+import com.pharm.demo.web.data.services.PharmUserService;
+import com.pharm.demo.web.data.services.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

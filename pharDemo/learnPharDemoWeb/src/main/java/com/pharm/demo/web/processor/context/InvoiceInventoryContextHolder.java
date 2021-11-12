@@ -1,8 +1,8 @@
 package com.pharm.demo.web.processor.context;
 
-import com.pharm.demo.model.CashInventory;
-import com.pharm.demo.services.CashInventoryService;
-import com.pharm.demo.services.InventoryService;
+import com.pharm.demo.web.data.model.CashInventory;
+import com.pharm.demo.web.data.services.CashInventoryService;
+import com.pharm.demo.web.data.services.InventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

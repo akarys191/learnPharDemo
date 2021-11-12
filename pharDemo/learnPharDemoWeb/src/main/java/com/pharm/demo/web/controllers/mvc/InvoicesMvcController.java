@@ -1,10 +1,10 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.dto.InventoryItemSumsDTO;
-import com.pharm.demo.model.InvoiceInventory;
-import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.services.InvoiceInventoryItemService;
-import com.pharm.demo.services.InvoiceInventoryService;
+import com.pharm.demo.web.data.dto.InventoryItemSumsDTO;
+import com.pharm.demo.web.data.model.InvoiceInventory;
+import com.pharm.demo.web.data.model.InvoiceInventoryItem;
+import com.pharm.demo.web.data.services.InvoiceInventoryItemService;
+import com.pharm.demo.web.data.services.InvoiceInventoryService;
 import com.pharm.demo.web.processor.InvoiceInventoryProcessor;
 import com.pharm.demo.web.processor.context.InvoiceInventoryContextHolder;
 import org.slf4j.Logger;

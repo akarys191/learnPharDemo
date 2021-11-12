@@ -1,9 +1,9 @@
-package com.pharm.demo.services;
+package com.pharm.demo.web.data.services;
 
-import com.pharm.demo.model.Inventory;
-import com.pharm.demo.model.InvoiceInventoryItem;
-import com.pharm.demo.repositories.InventoryRepository;
-import com.pharm.demo.services.impl.InventoryJpaService;
+import com.pharm.demo.web.data.model.Inventory;
+import com.pharm.demo.web.data.model.InvoiceInventoryItem;
+import com.pharm.demo.web.data.repositories.InventoryRepository;
+import com.pharm.demo.web.data.services.impl.InventoryJpaService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

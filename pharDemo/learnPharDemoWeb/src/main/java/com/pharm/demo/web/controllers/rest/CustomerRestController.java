@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.rest;
 
-import com.pharm.demo.model.Customer;
-import com.pharm.demo.services.CustomerService;
+import com.pharm.demo.web.data.model.Customer;
+import com.pharm.demo.web.data.services.CustomerService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

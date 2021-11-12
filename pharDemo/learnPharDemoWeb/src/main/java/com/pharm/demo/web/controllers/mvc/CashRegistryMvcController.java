@@ -1,10 +1,10 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.dto.SalesSumsDTO;
-import com.pharm.demo.model.CashRegistry;
-import com.pharm.demo.model.Sales;
-import com.pharm.demo.services.CashRegistryService;
-import com.pharm.demo.services.SalesService;
+import com.pharm.demo.web.data.dto.SalesSumsDTO;
+import com.pharm.demo.web.data.model.CashRegistry;
+import com.pharm.demo.web.data.model.Sales;
+import com.pharm.demo.web.data.services.CashRegistryService;
+import com.pharm.demo.web.data.services.SalesService;
 import com.pharm.demo.web.processor.CashRegistryProcessor;
 import com.pharm.demo.web.processor.context.CashRegistryContextHolder;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.pharm.demo.web.security;
 
-import com.pharm.demo.model.PharmUser;
-import com.pharm.demo.services.PharmUserService;
+import com.pharm.demo.web.data.model.PharmUser;
+import com.pharm.demo.web.data.services.PharmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,8 +1,8 @@
 package com.pharm.demo.web.processor.context;
 
-import com.pharm.demo.model.CashInventory;
-import com.pharm.demo.model.CashRegistry;
-import com.pharm.demo.services.CashRegistryService;
+import com.pharm.demo.web.data.model.CashInventory;
+import com.pharm.demo.web.data.model.CashRegistry;
+import com.pharm.demo.web.data.services.CashRegistryService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

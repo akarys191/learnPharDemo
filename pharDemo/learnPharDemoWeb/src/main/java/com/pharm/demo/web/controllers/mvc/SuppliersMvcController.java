@@ -1,7 +1,7 @@
 package com.pharm.demo.web.controllers.mvc;
 
-import com.pharm.demo.model.Supplier;
-import com.pharm.demo.services.SupplierService;
+import com.pharm.demo.web.data.model.Supplier;
+import com.pharm.demo.web.data.services.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

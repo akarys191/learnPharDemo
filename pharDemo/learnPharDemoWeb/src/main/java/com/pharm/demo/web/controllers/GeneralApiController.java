@@ -1,6 +1,6 @@
 package com.pharm.demo.web.controllers;
 
-import com.pharm.demo.model.CashType;
+import com.pharm.demo.web.data.model.CashType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
