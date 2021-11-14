@@ -1,16 +1,13 @@
 package com.pharm.demo.stock.data.repository;
 
-import java.util.List;
-
 import com.pharm.demo.stock.data.model.Customer;
-
+import com.pharm.demo.stock.data.model.RetailSystemRubus;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CustomerRepository extends MongoRepository<Customer, String> {
+import java.util.List;
 
-   Customer findByFirstName(String firstName);
-   List<Customer> findByLastName(String lastName);
+@Repository
+public interface RetailSystemRubusRepository extends MongoRepository<RetailSystemRubus, Long> {
 
 }
