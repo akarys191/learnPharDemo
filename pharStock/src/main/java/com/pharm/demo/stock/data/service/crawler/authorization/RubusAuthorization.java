@@ -28,7 +28,7 @@ public class RubusAuthorization {
     }
 
     public String authorize(String url) {
-        username= "баккалиева";
+        username = "баккалиева";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

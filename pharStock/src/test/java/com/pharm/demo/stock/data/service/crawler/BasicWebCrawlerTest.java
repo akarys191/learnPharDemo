@@ -2,6 +2,7 @@ package com.pharm.demo.stock.data.service.crawler;
 
 
 
+import com.pharm.demo.stock.data.config.Config;
 import com.pharm.demo.stock.data.service.crawler.authorization.RubusAuthorization;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 
 @RunWith(SpringRunner.class)
-@RestClientTest({BasicWebCrawler.class, RubusAuthorization.class})
+@RestClientTest({BasicWebCrawler.class, RubusAuthorization.class, Config.class})
 public class BasicWebCrawlerTest {
 
     private MockRestServiceServer mockRestServiceServer;

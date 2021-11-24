@@ -1,6 +1,6 @@
 package com.pharm.demo.stock.data.service.reader.service;
 
-import com.pharm.demo.stock.data.model.RetailSystemRubus;
+import com.pharm.demo.stock.data.model.RetailSystemStock;
 import com.pharm.demo.stock.data.service.reader.exceptions.UnsupportedFormatExcel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface ReaderFromExcel{
     boolean checkIfFIleIsReadable(File file);
     Workbook openFile(File file) throws IOException, UnsupportedFormatExcel;
-    List<RetailSystemRubus> convertIntoObject(File file);
-    RetailSystemRubus collectingActiveRetail(Row row);
+    List<RetailSystemStock> convertIntoObject(File file);
+    RetailSystemStock collectingActiveRetail(Row row);
     boolean isRowEmpty(Row row);
     }

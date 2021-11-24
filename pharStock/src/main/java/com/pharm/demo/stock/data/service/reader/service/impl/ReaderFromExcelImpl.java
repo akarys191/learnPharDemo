@@ -1,7 +1,7 @@
 package com.pharm.demo.stock.data.service.reader.service.impl;
 
 
-import com.pharm.demo.stock.data.model.RetailSystemRubus;
+import com.pharm.demo.stock.data.model.RetailSystemStock;
 import com.pharm.demo.stock.data.service.reader.exceptions.UnsupportedFormatExcel;
 import com.pharm.demo.stock.data.service.reader.service.ReaderFromExcel;
 import com.pharm.demo.stock.data.service.reader.service.RemainderParser;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,8 +45,8 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
             }else throw new UnsupportedFormatExcel("Incorrect type of you file, please change it",file);
         }
 
-    public List<RetailSystemRubus> convertIntoObject(File file) {
-        List<RetailSystemRubus> retailSystemRubuses =  new ArrayList<>();
+    public List<RetailSystemStock> convertIntoObject(File file) {
+        List<RetailSystemStock> retailSystemStocks =  new ArrayList<>();
         try {
             boolean checkForFindingBarCode = false;
             HSSFWorkbook myExcelBook = openFile(file);
@@ -61,18 +60,18 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                            continue;
                         }
                         if (checkForFindingBarCode){
-                        retailSystemRubuses.add(collectingActiveRetail(row)); }
+                        retailSystemStocks.add(collectingActiveRetail(row)); }
                     }
             }
         } catch (IOException | UnsupportedFormatExcel e) {
             log.error("There is error in parsing of xls file",e);
         }
-        return retailSystemRubuses;
+        return retailSystemStocks;
     }
 
-    public RetailSystemRubus collectingActiveRetail(Row row) {
+    public RetailSystemStock collectingActiveRetail(Row row) {
         Iterator<Cell> cellIterator = row.iterator();
-        RetailSystemRubus activeRubus = new RetailSystemRubus();
+        RetailSystemStock activeRubus = new RetailSystemStock();
         while (cellIterator.hasNext()) {
         Cell cell = cellIterator.next();
             int activeColumn = cell.getAddress().getColumn();
@@ -84,7 +83,7 @@ public class ReaderFromExcelImpl implements ReaderFromExcel {
                 case 1:
                     if (!cell.getStringCellValue().equals(""))
                         activeRubus.setSellByDate(LocalDate.parse(cell.getStringCellValue(), DateTimeFormatter.ofPattern("dd.MM.uuuu")));
-                    else activeRubus.setSellByDate(LocalDate.MIN);
+                    else activeRubus.setSellByDate(LocalDate.of(2100,01,01));
                     break;
                 case 2:
                         activeRubus.setName(cell.getStringCellValue());

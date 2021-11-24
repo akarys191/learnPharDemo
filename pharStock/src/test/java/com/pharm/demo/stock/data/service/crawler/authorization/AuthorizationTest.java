@@ -1,11 +1,13 @@
 package com.pharm.demo.stock.data.service.crawler.authorization;
 
+import com.pharm.demo.stock.data.config.Config;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -15,14 +17,11 @@ import org.springframework.web.client.RestTemplate;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-
 @RunWith(SpringRunner.class)
-@RestClientTest(RubusAuthorization.class)
+@RestClientTest({RubusAuthorization.class, Config.class})
 public class AuthorizationTest {
 
-
     private  MockRestServiceServer mockRestServiceServer;
-
 
     @Autowired
     private RubusAuthorization authorization;
@@ -30,11 +29,9 @@ public class AuthorizationTest {
     private RestTemplate restTemplate;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         mockRestServiceServer = MockRestServiceServer.createServer(restTemplate);
     }
-
-
 
     @Test
     public void authorize() {
@@ -47,6 +44,6 @@ public class AuthorizationTest {
                 .andRespond(withSuccess().headers(headers).body("{\"status\":\"ok\",\"rules\":[],\"page\":\"\"}"));
 
         String cookie = authorization.authorize("");
-        Assert.assertEquals(cookie,"rubus=j5k0k6usqf0tdf0s5uhr6tnqi5");
+        Assert.assertEquals("rubus=j5k0k6usqf0tdf0s5uhr6tnqi5",cookie);
     }
 }

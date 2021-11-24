@@ -4,6 +4,7 @@ package com.pharm.demo.stock.data.model;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,9 +13,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RetailSystemRubus {
+public class RetailSystemStock {
     @Id
-    private Long id;
+    private BigInteger _id;
     private String barCode;
     private LocalDate sellByDate;
     private String name;
@@ -38,9 +39,9 @@ public class RetailSystemRubus {
     public boolean equals(Object obj) {
         if (obj == null) { return true; }
         if (this.getClass() != obj.getClass()) { return false; }
-        RetailSystemRubus retailSystemRubus = (RetailSystemRubus) obj;
-        return barCode.equals( retailSystemRubus.getBarCode())
-                && sellByDate.equals(retailSystemRubus.getSellByDate())
-                && name.equals(retailSystemRubus.getName());
+        RetailSystemStock retailSystemStock = (RetailSystemStock) obj;
+        return barCode.equals( retailSystemStock.getBarCode())
+                && sellByDate.equals(retailSystemStock.getSellByDate())
+                && name.equals(retailSystemStock.getName());
     }
 }

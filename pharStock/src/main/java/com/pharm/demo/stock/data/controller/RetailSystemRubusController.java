@@ -1,30 +1,52 @@
 package com.pharm.demo.stock.data.controller;
 
-import com.pharm.demo.stock.data.model.RetailSystemRubus;
-import com.pharm.demo.stock.data.service.RetailSystemRubusService;
-import com.pharm.demo.stock.data.service.SaveToDatabase;
+import com.pharm.demo.stock.data.exceptions.RetailSystemNotFound;
+import com.pharm.demo.stock.data.model.RetailSystemStock;
+import com.pharm.demo.stock.data.service.RetailSystemStockService;
+import com.pharm.demo.stock.data.service.RetailSystemStockFillingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
 public class RetailSystemRubusController {
 
     @Autowired
-    private SaveToDatabase saveToDatabase;
+    private RetailSystemStockFillingService fillingService;
     @Autowired
-    private RetailSystemRubusService retailSystemRubusService;
+    private RetailSystemStockService retailSystemRubusService;
 
     @GetMapping("/retails")
-    public List<RetailSystemRubus> findAll(){
+    public List<RetailSystemStock> findAll(){
         return retailSystemRubusService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public RetailSystemStock findById(@PathVariable("id") BigInteger id){
+
+        try {
+            return retailSystemRubusService.findById(id);
+        } catch (RetailSystemNotFound e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Retail system not Found", e);
+        }
     }
 
     @GetMapping("/upload")
     public void uploadFile(){
-        saveToDatabase.saveRubusStock();
+        try {
+            fillingService.saveRubusStock();
+        } catch (IOException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Error in filling part", e);
+        }
     }
 
 }
