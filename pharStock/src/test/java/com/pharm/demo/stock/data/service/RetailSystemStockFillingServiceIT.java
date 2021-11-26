@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureDataMongo
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Ignore
+@RunWith(SpringRunner.class)
 public class RetailSystemStockFillingServiceIT {
 
     @Value("${rubus_url}")
@@ -61,7 +61,6 @@ public class RetailSystemStockFillingServiceIT {
 
 
     @Test
-    @Ignore
     public void testSaveRubusStock() throws IOException {
         retailSystemStockFillingService.saveRubusStock();
         List<RetailSystemStock> all = retailSystemRubusRepository.findAll();
