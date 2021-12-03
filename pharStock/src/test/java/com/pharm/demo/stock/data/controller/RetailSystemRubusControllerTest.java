@@ -1,8 +1,9 @@
 package com.pharm.demo.stock.data.controller;
 
+import com.pharm.demo.stock.controller.RetailSystemRubusController;
 import com.pharm.demo.stock.data.model.RetailSystemStock;
-import com.pharm.demo.stock.data.service.RetailSystemStockFillingService;
-import com.pharm.demo.stock.data.service.RetailSystemStockService;
+import com.pharm.demo.stock.service.RetailSystemStockFillingService;
+import com.pharm.demo.stock.service.RetailSystemStockService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
