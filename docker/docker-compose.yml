@@ -6,11 +6,22 @@ services:
           - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Mus@19911004
+      POSTGRES_PASSWORD: qwerty123
       POSTGRES_DB: pharmDemoDb
     volumes:
           - data-volume:/var/lib/db/pharmDemoDbData
     container_name: pharmDemoDbContainer
 
+  postgres-pharm-order:
+    image: postgres:9.6.5-alpine
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty123
+      POSTGRES_DB: pharmDemoOrderDb
+    volumes:
+      - data-volume:/var/lib/db/pharmDemoOrder
+    container_name: pharmDemoDbOrderContainer
 volumes:
   data-volume:

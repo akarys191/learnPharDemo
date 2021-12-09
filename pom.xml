@@ -10,7 +10,7 @@
 	</properties>
 	<modules>
     <module>pharDemo</module>
-    <!--<module>pharOrder</module>-->
+    <module>pharOrder</module>
     <module>pharStock</module>
   </modules>
 	<packaging>pom</packaging>

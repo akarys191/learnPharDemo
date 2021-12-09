@@ -1,5 +1,5 @@
 
-package com.pharm.demo.stock;
+package com.pharm.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
